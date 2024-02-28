@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://buqqla5aydxk0"]
+
+[ext_resource type="FontFile" uid="uid://dbcnekh6l4xv5" path="res://addons/GDpsx/Game/Fonts/videotype.ttf" id="1_d11ly"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vpre"]
+bg_color = Color(0.0117647, 0.0117647, 0.0117647, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7omv"]
+bg_color = Color(1, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+
+[resource]
+default_font = ExtResource("1_d11ly")
+Fonts/fonts/large = ExtResource("1_d11ly")
+Fonts/fonts/normal = ExtResource("1_d11ly")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_7vpre")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_s7omv")

@@ -1,0 +1,198 @@
+[gd_scene load_steps=27 format=3 uid="uid://cg834m4ho5cq0"]
+
+[ext_resource type="PackedScene" uid="uid://ba8ji2cnlbkvt" path="res://addons/GDpsx/Game/Objects/FPS_Hero.tscn" id="1_7cnwb"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/GDpsx_GameObject.cs" id="2_xvxm2"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_DamagePlayer.cs" id="3_nrj10"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_MakePlayerJump.cs" id="4_1kimd"]
+[ext_resource type="Material" uid="uid://cpca4dolapmdx" path="res://addons/GDpsx/Game/Materials/Tile_001/GDpsx_M_Tile_001.tres" id="5_uyfn7"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_GiveItem.cs" id="6_hlp16"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_HasItem.cs" id="6_m2jp7"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_ToggleLight.cs" id="8_jxxxj"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_DisplayMessage.cs" id="9_4baw6"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_LightSwitch.cs" id="9_mjw41"]
+[ext_resource type="PackedScene" uid="uid://dmhhgcnxy4a2o" path="res://addons/GDpsx/Game/Objects/Enemy_Base.tscn" id="11_kiy0j"]
+[ext_resource type="PackedScene" uid="uid://b6ui2aki5yg2n" path="res://addons/GDpsx/Game/Objects/GDpsx_DoorObject.tscn" id="12_jxso2"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_yoej8"]
+vertices = PackedVector3Array(-8.68075, 0.517979, -11.6976, -6.68075, 0.517979, -11.9476, -6.93075, 0.517979, -13.1976, -22.4307, 0.517979, -13.1976, 12.3193, 0.517979, -5.94763, 7.31925, 0.517979, -5.94763, 7.31925, 0.517979, -3.69763, 12.3193, 0.517979, 19.0524, 6.06925, 0.517979, -3.44763, 5.81925, 0.517979, -6.44763, -1.93075, 0.517979, -6.69763, 12.3193, 0.517979, 19.0524, 7.31925, 0.517979, -3.69763, 6.06925, 0.517979, -3.44763, -8.68075, 0.517979, -6.94763, -8.68075, 0.517979, -11.6976, -22.4307, 0.517979, -13.1976, -22.4307, 0.517979, 19.0524, 6.06925, 0.517979, -3.44763, -1.93075, 0.517979, -6.69763, -8.68075, 0.517979, -6.94763, -22.4307, 0.517979, 19.0524, 12.3193, 0.517979, 19.0524, 5.81925, 0.517979, -8.44763, 6.56925, 0.517979, -8.69763, 6.56925, 0.517979, -13.1976, -1.43075, 0.517979, -11.6976, -1.43075, 0.517979, -6.94763, -6.93075, 0.517979, -13.1976, -6.68075, 0.517979, -11.9476, -1.43075, 0.517979, -11.6976, 6.56925, 0.517979, -13.1976, -1.43075, 0.517979, -6.94763, -1.93075, 0.517979, -6.69763, 5.81925, 0.517979, -6.44763, 5.81925, 0.517979, -8.44763, 6.56925, 0.517979, -13.1976, 6.56925, 0.517979, -8.69763, 7.31925, 0.517979, -8.44763, 7.31925, 0.517979, -8.44763, 7.31925, 0.517979, -5.94763, 12.3193, 0.517979, -5.94763, 7.31925, 0.517979, -8.44763, 12.3193, 0.517979, -5.94763, 12.3193, 0.517979, -13.1976, 6.56925, 0.517979, -13.1976, -7.68075, 2.26798, -10.9476, -7.68075, 2.26798, -7.69763, -2.43075, 2.26798, -7.69763, -2.43075, 2.26798, -10.9476)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(10, 9, 8), PackedInt32Array(11, 13, 12), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(19, 18, 20), PackedInt32Array(20, 18, 22), PackedInt32Array(20, 22, 21), PackedInt32Array(24, 23, 25), PackedInt32Array(25, 23, 26), PackedInt32Array(26, 23, 27), PackedInt32Array(29, 28, 30), PackedInt32Array(30, 28, 31), PackedInt32Array(33, 32, 34), PackedInt32Array(34, 32, 35), PackedInt32Array(38, 37, 36), PackedInt32Array(41, 40, 39), PackedInt32Array(45, 44, 42), PackedInt32Array(42, 44, 43), PackedInt32Array(49, 48, 46), PackedInt32Array(46, 48, 47)]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0uxj3"]
+
+[sub_resource type="Sky" id="Sky_56r3i"]
+sky_material = SubResource("ProceduralSkyMaterial_0uxj3")
+
+[sub_resource type="Environment" id="Environment_isbsu"]
+background_mode = 2
+sky = SubResource("Sky_56r3i")
+
+[sub_resource type="Resource" id="Resource_cyeby"]
+script = ExtResource("6_hlp16")
+ItemName = "Beans"
+Amount = 1
+Target_Entity_Path = NodePath("")
+WaitTime = 0.0
+
+[sub_resource type="Resource" id="Resource_ldvsx"]
+script = ExtResource("4_1kimd")
+Target_Entity_Path = NodePath("")
+WaitTime = 2.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rdfjv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_oi5qe"]
+
+[sub_resource type="Resource" id="Resource_28x8o"]
+script = ExtResource("3_nrj10")
+ItemName = ""
+Damage_To_Apply = 10
+Target_Entity_Path = NodePath("")
+WaitTime = 0.0
+
+[sub_resource type="Resource" id="Resource_me0dj"]
+script = ExtResource("6_m2jp7")
+ItemName = "Beans"
+Amount = 0
+Target_Entity_Path = NodePath("")
+WaitTime = 0.0
+
+[sub_resource type="Resource" id="Resource_btllw"]
+script = ExtResource("4_1kimd")
+Target_Entity_Path = NodePath("")
+WaitTime = 3.0
+
+[sub_resource type="Resource" id="Resource_38onf"]
+script = ExtResource("8_jxxxj")
+On = false
+Target_Entity_Path = NodePath("../OmniLight3D")
+WaitTime = 3.0
+
+[sub_resource type="Resource" id="Resource_2uth7"]
+script = ExtResource("9_4baw6")
+Message = "Pee pee poo poo. I eat doo doo"
+TypeSpeedMS = 25
+MessageHoldTimeMS = 100
+Target_Entity_Path = NodePath("")
+WaitTime = 0.0
+
+[sub_resource type="Resource" id="Resource_aq8wh"]
+script = ExtResource("9_mjw41")
+Target_Entity_Path = NodePath("../OmniLight3D")
+WaitTime = 0.0
+
+[node name="Prototype" type="Node3D"]
+
+[node name="FPS_Hero" parent="." instance=ExtResource("1_7cnwb")]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.04575, -1.54798, -2.96487)
+navigation_mesh = SubResource("NavigationMesh_yoej8")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.04575, -0.452021, 2.96487)
+use_collision = true
+size = Vector3(35.77, 1, 33.325)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, -12.3364)
+use_collision = true
+size = Vector3(5.995, 8.56, 3.98)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/CSGBox3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5992, 4.12629, 3.18979)
+use_collision = true
+size = Vector3(0.42084, 8.56, 3.98)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_isbsu")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(-0.529079, -0.830677, -0.173354, 0.712176, -0.545749, 0.441548, -0.461391, 0.110155, 0.880332, 0, 0, -5.34187)
+shadow_enabled = true
+
+[node name="MagicBox" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300667, -1.80365)
+script = ExtResource("2_xvxm2")
+Uses = 4
+EventChain = [SubResource("Resource_cyeby"), SubResource("Resource_ldvsx")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MagicBox"]
+shape = SubResource("BoxShape3D_rdfjv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MagicBox/CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.196709, -0.0959588, -1.42551)
+material_override = ExtResource("5_uyfn7")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_oi5qe")
+
+[node name="ShadowInstance" type="MeshInstance3D" parent="MagicBox/CollisionShape3D/MeshInstance3D"]
+transparency = 1.0
+mesh = SubResource("BoxMesh_oi5qe")
+skeleton = NodePath("../..")
+
+[node name="CubeOfWonder" type="StaticBody3D" parent="."]
+transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 2.22742, 0.300667, -7.39828)
+script = ExtResource("2_xvxm2")
+LookAtMessage = "I want beans"
+Uses = 1
+EventChain = [SubResource("Resource_28x8o"), SubResource("Resource_me0dj"), SubResource("Resource_btllw"), SubResource("Resource_38onf")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CubeOfWonder"]
+shape = SubResource("BoxShape3D_rdfjv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CubeOfWonder/CollisionShape3D"]
+material_override = ExtResource("5_uyfn7")
+mesh = SubResource("BoxMesh_oi5qe")
+skeleton = NodePath("../..")
+
+[node name="CubeOfWonder2" type="StaticBody3D" parent="."]
+transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 10.7307, 0.300667, -7.39828)
+script = ExtResource("2_xvxm2")
+LookAtMessage = "I want beans"
+InfiniteUses = true
+Uses = 1
+EventChain = [SubResource("Resource_2uth7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CubeOfWonder2"]
+shape = SubResource("BoxShape3D_rdfjv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CubeOfWonder2/CollisionShape3D"]
+material_override = ExtResource("5_uyfn7")
+mesh = SubResource("BoxMesh_oi5qe")
+skeleton = NodePath("../..")
+
+[node name="Lightswitch" type="StaticBody3D" parent="."]
+transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, -3.65802, 0.300667, -7.39828)
+script = ExtResource("2_xvxm2")
+HasLookAtMessage = false
+LookAtMessage = ""
+InfiniteUses = true
+Uses = 1
+EventChain = [SubResource("Resource_aq8wh")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lightswitch"]
+shape = SubResource("BoxShape3D_rdfjv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Lightswitch/CollisionShape3D"]
+material_override = ExtResource("5_uyfn7")
+mesh = SubResource("BoxMesh_oi5qe")
+skeleton = NodePath("../..")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.071)
+light_color = Color(0, 1, 1, 1)
+light_energy = 5.103
+
+[node name="Enemy" parent="." instance=ExtResource("11_kiy0j")]
+transform = Transform3D(-0.932062, 0.00399171, -0.362278, 0.00359761, 0.999992, 0.00176244, 0.362282, 0.000339364, -0.932068, 1.69136, -0.5, -2.60099)
+
+[node name="Door" parent="." instance=ExtResource("12_jxso2")]
+transform = Transform3D(1.96, 0, 0, 0, 1.96, 0, 0, 0, 1.96, 4.05494, -1.5, -5.11627)
+doorType = 1
+currentState = 2
+OpenPosition = Vector3(0, 3.93, 0)
+
+[node name="Door2" parent="." instance=ExtResource("12_jxso2")]
+transform = Transform3D(1.96, 0, 0, 0, 1.96, 0, 0, 0, 1.96, 7.13447, -1.5, -5.11627)
+doorType = 1
+OpenPosition = Vector3(0, 3.93, 0)

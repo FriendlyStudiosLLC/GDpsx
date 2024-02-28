@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cpca4dolapmdx"]
+
+[ext_resource type="Shader" path="res://addons/GDpsx/Game/Shaders/Materials/GDpsx_Mat_Main.gdshader" id="1_myjlw"]
+[ext_resource type="Texture2D" uid="uid://oyrvng8ymaso" path="res://addons/GDpsx/Game/Materials/Tile_001/Photoreal_Tile_01-512x512.png" id="2_21cxk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_myjlw")
+shader_parameter/affine_mapping = false
+shader_parameter/affine_mapping_reduction = 2.5
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/jitter = 0.25
+shader_parameter/resolution = Vector2i(320, 240)
+shader_parameter/albedo = ExtResource("2_21cxk")

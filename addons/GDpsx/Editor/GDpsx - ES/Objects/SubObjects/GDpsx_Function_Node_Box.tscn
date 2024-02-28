@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcer04lxq6hwd"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Nodes/Function/GDpsx_Function_Node_Box.cs" id="1_25lmh"]
+[ext_resource type="FontFile" uid="uid://dbcnekh6l4xv5" path="res://addons/GDpsx/Game/Fonts/videotype.ttf" id="1_agnry"]
+
+[node name="FunctionBox" type="HBoxContainer"]
+size_flags_horizontal = 8
+script = ExtResource("1_25lmh")
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_agnry")
+item_count = 10
+selected = 6
+popup/item_0/text = "Nil"
+popup/item_0/id = 0
+popup/item_1/text = "Bool"
+popup/item_1/id = 1
+popup/item_2/text = "Int"
+popup/item_2/id = 2
+popup/item_3/text = "Float"
+popup/item_3/id = 3
+popup/item_4/text = "String"
+popup/item_4/id = 4
+popup/item_5/text = "Vector2"
+popup/item_5/id = 5
+popup/item_6/text = "Vector2I"
+popup/item_6/id = 6
+popup/item_7/text = "Vector3"
+popup/item_7/id = 7
+popup/item_8/text = "Vector3I"
+popup/item_8/id = 8
+popup/item_9/text = ""
+popup/item_9/id = 9
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2

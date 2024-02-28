@@ -1,0 +1,6 @@
+Thank you for getting the plugin! 
+
+Installation
+1. Copy the Project contents of the project folder to a new location
+2. import that project into Godot 4.2
+3. Open the project and change the project name in your project settings

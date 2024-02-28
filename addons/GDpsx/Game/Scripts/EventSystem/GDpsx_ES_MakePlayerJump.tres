@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GDpsx_ES_MakePlayerJump" load_steps=2 format=3 uid="uid://b2to5d2ik025d"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/GDpsx_ES_MakePlayerJump.cs" id="1_ivwn0"]
+
+[resource]
+script = ExtResource("1_ivwn0")
+EntityPath = NodePath("")
+WaitTime = 3.0

@@ -1,0 +1,258 @@
+[gd_scene load_steps=21 format=3 uid="uid://ba8ji2cnlbkvt"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/FPS_HeroMovement.cs" id="1_hgw1i"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/GDpsx_StateMachine.cs" id="2_qrsyl"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/States/GDpsx_State_FPS_Idle.cs" id="3_ju8dw"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/States/GDpsx_State_FPS_Crouch.cs" id="4_d1kdw"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/States/GDpsx_State_FPS_Sprint.cs" id="5_lkydk"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/States/GDpsx_State_FPS_Walk.cs" id="6_wb72p"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/States/GDpsx_State_FPS_Jump.cs" id="7_2i6w6"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/States/GDpsx_State_FPS_Airborn.cs" id="7_shvpg"]
+[ext_resource type="PackedScene" uid="uid://dsbf53gbqq5vo" path="res://addons/GDpsx/Game/Objects/GDdpsx_fps_ui_template.tscn" id="9_ouuuv"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx_Inventory.cs" id="10_wbknb"]
+[ext_resource type="PackedScene" uid="uid://dst5ojwqwnxmu" path="res://addons/GDpsx/Game/Objects/UI/Inventory/GDpsx_UI_InventoryUI.tscn" id="11_7obnm"]
+[ext_resource type="Resource" uid="uid://swltck8mpj28" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx Item Database Example.tres" id="11_pjqid"]
+[ext_resource type="PackedScene" uid="uid://yy0isgosuao4" path="res://addons/GDpsx/Game/Objects/RetroPostProcess.tscn" id="13_822ng"]
+[ext_resource type="PackedScene" uid="uid://bivpyh2en7as2" path="res://addons/GDpsx/Game/Objects/UI/Inventory/GDpsx_MessageBox.tscn" id="14_3fydf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r2s18"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5wkkf"]
+radius = 0.55
+
+[sub_resource type="Animation" id="Animation_0sx5x"]
+resource_name = "Crouching"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.7, 0), Vector3(0, -0.2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CeilingCheckCast:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.7, 0), Vector3(0, 0.2, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.5, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:shape:height")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_2lkyj"]
+resource_name = "JumpStart"
+length = 0.55
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.0226893, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Eyes:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.027, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_n66hf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.7, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CeilingCheckCast:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.7, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:shape:height")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Head:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Head/Eyes:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8eb0y"]
+_data = {
+"Crouching": SubResource("Animation_0sx5x"),
+"JumpStart": SubResource("Animation_2lkyj"),
+"RESET": SubResource("Animation_n66hf")
+}
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Head", "Eyes", "LookAtCast", "CeilingCheckCast", "StateMachine", "AnimPlayer", "UI", "Inventory", "messageBox") groups=["Player"]]
+script = ExtResource("1_hgw1i")
+Head = NodePath("Head")
+Eyes = NodePath("Head/Eyes")
+CameraRotationLerp = 10.0
+LookAtCast = NodePath("Head/Eyes/LookAtCast")
+CeilingCheckCast = NodePath("CeilingCheckCast")
+StateMachine = NodePath("GDpsx | State Machine")
+AnimPlayer = NodePath("AnimationPlayer")
+UI = NodePath("GDpsx FPS UI Template")
+Inventory = NodePath("GDpsx | Inventory Component")
+messageBox = NodePath("MessageBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_r2s18")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="Eyes" type="Camera3D" parent="Head"]
+
+[node name="LookAtCast" type="RayCast3D" parent="Head/Eyes"]
+target_position = Vector3(0, 0, -2)
+
+[node name="GDpsx | State Machine" type="Node" parent="."]
+script = ExtResource("2_qrsyl")
+initialState = NodePath("GDpsx State | Idle")
+
+[node name="GDpsx State | Idle" type="Node" parent="GDpsx | State Machine"]
+script = ExtResource("3_ju8dw")
+
+[node name="GDpsx State | Crouch" type="Node" parent="GDpsx | State Machine"]
+script = ExtResource("4_d1kdw")
+
+[node name="GDpsx State | Sprint" type="Node" parent="GDpsx | State Machine"]
+script = ExtResource("5_lkydk")
+
+[node name="GDpsx State | Walk" type="Node" parent="GDpsx | State Machine"]
+script = ExtResource("6_wb72p")
+
+[node name="GDpsx State | Jump" type="Node" parent="GDpsx | State Machine"]
+script = ExtResource("7_2i6w6")
+
+[node name="GDpsx State | Airborn" type="Node" parent="GDpsx | State Machine"]
+script = ExtResource("7_shvpg")
+
+[node name="CeilingCheckCast" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("SphereShape3D_5wkkf")
+target_position = Vector3(0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8eb0y")
+}
+
+[node name="GDpsx | Inventory Component" type="Node" parent="." node_paths=PackedStringArray("InventoryUI")]
+script = ExtResource("10_wbknb")
+GlobalItemList = ExtResource("11_pjqid")
+InventoryUI = NodePath("../Inventory")
+
+[node name="Inventory" parent="." node_paths=PackedStringArray("Inventory") instance=ExtResource("11_7obnm")]
+visible = false
+Inventory = NodePath("../GDpsx | Inventory Component")
+
+[node name="GDpsx_Post" parent="." instance=ExtResource("13_822ng")]
+mouse_filter = 2
+
+[node name="GDpsx FPS UI Template" parent="." instance=ExtResource("9_ouuuv")]
+mouse_filter = 2
+
+[node name="MessageBox" parent="." instance=ExtResource("14_3fydf")]
+offset_top = 145.365
+offset_bottom = 175.365

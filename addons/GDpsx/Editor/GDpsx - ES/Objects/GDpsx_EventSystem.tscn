@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://vgip1ftb5arv"]
+
+[ext_resource type="Texture2D" uid="uid://canduy6vhps1s" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Add.png" id="1_56o6i"]
+[ext_resource type="Texture2D" uid="uid://dqpnfjoes1hxr" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Open.png" id="2_4yhqf"]
+[ext_resource type="Texture2D" uid="uid://ngi12e4echtd" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Save.png" id="3_3abn1"]
+[ext_resource type="Texture2D" uid="uid://bhra8n2lpnvg2" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Empty.png" id="4_xnsc3"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Graph.cs" id="5_41rwe"]
+
+[node name="GDpsxEventSystem" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu_Button" type="MenuButton" parent="VBoxContainer/Panel/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("1_56o6i")
+icon_alignment = 1
+
+[node name="Load_Button" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("2_4yhqf")
+
+[node name="Save_Button" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("3_3abn1")
+
+[node name="Empty_Button" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("4_xnsc3")
+
+[node name="Graph" type="GraphEdit" parent="VBoxContainer" node_paths=PackedStringArray("AddNode_MenuButton", "Save_Button", "Load_Button", "Save_FileDialog", "Load_FileDialog")]
+layout_mode = 2
+size_flags_vertical = 3
+scroll_offset = Vector2(-40, -50)
+script = ExtResource("5_41rwe")
+AddNode_MenuButton = NodePath("../Panel/HBoxContainer/Menu_Button")
+Save_Button = NodePath("../Panel/HBoxContainer/Save_Button")
+Load_Button = NodePath("../Panel/HBoxContainer/Load_Button")
+Save_FileDialog = NodePath("../../Save_FileDialog")
+Load_FileDialog = NodePath("../../Load_FileDialog")
+
+[node name="Save_FileDialog" type="FileDialog" parent="."]
+initial_position = 2
+size = Vector2i(722, 374)
+
+[node name="Load_FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(722, 374)
+ok_button_text = "Open"
+file_mode = 0
+
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Load_Button" to="VBoxContainer/Graph" method="OpenLoadFileDialogue"]
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Save_Button" to="VBoxContainer/Graph" method="OpenSaveFileDialogue"]
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Empty_Button" to="VBoxContainer/Graph" method="EmptyGraph"]
+[connection signal="file_selected" from="Save_FileDialog" to="VBoxContainer/Graph" method="SetFilePath"]
+[connection signal="file_selected" from="Load_FileDialog" to="VBoxContainer/Graph" method="SetFilePath"]

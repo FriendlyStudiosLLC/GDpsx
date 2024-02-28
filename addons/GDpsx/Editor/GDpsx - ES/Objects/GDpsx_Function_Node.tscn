@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn4fk2xlr2psr"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Dialog.cs" id="1_4cak1"]
+[ext_resource type="PackedScene" uid="uid://dcer04lxq6hwd" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/SubObjects/GDpsx_Function_Node_Box.tscn" id="2_0hwcc"]
+
+[node name="FunctionNode" type="GraphNode"]
+offset_left = 122.0
+offset_right = 234.0
+offset_bottom = 154.0
+resizable = true
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+script = ExtResource("1_4cak1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Node Title"
+
+[node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Object ID"
+
+[node name="FunctionMenu" type="MenuButton" parent="."]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Function"
+flat = false
+
+[node name="FunctionBox" parent="." instance=ExtResource("2_0hwcc")]
+layout_mode = 2
+
+[connection signal="node_deselected" from="." to="." method="DeSelect"]
+[connection signal="node_selected" from="." to="." method="Select"]
+[connection signal="resize_request" from="." to="." method="ResizeNode"]

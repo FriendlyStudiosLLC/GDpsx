@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="GDpsx_ItemDatabase" load_steps=7 format=3 uid="uid://swltck8mpj28"]
+
+[ext_resource type="Texture2D" uid="uid://p4cm7wrqeyux" path="res://addons/GDpsx/Game/Textures/Items/Icon_Bean.png" id="1_5lbba"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx_ItemDatabase.cs" id="1_erjtn"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx_Item.cs" id="2_6xhil"]
+[ext_resource type="Texture2D" uid="uid://qoh1kqmoygxm" path="res://addons/GDpsx/Editor/Icons/State.png" id="3_86vtr"]
+
+[sub_resource type="Resource" id="Resource_37lmt"]
+script = ExtResource("2_6xhil")
+itemName = "Beans"
+itemDescription = "This shit will make you fart crazy yo"
+maxStackSize = 10
+itemIcon = ExtResource("1_5lbba")
+
+[sub_resource type="Resource" id="Resource_purf0"]
+script = ExtResource("2_6xhil")
+itemName = "Cum"
+itemDescription = "dskfsdhlkjfgasdlkjf
+ghlkjasdhfkjlsdh
+sdfsdsfdsfdsf"
+maxStackSize = 3
+itemIcon = ExtResource("3_86vtr")
+
+[resource]
+script = ExtResource("1_erjtn")
+Items = Array[Object]([SubResource("Resource_37lmt"), SubResource("Resource_purf0")])

@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://dst5ojwqwnxmu"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx_InventoryUI.cs" id="1_13ysm"]
+[ext_resource type="PackedScene" uid="uid://b6kug08yvjbft" path="res://addons/GDpsx/Game/Objects/UI/Inventory/GDpsx_UI_ItemSlot.tscn" id="1_dubio"]
+[ext_resource type="Theme" uid="uid://buqqla5aydxk0" path="res://addons/GDpsx/Game/Objects/Themes/GDpsx_Theme_1.tres" id="3_gd4f4"]
+
+[node name="Inventory" type="Control" node_paths=PackedStringArray("InventoryGrid", "itemNameLabel", "itemDescLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_13ysm")
+InventoryGrid = NodePath("Panel/HBoxContainer/GridContainer")
+itemSlot = ExtResource("1_dubio")
+itemNameLabel = NodePath("Panel/HBoxContainer/VBoxContainer/ItemName")
+itemDescLabel = NodePath("Panel/HBoxContainer/VBoxContainer/Description")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -142.0
+offset_right = 374.0
+offset_bottom = 142.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/HBoxContainer"]
+custom_minimum_size = Vector2(412, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 4
+
+[node name="HSeparator" type="HSeparator" parent="Panel/HBoxContainer"]
+custom_minimum_size = Vector2(30.59, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ItemName" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = ExtResource("3_gd4f4")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Description" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = ExtResource("3_gd4f4")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 3

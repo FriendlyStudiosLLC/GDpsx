@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbese5la0abkf"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/GDpsx_GameObject.cs" id="1_0js3l"]
+[ext_resource type="Material" uid="uid://cpca4dolapmdx" path="res://addons/GDpsx/Game/Materials/Tile_001/GDpsx_M_Tile_001.tres" id="2_5dy16"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_orsdm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1h7f6"]
+
+[node name="GDpsx | GameObject" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300667, -1.80365)
+script = ExtResource("1_0js3l")
+Uses = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_orsdm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+material_override = ExtResource("2_5dy16")
+mesh = SubResource("BoxMesh_1h7f6")
+skeleton = NodePath("../..")

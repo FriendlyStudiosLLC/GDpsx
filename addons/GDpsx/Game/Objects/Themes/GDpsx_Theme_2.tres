@@ -1,0 +1,38 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://dy7tlgoqptx6d"]
+
+[ext_resource type="FontFile" uid="uid://dbcnekh6l4xv5" path="res://addons/GDpsx/Game/Fonts/videotype.ttf" id="1_5vbub"]
+[ext_resource type="Texture2D" uid="uid://dkx7ytskvnyj1" path="res://addons/GDpsx/Game/Textures/UI/Label_Background_1.png" id="2_ed0ji"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hkdi6"]
+texture = ExtResource("2_ed0ji")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vpre"]
+bg_color = Color(0.0117647, 0.0117647, 0.0117647, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7omv"]
+bg_color = Color(1, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+
+[resource]
+default_font = ExtResource("1_5vbub")
+Fonts/fonts/large = ExtResource("1_5vbub")
+Fonts/fonts/normal = ExtResource("1_5vbub")
+Label/styles/normal = SubResource("StyleBoxTexture_hkdi6")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_7vpre")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_s7omv")

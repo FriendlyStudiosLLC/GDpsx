@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bivpyh2en7as2"]
+
+[ext_resource type="Theme" uid="uid://dy7tlgoqptx6d" path="res://addons/GDpsx/Game/Objects/Themes/GDpsx_Theme_2.tres" id="1_l7d5f"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/GDpsx_MessageBox.cs" id="2_q084d"]
+[ext_resource type="AudioStream" uid="uid://djvjicsx7bx1t" path="res://addons/GDpsx/Audio/UI/messagebox_typewriter.wav" id="3_rf7vg"]
+
+[node name="Label" type="Label"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_l7d5f")
+script = ExtResource("2_q084d")
+
+[node name="TypeSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_rf7vg")

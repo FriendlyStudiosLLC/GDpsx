@@ -1,0 +1,36 @@
+[gd_scene load_steps=9 format=3 uid="uid://depe50in834lj"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/GDpsx_GameObject.cs" id="1_lp27d"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_GiveItem.cs" id="2_sf1v6"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_MakePlayerJump.cs" id="3_72npg"]
+[ext_resource type="Material" uid="uid://cpca4dolapmdx" path="res://addons/GDpsx/Game/Materials/Tile_001/GDpsx_M_Tile_001.tres" id="4_pxh40"]
+
+[sub_resource type="Resource" id="Resource_cyeby"]
+script = ExtResource("2_sf1v6")
+ItemName = "Beans"
+Amount = 1
+Target_Entity_Path = NodePath("")
+WaitTime = 0.0
+
+[sub_resource type="Resource" id="Resource_ldvsx"]
+script = ExtResource("3_72npg")
+Target_Entity_Path = NodePath("")
+WaitTime = 2.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rdfjv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_oi5qe"]
+
+[node name="MagicBox" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300667, -1.80365)
+script = ExtResource("1_lp27d")
+Uses = 4
+EventChain = [SubResource("Resource_cyeby"), SubResource("Resource_ldvsx")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_rdfjv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+material_override = ExtResource("4_pxh40")
+mesh = SubResource("BoxMesh_oi5qe")
+skeleton = NodePath("../..")

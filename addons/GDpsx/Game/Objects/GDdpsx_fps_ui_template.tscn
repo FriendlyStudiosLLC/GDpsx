@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsbf53gbqq5vo"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/GDpsx_UI_Template.cs" id="1_tm7te"]
+[ext_resource type="Texture2D" uid="uid://bh6c2kvqvcbhr" path="res://addons/GDpsx/Game/Textures/UI/Crosshair_Regular.png" id="2_2jr8v"]
+[ext_resource type="Texture2D" uid="uid://xvu4oq87a006" path="res://addons/GDpsx/Game/Textures/UI/Crosshair_Interactable.png" id="3_nelko"]
+[ext_resource type="Theme" uid="uid://buqqla5aydxk0" path="res://addons/GDpsx/Game/Objects/Themes/GDpsx_Theme_1.tres" id="4_go6r2"]
+
+[node name="GDpsx FPS UI Template" type="Control" node_paths=PackedStringArray("Crosshair", "InteractionLabel", "HealthBar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tm7te")
+Crosshair = NodePath("Crosshair")
+Regular_Crosshair_Texture = ExtResource("2_2jr8v")
+Interact_Crosshair_Texture = ExtResource("3_nelko")
+InteractionLabel = NodePath("Interaction Label")
+HealthBar = NodePath("HealthBar")
+
+[node name="Crosshair" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_2jr8v")
+expand_mode = 1
+
+[node name="Interaction Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = 20.245
+offset_right = 21.5
+offset_bottom = 43.245
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_go6r2")
+text = "Read"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 593.0
+offset_right = 234.0
+offset_bottom = 607.0
+theme = ExtResource("4_go6r2")
+value = 100.0
+show_percentage = false

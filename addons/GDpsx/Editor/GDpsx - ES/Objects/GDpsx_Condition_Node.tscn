@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdk5h0wk6nk6o"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Dialog.cs" id="1_v3qso"]
+
+[node name="ConditionNode" type="GraphNode"]
+offset_right = 383.0
+offset_bottom = 226.0
+resizable = true
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 1, 0, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 0, 0, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+script = ExtResource("1_v3qso")
+
+[node name="NodeTitle" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Node Title"
+
+[node name="FunctionBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="FunctionMenu" type="MenuButton" parent="FunctionBox"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Function"
+flat = false
+
+[node name="ArgumentMenu" type="MenuButton" parent="FunctionBox"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Argument"
+flat = false
+
+[connection signal="node_deselected" from="." to="." method="DeSelect"]
+[connection signal="node_selected" from="." to="." method="Select"]
+[connection signal="resize_request" from="." to="." method="ResizeNode"]

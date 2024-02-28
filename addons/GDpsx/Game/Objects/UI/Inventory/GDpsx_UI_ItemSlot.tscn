@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6kug08yvjbft"]
+
+[ext_resource type="Texture2D" uid="uid://ca5taxogufhaa" path="res://icon.svg" id="1_ejdu5"]
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx_InventoryUI_ItemSlot.cs" id="1_ntcjg"]
+[ext_resource type="Theme" uid="uid://buqqla5aydxk0" path="res://addons/GDpsx/Game/Objects/Themes/GDpsx_Theme_1.tres" id="2_sn8il"]
+
+[node name="ItemSlot" type="Button" node_paths=PackedStringArray("Icon", "amountLabel")]
+custom_minimum_size = Vector2(100, 100)
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_ntcjg")
+Icon = NodePath("Icon")
+amountLabel = NodePath("Quantity Holder/Label")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.5
+offset_top = -44.0
+offset_right = 44.5
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ejdu5")
+expand_mode = 1
+
+[node name="Quantity Holder" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="Label" type="Label" parent="Quantity Holder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_sn8il")
+theme_override_font_sizes/font_size = 12
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="focus_entered" from="." to="." method="ParseItemDetails"]
+[connection signal="focus_exited" from="." to="." method="HideItemDetails"]
