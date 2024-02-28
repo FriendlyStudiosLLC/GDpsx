@@ -11,6 +11,25 @@ namespace GDpsx_API.EventSystem
         Function
     }
 
+    public class ESFunctionDetails
+    {
+        Variant methodName;
+        Variant parameter1Type;
+        Variant parameter1;
+        Variant parameter2Type;
+        Variant parameter2;
+
+        public ESFunctionDetails(Variant MethodName, Variant Parameter1, Variant Parameter1Type,Variant Parameter2, Variant Parameter2Type)
+        {
+            methodName = MethodName;
+            parameter1Type = Parameter1Type;
+            parameter1 = Parameter1;
+            parameter2Type = Parameter2Type;
+            parameter2 = Parameter2;
+        }
+
+    }
+
     public class ConnectionDetails
     {
         public StringName From { get; set; }
