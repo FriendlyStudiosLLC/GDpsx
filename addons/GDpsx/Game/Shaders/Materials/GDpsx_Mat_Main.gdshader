@@ -33,7 +33,6 @@ void vertex()
     {
         POSITION = snapped_position;
         POSITION /= abs(affine_mapping_reduction + POSITION.w);
-        
     }
     else
     {
