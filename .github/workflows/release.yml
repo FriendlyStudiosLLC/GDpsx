@@ -1,68 +1,31 @@
-name: Release to itch.io
+name: Deploy
 
-on:
-  push:
-    tags:
-    - 'v*'
-
+on: push
 env:
-  ITCH_USER_NAME: friendlystudios
-  ITCH_GAME_NAME: gdpsx
-  PROJECT_PATH: ~
-
+  ITCH_USERNAME: friendlystudios
+  ITCH_GAME_ID: gdpsx
 jobs:
-  build:
-
-    runs-on: ubuntu-20.04
-
-    env:
-      MGFXC_WINE_PATH: /home/runner/.winemonogame
-
+  deploy:
+    name: Upload to Itch
+    runs-on: windows
+    strategy:
+      fail-fast: true
+      matrix:
+        channel:
+          - windows
+          - webgl
+    runs-on: windows
+    name: Deploy - Itch.io ${{ matrix.template }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
-    - name: Get version from tag
-      run: |
-        TAGVERSION=$(git describe --tags --abbrev=0)
-        echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
-    - name: Setup Wine
-      run: |
-        sudo apt update
-        sudo apt install wine64 p7zip-full
-        wget -qO- https://raw.githubusercontent.com/MonoGame/MonoGame/master/Tools/MonoGame.Effect.Compiler/mgfxc_wine_setup.sh | sh
-    - name: Build Windows
-      run: dotnet publish ${{ env.PROJECT_PATH }} -r win-x64 -c Release --self-contained --output artifacts/windows
-    - name: Build Osx
-      run: dotnet publish ${{ env.PROJECT_PATH }} -r osx-x64 -c Release --self-contained --output artifacts/osx
-    - name: Build Linux
-      run: dotnet publish ${{ env.PROJECT_PATH }} -r linux-x64 -c Release --self-contained --output artifacts/linux
-    - name: Publish Windows build to itch.io
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
-        CHANNEL: windows
-        ITCH_GAME: ${{ env.ITCH_GAME_NAME }}
-        ITCH_USER: ${{ env.ITCH_USER_NAME }}
-        PACKAGE: artifacts/windows
-        VERSION: ${{ env.TAGVERSION }}
-    - name: Publish OSX build to itch.io
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
-        CHANNEL: osx
-        ITCH_GAME: ${{ env.ITCH_GAME_NAME }}
-        ITCH_USER: ${{ env.ITCH_USER_NAME }}
-        PACKAGE: artifacts/osx
-        VERSION: ${{ env.TAGVERSION }}
-    - name: Publish Linux build to itch.io
-      uses: josephbmanley/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
-        CHANNEL: linux
-        ITCH_GAME: ${{ env.ITCH_GAME_NAME }}
-        ITCH_USER: ${{ env.ITCH_USER_NAME }}
-        PACKAGE: artifacts/linux
-        VERSION: ${{ env.TAGVERSION }}
+      - uses: actions/download-artifact@v2.0.8
+        with:
+          name: ${{ matrix.channel }}
+          path: build/${{ matrix.channel }}
+      - uses: friendlystudios/gdpsx@v0.0.3
+        with:
+          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          gameData: ./build/${{ matrix.template }}
+          itchUsername: ${{env.ITCH_USERNAME}}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.channel }}
+          buildNumber: ${{ needs.version.outputs.version_hash }}
