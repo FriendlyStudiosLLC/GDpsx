@@ -1,0 +1,5 @@
+            - name: Butler Push
+  # You may pin to the exact commit or the version.
+  # uses: yeslayla/butler-publish-itchio-action@49e6220958f817dff241f0dc0dd2417a0c72ac21
+  uses: friendlystudios/gdpsx@v0.5.2
+          
