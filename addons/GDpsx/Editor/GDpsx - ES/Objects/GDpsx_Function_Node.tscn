@@ -26,15 +26,6 @@ slot/1/right_type = 0
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
-slot/2/left_enabled = false
-slot/2/left_type = 0
-slot/2/left_color = Color(1, 1, 1, 1)
-slot/2/left_icon = null
-slot/2/right_enabled = false
-slot/2/right_type = 0
-slot/2/right_color = Color(1, 1, 1, 1)
-slot/2/right_icon = null
-slot/2/draw_stylebox = true
 script = ExtResource("1_4cak1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -43,18 +34,6 @@ layout_mode = 2
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Node Title"
-
-[node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Object ID"
-
-[node name="FunctionMenu" type="MenuButton" parent="."]
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-text = "Function"
-flat = false
 
 [node name="FunctionBox" parent="." instance=ExtResource("2_0hwcc")]
 layout_mode = 2
