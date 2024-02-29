@@ -3,19 +3,15 @@
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Nodes/Function/GDpsx_Function_Node_Box.cs" id="1_25lmh"]
 [ext_resource type="FontFile" uid="uid://dbcnekh6l4xv5" path="res://addons/GDpsx/Game/Fonts/videotype.ttf" id="1_agnry"]
 
-[node name="FunctionBox" type="HBoxContainer"]
+[node name="FunctionBox" type="HBoxContainer" node_paths=PackedStringArray("container", "functionMenu")]
 size_flags_horizontal = 8
 script = ExtResource("1_25lmh")
+container = NodePath("VBoxContainer")
+functionMenu = NodePath("OptionButton")
 
 [node name="OptionButton" type="MenuButton" parent="."]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_agnry")
 
-[node name="SpinBox" type="SpinBox" parent="."]
-layout_mode = 2
-
-[node name="SpinBox2" type="SpinBox" parent="."]
-layout_mode = 2
-
-[node name="SpinBox3" type="SpinBox" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

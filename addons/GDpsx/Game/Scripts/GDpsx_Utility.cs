@@ -3,7 +3,19 @@ using System;
 
 namespace GDpsx_API
 {
-
+    public class GDpsx_GameObjectID
+    {
+        private string _value;
+        public GDpsx_GameObjectID(string value)
+        {
+            _value = value;
+        }
+        public override string ToString()
+        {
+            return _value;
+        }
+        // Add other methods as needed to mimic System.String functionality
+    }
     
     public partial class GDpsx_Utility : Node
     {

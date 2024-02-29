@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 public partial class GDpsx_GameObject : Node3D, IInteractable
 {
+    
+    [Export] private string _objectID;
+
     [Export] public bool HasLookAtMessage = true;
 
     [Export] public string LookAtMessage = "Change Me";
