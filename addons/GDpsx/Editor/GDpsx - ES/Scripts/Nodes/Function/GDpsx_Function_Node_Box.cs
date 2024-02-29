@@ -1,11 +1,13 @@
 using GDpsx_API.EventSystem;
 using Godot;
+using Godot.Collections;
 using System;
 using System.Reflection;
 
 [Tool]
 public partial class GDpsx_Function_Node_Box : HBoxContainer
 {
+    [Export] Array<Control> parameterOptions = new Array<Control>();
     [Export] public MenuButton functionMenu;
     public override void _Ready()
     {
@@ -19,6 +21,7 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
             if (paramCount > 0)
             {
                 string methodName = method.Name;
+                
                 GD.Print($"Method: {methodName}, Number of Parameters: {paramCount}");
                 for (int i = 0; i < paramCount; i++)
                 {
