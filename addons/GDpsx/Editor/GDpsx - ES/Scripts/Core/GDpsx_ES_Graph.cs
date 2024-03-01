@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 namespace GDpsx_API.EventSystem
 {
@@ -71,42 +72,25 @@ namespace GDpsx_API.EventSystem
             }
         }
 
-         public new void ConnectionRequest(StringName fromNode, int fromPort, StringName toNode, int toPort)
+         public GDpsx_ES_Node GetNodeByName(StringName nodeName)
+        {
+            foreach(var node in Nodes)
             {
-                ConnectNode(fromNode, fromPort, toNode, toPort);
-                //graphEdit.ConnectNode(toNode, toPort, fromNode, fromPort);
-                //GD.Print($"{fromNode} | {fromPort} | {toNode} | {toPort}");
-                // if(fromPort != 0 && GetNodeByName(fromNode).nodeType == NodeType.Dialogue)
-                // {
-                //     GDpsx_DialogueNode dialogueNode = GetNodeByName(fromNode) as GDpsx_DialogueNode;
-                //     if(dialogueNode != null) dialogueNode.ConstructResponseLink(fromNode, fromPort, toNode, toPort);
-                    
-                //     GDpsx_DialogueNode toDialogueNode = GetNodeByName(toNode) as GDpsx_DialogueNode;
-                //     if(toDialogueNode != null)
-                //     {
-                //         toDialogueNode.data.fromSlot = fromNode;
-                //         toDialogueNode.data.fromSlotIndex = fromPort;
-                //     }
-                //     //GD.Print(dialogueNode.data.responses[fromPort-1].toNode);
-                // }
-                // if(fromPort == 0 && GetNodeByName(fromNode).nodeType == NodeType.Dialogue)
-                // {
-                //     GDpsx_DialogueNode fromDialogueNode = GetNodeByName(fromNode) as GDpsx_DialogueNode;
-                //     GDpsx_DialogueNode toDialogueNode = GetNodeByName(toNode) as GDpsx_DialogueNode;
-                //     if(fromDialogueNode != null)
-                //     {
-                //         fromDialogueNode.data.toSlot = toNode;
-                //         fromDialogueNode.data.toSlotIndex = toPort;
-                //     }
-                //     if(toDialogueNode != null)
-                //     {
-                //         toDialogueNode.data.fromSlot = fromNode;
-                //         toDialogueNode.data.fromSlotIndex = fromPort;
-
-                //     }
-                //     //GD.Print(dialogueNode.data.responses[fromPort-1].toNode);
-                // }
+                
+                if(node.Name == nodeName)
+                {
+                    return node as GDpsx_ES_Node;
+                }
+                
             }
+            return null;
+        }
+
+        public new void ConnectionRequest(StringName fromNode, int fromPort, StringName toNode, int toPort)
+        {
+            ConnectNode(fromNode, fromPort, toNode, toPort);
+            ConnectNode(toNode, fromPort, fromNode, toPort);
+        }
 
         public List<ConnectionDetails> GetConnectedNodesDetails(StringName nodeName) //Neatly packages a nodes connection data
         {
@@ -166,41 +150,51 @@ namespace GDpsx_API.EventSystem
                     Y = node.PositionOffset.Y
                 };
                 data_template["Position"] = node_position;
-                data_template["ToNode"] = new Godot.Collections.Array<StringName>();
-                data_template["FromNode"] = new Godot.Collections.Array<StringName>();
-                data_template["ToPort"] = new Godot.Collections.Array<int>();
-                data_template["FromPort"] = new Godot.Collections.Array<int>();
-                foreach(Dictionary connection in GetConnectionList())
+                var connectionList = new Array<Dictionary>();
+                var connections = new Dictionary();
+                connections["go to"] = new StringName();
+                connections["come from"] = new StringName();
+                connections["go to index"] = new int();
+                connections["come from index"] = new int();
+                foreach(var _connectionDetails in GetConnectedNodesDetails(node.Name))
                 {
                     
+                        connections["go to"] = _connectionDetails.To;
+                        connections["come from"] = _connectionDetails.From;
+                        connections["go to index"] = _connectionDetails.ToSlot;
+                        connections["come from index"] = _connectionDetails.FromPort;
+                        //((Godot.Collections.Array)connections["go to"]).Add(connection["to_node"].ToString());
+                        //(Godot.Collections.Array)connections["come from"]).Add(connection["from_node"].ToString());
+                        //((Godot.Collections.Array)connections["go to index"]).Add(connection["to_port"]);
+                        //((Godot.Collections.Array)connections["come from index"]).Add(connection["from_port"]);
                     
-                        if(connection["to_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["ToNode"]).Add(connection["to_node"].ToString());
-                        if(connection["from_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["FromNode"]).Add(connection["from_node"].ToString());
-                        if(connection["to_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["ToPort"]).Add(connection["to_port"]);
-                        if(connection["from_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["FromPort"]).Add(connection["from_port"]);
-                    
+                        connectionList.Add(connections);
                 }
-                switch(node.Type)
-                {
-                    case NodeType.Dialog:
-                        var dialogNode = node as GDpsx_ES_Dialog;
-                        dialogNode.ConstructDialogDictionary();
-                        data_template["Data"] = dialogNode.dialogData;
-                        break;
-                        
-                    case NodeType.Conditional:
-                        break;
+                data_template["Connections"] = connectionList;
+                
+                    switch(node.Type)
+                    {
+                        case NodeType.Dialog:
+                            var dialogNode = node as GDpsx_ES_Dialog;
+                            dialogNode.ConstructDialogDictionary();
+                            data_template["Data"] = dialogNode.dialogData;
+                            break;
+                            
+                        case NodeType.Conditional:
+                            break;
 
-                    case NodeType.Function:
-                        var functionNode = node as GDpsx_ES_Function;
-                        functionNode.ConstructFunctionDictionary();
-                        data_template["Data"] = functionNode.funcData;
-                        break;
+                        case NodeType.Function:
+                            var functionNode = node as GDpsx_ES_Function;
+                            functionNode.ConstructFunctionDictionary();
+                            data_template["Data"] = functionNode.funcData;
+                            break;
+                    }
+                    data[node.Title] = data_template;
+                    Save(path);
                 }
-                data[node.Title] = data_template;
-                Save(path);
-            }
         }
+    
+        
 
 
         public async void Load(string path)

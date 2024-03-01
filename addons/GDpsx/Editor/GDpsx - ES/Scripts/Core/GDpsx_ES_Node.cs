@@ -11,6 +11,7 @@ namespace GDpsx_API.EventSystem
         public Vector2 NodePosition;
         [Export] public NodeType Type;
         public string nodeName;
+        public List<ConnectionDetails> connectionDetails = new List<ConnectionDetails>();
 
         /*
         Deletes the node and clears it from the parent graph.
@@ -19,6 +20,7 @@ namespace GDpsx_API.EventSystem
         public override void _Process(double delta)
         {
             Title = $"{Type} | {title.Text}";
+            Name = Title;
             if(Input.IsActionJustPressed("Dialogue_Delete")) DeleteNode(false);
         }
         public virtual void DeleteNode(bool bypassSelected) 
