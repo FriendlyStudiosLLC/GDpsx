@@ -6,6 +6,7 @@ namespace GDpsx_API.EventSystem
 {
     public enum NodeType
     {
+        None,
         Dialog,
         Conditional,
         Function

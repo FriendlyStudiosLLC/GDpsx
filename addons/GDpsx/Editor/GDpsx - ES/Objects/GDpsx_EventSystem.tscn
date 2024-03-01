@@ -87,4 +87,4 @@ file_mode = 0
 [connection signal="connection_request" from="VBoxContainer/Graph" to="VBoxContainer/Graph" method="ConnectionRequest"]
 [connection signal="disconnection_request" from="VBoxContainer/Graph" to="VBoxContainer/Graph" method="DisconnectRequest"]
 [connection signal="file_selected" from="Save_FileDialog" to="VBoxContainer/Graph" method="ConsolidateData"]
-[connection signal="file_selected" from="Load_FileDialog" to="VBoxContainer/Graph" method="SetFilePath"]
+[connection signal="file_selected" from="Load_FileDialog" to="VBoxContainer/Graph" method="Load"]

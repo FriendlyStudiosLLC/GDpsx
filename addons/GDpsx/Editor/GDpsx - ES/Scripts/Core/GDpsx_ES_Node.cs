@@ -19,7 +19,7 @@ namespace GDpsx_API.EventSystem
         */
         public override void _Process(double delta)
         {
-            Title = $"{Type} | {title.Text}";
+            Title = $"{Type}_{title.Text}";
             Name = Title;
             if(Input.IsActionJustPressed("Dialogue_Delete")) DeleteNode(false);
         }

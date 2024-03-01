@@ -10,6 +10,11 @@ namespace GDpsx_API.EventSystem
         [Export] GDpsx_Function_Node_Box functionBox;
         [Export] public Dictionary funcData = new Dictionary();
 
+        public void ConstructDataFromDictionary()
+        {
+            functionBox.FunctionMenuSelected(functionBox.MenuButtonIndexByString(funcData["Function"].AsString()));
+            var parameterDictionary = funcData["Parameters"].AsGodotDictionary();
+        }
 
         public void ConstructFunctionDictionary()
         {

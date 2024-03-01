@@ -2,6 +2,7 @@ using GDpsx_API.EventSystem;
 using Godot;
 using Godot.Collections;
 using System;
+using System.Linq;
 using System.Reflection;
 
 [Tool]
@@ -25,6 +26,20 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         
     }
 
+    public int MenuButtonIndexByString(string value)
+    {
+        Type type = typeof(GDpsx_ES_FunctionNodeLibrary);
+        MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        for(int i = 0; i < methodInfos.Length; i++)
+        {
+            if (functionMenu.GetPopup().GetItemText(i) == value)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void FunctionMenuSelected(long index)
     {
         var i_index = (int)index;
@@ -34,6 +49,34 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         functionName = method.Name;
         ExtractParametersFromMethod(method);
 
+    }
+
+    public void PopulateExtractedParameters(Type type)
+    {
+        switch (type.FullName)
+        {
+            case "System.Int32":
+                SpinBox intObj = new SpinBox();
+                intObj.Name = type.FullName;
+                intObj.Rounded = true;
+                return intObj;
+            case "System.String":
+                TextEdit stringObj = new TextEdit();
+                stringObj.Name = type.FullName;
+                stringObj.CustomMinimumSize = new Vector2(250, 32);
+                stringObj.TextChanged += () => UpdateTextEdit(stringObj);
+                return stringObj;
+            case "System.Boolean":
+                CheckBox boolObj = new CheckBox();
+                boolObj.Name = type.FullName;
+                return boolObj;
+            case "System.Double":
+                SpinBox doubleObj = new SpinBox();
+                doubleObj.Name = type.FullName;
+                doubleObj.Rounded = false;
+                return doubleObj;
+        }
+        return null;
     }
 
     public MethodInfo SelectMethod(int methodIndex)

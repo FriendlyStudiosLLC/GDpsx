@@ -15,6 +15,12 @@ namespace GDpsx_API.EventSystem
 
         public Dictionary dialogData = new Dictionary();
 
+        public void ConstructDataFromDictionary()
+        {
+            SpeakingCharacter_Label.Text = dialogData["Character"].AsString();
+            message_Text.Text = dialogData["Message"].AsString();
+        }
+
         public void ConstructDialogDictionary()
         {
             dialogData = new Dictionary();
@@ -39,7 +45,7 @@ namespace GDpsx_API.EventSystem
             base.DeleteNode(bypassSelected);
         }
 
-        public void AddResponse()
+        public void AddResponse(string name = "null")
         {
             var newResponse = responseScene.Instantiate() as GDpsx_ES_DialogueResponse;
             SetSlotEnabledRight(0, false);
