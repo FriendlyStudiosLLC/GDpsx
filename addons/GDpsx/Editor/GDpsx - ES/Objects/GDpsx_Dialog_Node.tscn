@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8jcpc88n8k23"]
+[gd_scene load_steps=4 format=3 uid="uid://c8jcpc88n8k23"]
 
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Dialog.cs" id="1_4gp4b"]
 [ext_resource type="Texture2D" uid="uid://behiv0b6gqkkc" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Character.png" id="2_cafs4"]
+[ext_resource type="PackedScene" uid="uid://bffskbfoged5l" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/SubObjects/response_box.tscn" id="2_wvqn3"]
 
-[node name="GDpsxDialogNode" type="GraphNode"]
+[node name="GDpsxDialogNode" type="GraphNode" node_paths=PackedStringArray("SpeakingCharacter_Menu", "SpeakingCharacter_Label", "message_Text", "title")]
 offset_right = 383.0
 offset_bottom = 226.0
 resizable = true
+title = Object(LineEdit,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":2,"mouse_filter":0,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":1,"shortcut_context":null,"theme":null,"theme_type_variation":&"","text":"","placeholder_text":"Node Title","alignment":0,"max_length":0,"editable":true,"expand_to_text_length":false,"context_menu_enabled":true,"virtual_keyboard_enabled":true,"virtual_keyboard_type":0,"clear_button_enabled":false,"shortcut_keys_enabled":true,"middle_mouse_paste_enabled":true,"selecting_enabled":true,"deselect_on_focus_loss_enabled":true,"drag_and_drop_selection_enabled":true,"right_icon":null,"flat":false,"draw_control_chars":false,"select_all_on_focus":false,"caret_blink":false,"caret_blink_interval":0.65,"caret_column":0,"caret_force_displayed":false,"caret_mid_grapheme":false,"secret":false,"secret_character":"•","text_direction":0,"language":"","structured_text_bidi_override":0,"structured_text_bidi_override_options":[],"script":null)
+
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -17,36 +20,54 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("1_4gp4b")
+SpeakingCharacter_Menu = NodePath("VBoxContainer2/VBoxContainer/HBoxContainer/MenuButton")
+SpeakingCharacter_Label = NodePath("VBoxContainer2/VBoxContainer/HBoxContainer/LineEdit")
+message_Text = NodePath("VBoxContainer2/VBoxContainer/TextEdit")
+responseScene = ExtResource("2_wvqn3")
+title = NodePath("VBoxContainer2/VBoxContainer/NodeTitle")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="NodeTitle" type="LineEdit" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="NodeTitle" type="LineEdit" parent="VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Node Title"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Character Name"
 
-[node name="MenuButton" type="MenuButton" parent="VBoxContainer/HBoxContainer"]
+[node name="MenuButton" type="MenuButton" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 0
 icon = ExtResource("2_cafs4")
 flat = false
 
-[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(0, 118.045)
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Dialog Entry Here"
 wrap_mode = 1
 
+[node name="Button2" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Add Response"
+
+[node name="Button3" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Test"
+
 [connection signal="node_deselected" from="." to="." method="DeSelect"]
 [connection signal="node_selected" from="." to="." method="Select"]
 [connection signal="resize_request" from="." to="." method="ResizeNode"]
+[connection signal="pressed" from="VBoxContainer2/Button2" to="." method="AddResponse"]
+[connection signal="pressed" from="VBoxContainer2/Button3" to="." method="ConstructDialogDictionary"]

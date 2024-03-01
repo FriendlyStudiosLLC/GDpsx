@@ -4,19 +4,34 @@ using System;
 using System.Collections.Generic;
 namespace GDpsx_API.EventSystem
 {
+    [Tool]
     public partial class GDpsx_ES_Dialog : GDpsx_ES_Node
     {
         [Export] public MenuButton SpeakingCharacter_Menu;
         [Export] public LineEdit SpeakingCharacter_Label;
         [Export] public TextEdit message_Text;
         [Export] public PackedScene responseScene;
-        [Export] public Array<GDpsx_DialogueResponse> responses = new Array<GDpsx_DialogueResponse>();
+        [Export] public Array<GDpsx_ES_DialogueResponse> responses = new Array<GDpsx_ES_DialogueResponse>();
 
+        public Dictionary dialogData = new Dictionary();
 
-
-        public void PopulateCharacterList()
+        public void ConstructDialogDictionary()
         {
-
+            dialogData = new Dictionary();
+            var dialogData_Template = new Dictionary();
+            dialogData[Name] = dialogData_Template;
+            dialogData_Template["Character"] = SpeakingCharacter_Label.Text;
+            dialogData_Template["Message"] = message_Text.Text;
+            dialogData_Template["Responses"] = new Godot.Collections.Array<string>();
+            if(responses.Count != 0)
+            {
+                foreach(var response in responses)
+                {
+                    ((Godot.Collections.Array)dialogData_Template["Responses"]).Add(response.responseText.Text);
+                }
+            }
+            dialogData[Name] = dialogData_Template;
+            GD.Print(dialogData[Name]);
         }
 
         public override void DeleteNode(bool bypassSelected)
@@ -26,8 +41,9 @@ namespace GDpsx_API.EventSystem
 
         public void AddResponse()
         {
-            var newResponse = responseScene.Instantiate() as GDpsx_DialogueResponse;
+            var newResponse = responseScene.Instantiate() as GDpsx_ES_DialogueResponse;
             SetSlotEnabledRight(0, false);
+            newResponse.parentNode = this;
             responses.Add(newResponse);
             var index = responses.IndexOf(newResponse);
             newResponse.index = index;

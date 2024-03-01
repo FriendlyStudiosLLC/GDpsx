@@ -1,13 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://dn4fk2xlr2psr"]
 
-[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Dialog.cs" id="1_4cak1"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Function.cs" id="1_nehkq"]
 [ext_resource type="PackedScene" uid="uid://dcer04lxq6hwd" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/SubObjects/GDpsx_Function_Node_Box.tscn" id="2_0hwcc"]
 
-[node name="FunctionNode" type="GraphNode"]
+[node name="FunctionNode" type="GraphNode" node_paths=PackedStringArray("functionBox", "title")]
 offset_left = 122.0
-offset_right = 234.0
-offset_bottom = 154.0
+offset_right = 698.0
+offset_bottom = 292.0
 resizable = true
+title = Object(LineEdit,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":2,"mouse_filter":0,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":1,"shortcut_context":null,"theme":null,"theme_type_variation":&"","text":"","placeholder_text":"Node Title","alignment":0,"max_length":0,"editable":true,"expand_to_text_length":false,"context_menu_enabled":true,"virtual_keyboard_enabled":true,"virtual_keyboard_type":0,"clear_button_enabled":false,"shortcut_keys_enabled":true,"middle_mouse_paste_enabled":true,"selecting_enabled":true,"deselect_on_focus_loss_enabled":true,"drag_and_drop_selection_enabled":true,"right_icon":null,"flat":false,"draw_control_chars":false,"select_all_on_focus":false,"caret_blink":false,"caret_blink_interval":0.65,"caret_column":0,"caret_force_displayed":false,"caret_mid_grapheme":false,"secret":false,"secret_character":"•","text_direction":0,"language":"","structured_text_bidi_override":0,"structured_text_bidi_override_options":[],"script":null)
+
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -26,7 +28,10 @@ slot/1/right_type = 0
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
-script = ExtResource("1_4cak1")
+script = ExtResource("1_nehkq")
+functionBox = NodePath("FunctionBox")
+title = NodePath("VBoxContainer/LineEdit")
+Type = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -37,6 +42,7 @@ placeholder_text = "Node Title"
 
 [node name="FunctionBox" parent="." instance=ExtResource("2_0hwcc")]
 layout_mode = 2
+size_flags_horizontal = 1
 
 [connection signal="node_deselected" from="." to="." method="DeSelect"]
 [connection signal="node_selected" from="." to="." method="Select"]

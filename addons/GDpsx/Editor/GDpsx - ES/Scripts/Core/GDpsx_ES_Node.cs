@@ -6,14 +6,21 @@ namespace GDpsx_API.EventSystem
 {
     public partial class GDpsx_ES_Node : GraphNode
     {
+        [Export] public LineEdit title;
         public GDpsx_ES_Graph ParentGraph;
         public Vector2 NodePosition;
-        public NodeType Type;
+        [Export] public NodeType Type;
+        public string nodeName;
 
         /*
         Deletes the node and clears it from the parent graph.
         This is virtual since child classes may require additional steps when deleting a node.
         */
+        public override void _Process(double delta)
+        {
+            Title = $"{Type} | {title.Text}";
+            if(Input.IsActionJustPressed("Dialogue_Delete")) DeleteNode(false);
+        }
         public virtual void DeleteNode(bool bypassSelected) 
         {
             var parentGraph = GetParent() as GDpsx_ES_Graph;

@@ -29,7 +29,25 @@ namespace GDpsx_API.EventSystem
 
         private void AddNodeOfType(long index)
         {
-            throw new NotImplementedException();
+            var pos = GetLocalMousePosition();
+            PackedScene NodeScene = new PackedScene();
+            switch(index)
+            {
+                case 0:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
+                    break;
+                case 1:
+                    GD.PrintErr("Not Yet Implemented");
+                    break;
+                case 2:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
+                    break;
+            }
+            var Node = NodeScene.Instantiate() as GDpsx_ES_Node;
+            Node.PositionOffset = pos;
+            Node.ParentGraph = this;
+            AddChild(Node);
+            Nodes.Add(Node);
         }
 
         public void OpenSaveFileDialogue()
@@ -52,6 +70,44 @@ namespace GDpsx_API.EventSystem
                 Nodes[i].DeleteNode(true);
             }
         }
+
+         public new void ConnectionRequest(StringName fromNode, int fromPort, StringName toNode, int toPort)
+            {
+                ConnectNode(fromNode, fromPort, toNode, toPort);
+                //graphEdit.ConnectNode(toNode, toPort, fromNode, fromPort);
+                //GD.Print($"{fromNode} | {fromPort} | {toNode} | {toPort}");
+                // if(fromPort != 0 && GetNodeByName(fromNode).nodeType == NodeType.Dialogue)
+                // {
+                //     GDpsx_DialogueNode dialogueNode = GetNodeByName(fromNode) as GDpsx_DialogueNode;
+                //     if(dialogueNode != null) dialogueNode.ConstructResponseLink(fromNode, fromPort, toNode, toPort);
+                    
+                //     GDpsx_DialogueNode toDialogueNode = GetNodeByName(toNode) as GDpsx_DialogueNode;
+                //     if(toDialogueNode != null)
+                //     {
+                //         toDialogueNode.data.fromSlot = fromNode;
+                //         toDialogueNode.data.fromSlotIndex = fromPort;
+                //     }
+                //     //GD.Print(dialogueNode.data.responses[fromPort-1].toNode);
+                // }
+                // if(fromPort == 0 && GetNodeByName(fromNode).nodeType == NodeType.Dialogue)
+                // {
+                //     GDpsx_DialogueNode fromDialogueNode = GetNodeByName(fromNode) as GDpsx_DialogueNode;
+                //     GDpsx_DialogueNode toDialogueNode = GetNodeByName(toNode) as GDpsx_DialogueNode;
+                //     if(fromDialogueNode != null)
+                //     {
+                //         fromDialogueNode.data.toSlot = toNode;
+                //         fromDialogueNode.data.toSlotIndex = toPort;
+                //     }
+                //     if(toDialogueNode != null)
+                //     {
+                //         toDialogueNode.data.fromSlot = fromNode;
+                //         toDialogueNode.data.fromSlotIndex = fromPort;
+
+                //     }
+                //     //GD.Print(dialogueNode.data.responses[fromPort-1].toNode);
+                // }
+            }
+
         public List<ConnectionDetails> GetConnectedNodesDetails(StringName nodeName) //Neatly packages a nodes connection data
         {
             var connectionDetailsList = new List<ConnectionDetails>();
@@ -91,49 +147,58 @@ namespace GDpsx_API.EventSystem
 
         public async void Save(string path)
         {
-            ConsolidateData();
             await Task.Delay(200);
             var file = FileAccess.Open(path,FileAccess.ModeFlags.Write);
             file.StoreLine(Json.Stringify(data));
             file.Close();
         }
 
-        private void ConsolidateData()
+        public void ConsolidateData(string path)
         {
             data = new Dictionary();
             foreach(var node in Nodes)
             {
                 var data_template = new Dictionary();
                 data[node.Title] = data_template;
-                var node_position = new Godot.Collections.Array<float>();
-                ((Godot.Collections.Array)data_template["Position"]).Add(node.PositionOffset.X); 
-                ((Godot.Collections.Array)data_template["Position"]).Add(node.PositionOffset.Y);
+                var node_position = new Vector2
+                {
+                    X = node.PositionOffset.X,
+                    Y = node.PositionOffset.Y
+                };
+                data_template["Position"] = node_position;
                 data_template["ToNode"] = new Godot.Collections.Array<StringName>();
                 data_template["FromNode"] = new Godot.Collections.Array<StringName>();
                 data_template["ToPort"] = new Godot.Collections.Array<int>();
                 data_template["FromPort"] = new Godot.Collections.Array<int>();
                 foreach(Dictionary connection in GetConnectionList())
                 {
-                    if(connection["from_node"].AsStringName() == node.Name)
-                    {
-                        ((Godot.Collections.Array)data_template["ToNode"]).Add(connection["to_node"].ToString());
-                        ((Godot.Collections.Array)data_template["FromNode"]).Add(connection["from_node"].ToString());
-                        ((Godot.Collections.Array)data_template["ToPort"]).Add(connection["to_port"]);
-                        ((Godot.Collections.Array)data_template["FromPort"]).Add(connection["from_port"]);
-                    }
+                    
+                    
+                        if(connection["to_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["ToNode"]).Add(connection["to_node"].ToString());
+                        if(connection["from_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["FromNode"]).Add(connection["from_node"].ToString());
+                        if(connection["to_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["ToPort"]).Add(connection["to_port"]);
+                        if(connection["from_node"].AsStringName() != node.Name) ((Godot.Collections.Array)data_template["FromPort"]).Add(connection["from_port"]);
+                    
                 }
                 switch(node.Type)
                 {
                     case NodeType.Dialog:
+                        var dialogNode = node as GDpsx_ES_Dialog;
+                        dialogNode.ConstructDialogDictionary();
+                        data_template["Data"] = dialogNode.dialogData;
                         break;
                         
                     case NodeType.Conditional:
                         break;
 
                     case NodeType.Function:
+                        var functionNode = node as GDpsx_ES_Function;
+                        functionNode.ConstructFunctionDictionary();
+                        data_template["Data"] = functionNode.funcData;
                         break;
                 }
-                
+                data[node.Title] = data_template;
+                Save(path);
             }
         }
 

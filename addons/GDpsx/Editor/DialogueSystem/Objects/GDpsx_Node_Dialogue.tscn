@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cpimksdrw07lr"]
 
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/DialogueSystem/Scripts/Nodes/GDpsx_DialogueNode.cs" id="1_u5aw5"]
-[ext_resource type="PackedScene" uid="uid://bffskbfoged5l" path="res://addons/GDpsx/Editor/DialogueSystem/Objects/response_box.tscn" id="2_y58c5"]
+[ext_resource type="PackedScene" uid="uid://bffskbfoged5l" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/SubObjects/response_box.tscn" id="2_y58c5"]
 [ext_resource type="Texture2D" uid="uid://b5wgoe1rpbf31" path="res://addons/GDpsx/Editor/Icons/CharacterList.svg" id="3_nfbbf"]
 [ext_resource type="Texture2D" uid="uid://b26841287c55p" path="res://addons/GDpsx/Editor/Icons/Dialogue.svg" id="3_s84b6"]
 

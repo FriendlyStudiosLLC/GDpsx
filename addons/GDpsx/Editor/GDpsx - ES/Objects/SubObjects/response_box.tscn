@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://bffskbfoged5l"]
 
-[ext_resource type="Script" path="res://addons/GDpsx/Editor/DialogueSystem/Scripts/Nodes/GDpsx_DialogueResponse.cs" id="1_i7g7u"]
-[ext_resource type="Texture2D" uid="uid://b8o81rn8q8a43" path="res://addons/GDpsx/Editor/Icons/Remove.svg" id="2_qgt0h"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Nodes/Dialog/GDpsx_ES_DialogueResponse.cs" id="1_ia2dr"]
+[ext_resource type="Texture2D" uid="uid://b8o81rn8q8a43" path="res://addons/GDpsx/Editor/Icons/Remove.svg" id="2_bpjjw"]
 
 [node name="ResponseBox" type="HBoxContainer" node_paths=PackedStringArray("responseText")]
-script = ExtResource("1_i7g7u")
+script = ExtResource("1_ia2dr")
 responseText = NodePath("LineEdit")
 
 [node name="Label" type="Label" parent="."]
@@ -18,6 +18,6 @@ size_flags_horizontal = 3
 [node name="Button" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
-icon = ExtResource("2_qgt0h")
+icon = ExtResource("2_bpjjw")
 
 [connection signal="pressed" from="Button" to="." method="RemoveSelf"]

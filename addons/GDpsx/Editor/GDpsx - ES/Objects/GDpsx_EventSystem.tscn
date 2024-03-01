@@ -62,7 +62,7 @@ icon = ExtResource("4_xnsc3")
 [node name="Graph" type="GraphEdit" parent="VBoxContainer" node_paths=PackedStringArray("AddNode_MenuButton", "Save_Button", "Load_Button", "Save_FileDialog", "Load_FileDialog")]
 layout_mode = 2
 size_flags_vertical = 3
-scroll_offset = Vector2(-40, -50)
+right_disconnects = true
 script = ExtResource("5_41rwe")
 AddNode_MenuButton = NodePath("../Panel/HBoxContainer/Menu_Button")
 Save_Button = NodePath("../Panel/HBoxContainer/Save_Button")
@@ -84,5 +84,7 @@ file_mode = 0
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Load_Button" to="VBoxContainer/Graph" method="OpenLoadFileDialogue"]
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Save_Button" to="VBoxContainer/Graph" method="OpenSaveFileDialogue"]
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Empty_Button" to="VBoxContainer/Graph" method="EmptyGraph"]
-[connection signal="file_selected" from="Save_FileDialog" to="VBoxContainer/Graph" method="SetFilePath"]
+[connection signal="connection_request" from="VBoxContainer/Graph" to="VBoxContainer/Graph" method="ConnectionRequest"]
+[connection signal="disconnection_request" from="VBoxContainer/Graph" to="VBoxContainer/Graph" method="DisconnectRequest"]
+[connection signal="file_selected" from="Save_FileDialog" to="VBoxContainer/Graph" method="ConsolidateData"]
 [connection signal="file_selected" from="Load_FileDialog" to="VBoxContainer/Graph" method="SetFilePath"]

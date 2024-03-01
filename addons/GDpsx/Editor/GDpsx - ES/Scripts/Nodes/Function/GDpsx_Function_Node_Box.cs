@@ -10,6 +10,7 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
     [Export] Array<Control> parameterOptions = new Array<Control>();
     [Export] public VBoxContainer container;
     [Export] public MenuButton functionMenu;
+    public string functionName;
     public override void _Ready()
     {
         
@@ -30,6 +31,7 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         ClearContainer();
         functionMenu.Text = functionMenu.GetPopup().GetItemText(i_index);
         var method = SelectMethod(i_index);
+        functionName = method.Name;
         ExtractParametersFromMethod(method);
 
     }
@@ -50,10 +52,28 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         }
     }
 
+    public void UpdateTextEdit(TextEdit stringObj)
+    {
+        var f = stringObj.GetThemeDefaultFont();
+        var textSize = new Vector2();
+        if(stringObj.Text.Length != 0)
+        {
+            textSize.X = f.GetStringSize(stringObj.Text).X;
+            textSize.Y = stringObj.GetLineCount();
+            stringObj.CustomMinimumSize = new Vector2(textSize.X + 32, textSize.Y * 32);
+        }
+        else
+        {
+            stringObj.CustomMinimumSize = new Vector2(250, 32);
+        }
+        
+    }
+
 
     private HBoxContainer ParameterFactory(string ParameterName, Type type)
     {
         HBoxContainer hBox = new HBoxContainer();
+        hBox.Name = "ParameterContainer";
         Label label = new Label();
         label.HorizontalAlignment = HorizontalAlignment.Fill;
         label.Text = ParameterName;
@@ -68,16 +88,22 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         {
             case "System.Int32":
                 SpinBox intObj = new SpinBox();
+                intObj.Name = type.FullName;
                 intObj.Rounded = true;
                 return intObj;
             case "System.String":
                 TextEdit stringObj = new TextEdit();
+                stringObj.Name = type.FullName;
+                stringObj.CustomMinimumSize = new Vector2(250, 32);
+                stringObj.TextChanged += () => UpdateTextEdit(stringObj);
                 return stringObj;
             case "System.Boolean":
                 CheckBox boolObj = new CheckBox();
+                boolObj.Name = type.FullName;
                 return boolObj;
             case "System.Double":
                 SpinBox doubleObj = new SpinBox();
+                doubleObj.Name = type.FullName;
                 doubleObj.Rounded = false;
                 return doubleObj;
         }
@@ -98,7 +124,7 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
                 {
                     
                     var paramType = parameterInfo[i].ParameterType;
-                    string paramName = parameterInfo[i].Name;
+                    string paramName = i.ToString() + "_" + parameterInfo[i].Name;
                     
                     container.AddChild(ParameterFactory(paramName, paramType));
                     GD.Print($"Parameter {i+1}: {paramName}, Parameter Type: {paramType}");

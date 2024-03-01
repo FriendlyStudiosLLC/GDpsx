@@ -4,10 +4,10 @@
 
 [resource]
 shader = ExtResource("1_65yko")
-shader_parameter/overlay = false
+shader_parameter/overlay = true
 shader_parameter/scanlines_opacity = 0.06
 shader_parameter/scanlines_width = 0.03
-shader_parameter/grille_opacity = 0.12
+shader_parameter/grille_opacity = 0.069
 shader_parameter/resolution = Vector2(256, 225)
 shader_parameter/pixelate = true
 shader_parameter/roll = true

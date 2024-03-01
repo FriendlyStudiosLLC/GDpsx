@@ -267,7 +267,7 @@ public void AddNode()
             var responseIndex = new int();
             foreach(var response in response_Array)
             {
-                var newResponse = sgn.responseScene.Instantiate() as GDpsx_DialogueResponse;
+                var newResponse = sgn.responseScene.Instantiate() as GDpsx_ES_DialogueResponse;
                 var index = response_Array.IndexOf(response);
                 responseIndex = index+1;
                 newResponse.responseText.Text = response;

@@ -16,7 +16,7 @@ public partial class GDpsx_DialogueNode : GDpsx_GraphNode
     [Export] public TextEdit message_Text;
     
     [Export] public PackedScene responseScene;
-    [Export] public Array<GDpsx_DialogueResponse> responses = new Array<GDpsx_DialogueResponse>();
+    [Export] public Array<GDpsx_ES_DialogueResponse> responses = new Array<GDpsx_ES_DialogueResponse>();
 
     [Export] public GDpsx_DialogueNodeResource data;
     [Export] public CheckBox isResponseCheckBox;
@@ -72,7 +72,7 @@ public partial class GDpsx_DialogueNode : GDpsx_GraphNode
 
     public void AddResponse()
     {
-        var newResponse = responseScene.Instantiate() as GDpsx_DialogueResponse;
+        var newResponse = responseScene.Instantiate() as GDpsx_ES_DialogueResponse;
         SetSlotEnabledRight(0, false);
         responses.Add(newResponse);
         var index = responses.IndexOf(newResponse);

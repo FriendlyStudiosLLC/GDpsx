@@ -1,14 +1,15 @@
+using GDpsx_API.EventSystem;
 using Godot;
 using System;
 using System.Drawing;
  
 
-public partial class GDpsx_DialogueResponse : HBoxContainer
+public partial class GDpsx_ES_DialogueResponse : HBoxContainer
 {
     [Export] public LineEdit responseText;
     [Export] public int index;
     [Export] public int slotIndex;
-    public GDpsx_DialogueNode parentNode;
+    public GDpsx_ES_Dialog parentNode;
     [Export] public ResponseItem data;
 
     public override void _Ready()
@@ -31,7 +32,8 @@ public partial class GDpsx_DialogueResponse : HBoxContainer
 
     public void RemoveSelf()
     {
-        var parent = GetParent() as GDpsx_DialogueNode;
+        GD.Print(index);
+        var parent = GetParent() as GDpsx_ES_Dialog;
         parent.RemoveResponse(index);
     }
 }
