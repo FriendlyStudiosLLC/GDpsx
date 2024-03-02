@@ -15,6 +15,11 @@ namespace GDpsx_API.EventSystem
 
         public Dictionary dialogData = new Dictionary();
 
+        public override void _Ready()
+        {
+            nodeType = NodeType.Dialog;
+        }
+
         public void ConstructDataFromDictionary(Dictionary _dialogData, string name)
         {
             Name = name;
@@ -23,7 +28,6 @@ namespace GDpsx_API.EventSystem
             {
                 SpeakingCharacter_Label.Text = data_dictionary["Character"].AsStringName();
                 message_Text.Text = data_dictionary["Message"].ToString();
-                GD.Print("Dialogue DataKey" +data_key);
             }
             //dialogData = _dialogData;
             //SpeakingCharacter_Label.Text = _dialogData["Character"].AsString();
@@ -46,7 +50,6 @@ namespace GDpsx_API.EventSystem
                 }
             }
             dialogData[Name] = dialogData_Template;
-            GD.Print(dialogData[Name]);
         }
 
         public override void DeleteNode(bool bypassSelected)
@@ -89,16 +92,13 @@ namespace GDpsx_API.EventSystem
             {
                 var responseAtIndex = responses[responses.Count-1];
                 var slotIndex = responseAtIndex.slotIndex;
-                GD.Print(responses.Count);
                 responseAtIndex.QueueFree();
                 responses.RemoveAt(responses.Count-1);
-                GD.Print(responses.Count);
             }
 
             List<ConnectionDetails> connectionDetails = ParentGraph.GetConnectedNodesDetails(Name);
             foreach(var connection in connectionDetails)
             {
-                GD.Print(connection.From + " ||| " + connection.To + " ||| " + connection.ToSlot + " ||| " + connection.FromPort);
                 ParentGraph.DisconnectNode(connection.From, connection.FromPort, connection.To, connection.ToSlot);
                 ParentGraph.DisconnectNode(connection.To, connection.ToSlot, connection.From, connection.FromPort);
             }

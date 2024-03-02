@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://behiv0b6gqkkc" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Character.png" id="2_cafs4"]
 [ext_resource type="PackedScene" uid="uid://bffskbfoged5l" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/SubObjects/response_box.tscn" id="2_wvqn3"]
 
-[node name="Dialog_" type="GraphNode" node_paths=PackedStringArray("SpeakingCharacter_Menu", "SpeakingCharacter_Label", "message_Text", "title")]
+[node name="None_" type="GraphNode" node_paths=PackedStringArray("SpeakingCharacter_Menu", "SpeakingCharacter_Label", "message_Text", "title")]
 offset_right = 383.0
 offset_bottom = 226.0
 resizable = true

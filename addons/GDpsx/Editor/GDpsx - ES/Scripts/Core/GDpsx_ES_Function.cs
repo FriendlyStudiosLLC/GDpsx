@@ -9,6 +9,10 @@ namespace GDpsx_API.EventSystem
     {
         [Export] GDpsx_Function_Node_Box functionBox;
         [Export] public Dictionary funcData = new Dictionary();
+        public override void _Ready()
+        {
+            nodeType = NodeType.Function;
+        }
 
         public void ConstructDataFromDictionary(string name)
         {
@@ -96,7 +100,6 @@ namespace GDpsx_API.EventSystem
                 {
                     if(paramChild.GetType() != typeof(Label))
                     {   
-                        GD.Print(index);
                         switch(paramChild.Name)
                         {   
                             case "System_Int32":
@@ -121,7 +124,6 @@ namespace GDpsx_API.EventSystem
                 }
             }
             funcData = funcData_Template;
-            GD.Print(funcData.ToString());
         }
     }
 }

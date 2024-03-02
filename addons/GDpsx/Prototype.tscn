@@ -38,9 +38,9 @@ script = ExtResource("4_1kimd")
 Target_Entity_Path = NodePath("")
 WaitTime = 2.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_rdfjv"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_oi5qe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rdfjv"]
 
 [sub_resource type="Resource" id="Resource_28x8o"]
 script = ExtResource("3_nrj10")
@@ -116,19 +116,18 @@ script = ExtResource("2_xvxm2")
 Uses = 4
 EventChain = [SubResource("Resource_cyeby"), SubResource("Resource_ldvsx")]
 
+[node name="ShadowInstance" type="MeshInstance3D" parent="MagicBox"]
+transparency = 1.0
+mesh = SubResource("BoxMesh_oi5qe")
+skeleton = NodePath("../CollisionShape3D")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MagicBox"]
 shape = SubResource("BoxShape3D_rdfjv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MagicBox/CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.196709, -0.0959588, -1.42551)
 material_override = ExtResource("5_uyfn7")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_oi5qe")
-
-[node name="ShadowInstance" type="MeshInstance3D" parent="MagicBox/CollisionShape3D/MeshInstance3D"]
-transparency = 1.0
-mesh = SubResource("BoxMesh_oi5qe")
-skeleton = NodePath("../..")
 
 [node name="CubeOfWonder" type="StaticBody3D" parent="."]
 transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 2.22742, 0.300667, -7.39828)

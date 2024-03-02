@@ -8,6 +8,7 @@ namespace GDpsx_API.EventSystem
     {
         [Export] public LineEdit title;
         public GDpsx_ES_Graph ParentGraph;
+        [Export] public int index;
         public Vector2 NodePosition;
         [Export] public NodeType nodeType;
         public string nodeName;

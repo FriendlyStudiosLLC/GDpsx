@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-[Tool]
 public partial class GDpsx_Function_Node_Box : HBoxContainer
 {
     [Export] Array<Control> parameterOptions = new Array<Control>();
@@ -18,7 +17,6 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         functionMenu.GetPopup().IndexPressed += FunctionMenuSelected;
         Type type = typeof(GDpsx_ES_FunctionNodeLibrary);
         MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        GD.Print($"Number of methods: {methodInfos.Length}");
         foreach (var method in methodInfos)
         {
            functionMenu.GetPopup().AddItem(method.Name);
@@ -136,7 +134,6 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
             {
                 string methodName = method.Name;
                 
-                GD.Print($"Method: {methodName}, Number of Parameters: {paramCount}");
                 for (int i = 0; i < paramCount; i++)
                 {
                     
@@ -144,12 +141,7 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
                     string paramName = i.ToString() + "_" + parameterInfo[i].Name;
                     
                     container.AddChild(ParameterFactory(paramName, paramType));
-                    GD.Print($"Parameter {i+1}: {paramName}, Parameter Type: {paramType}");
                 }
-            }
-            else
-            {
-                GD.Print($"Method: {method.Name} has no parameters");
             }
     }
 }

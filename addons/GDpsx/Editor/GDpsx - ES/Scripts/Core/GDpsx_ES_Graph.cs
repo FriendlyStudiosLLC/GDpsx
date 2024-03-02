@@ -32,6 +32,56 @@ namespace GDpsx_API.EventSystem
             AddNode_MenuButton.GetPopup().IndexPressed += AddNodeOfType;
         }
 
+        public void CheckNodeOrder()
+        {
+            foreach(var node in Nodes)
+            {
+                GD.Print(node.Name);
+            }
+        }
+
+        public void ReordesrNodesByLowestX()
+        {
+            // Convert to a List for sorting
+            List<GDpsx_ES_Node> nodeList = new List<GDpsx_ES_Node>();
+            foreach (GDpsx_ES_Node node in Nodes)
+            {
+                nodeList.Add(node);
+            }
+
+            // Sort the List
+            nodeList.Sort((a, b) => a.PositionOffset.X.CompareTo(b.PositionOffset.X));
+            // Convert back to Godot.Collections.Array if necessary
+            Array<GDpsx_ES_Node> sortedNodes = new Array<GDpsx_ES_Node>();
+            foreach (var node in nodeList)
+            {
+                
+                sortedNodes.Add(node);
+            }
+            Nodes = sortedNodes;
+        }
+        public void ReorderNodesByLowestX()
+        {
+            
+            int sortedIndex = -1;
+            for (int i = 0; i < Nodes.Count - 1; i++)
+            {
+                for (int j = 0; j < Nodes.Count - i - 1; j++)
+                {
+                    if (((GDpsx_ES_Node)Nodes[j]).PositionOffset.X > ((GDpsx_ES_Node)Nodes[j + 1]).PositionOffset.X)
+                    {
+                        var temp = Nodes[j];
+                        Nodes[j] = Nodes[j + 1];
+                        
+                        sortedIndex += 1;
+                        temp.index = sortedIndex;
+                        Nodes[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+
         private void AddNodeOfType(long index)
         {
             var pos = GetLocalMousePosition();
@@ -51,6 +101,8 @@ namespace GDpsx_API.EventSystem
             var Node = NodeScene.Instantiate() as GDpsx_ES_Node;
             Node.PositionOffset = pos;
             Node.ParentGraph = this;
+            var nodeIndex = Nodes.Count;
+            Node.index = nodeIndex;
             AddChild(Node);
             Nodes.Add(Node);
         }
@@ -140,14 +192,18 @@ namespace GDpsx_API.EventSystem
             file.Close();
         }
 
-        public void ConsolidateData(string path)
+        public async void ConsolidateData(string path)
         {
+            ReorderNodesByLowestX();
+            await Task.Delay(100);
             data = new Dictionary();
             foreach(var node in Nodes)
             {
                 var data_template = new Dictionary();
                 data[node.Title] = data_template;
                 data_template["id"] = node.Title;
+                
+                data_template["index"] = node.index;
                 data_template["Position X"] = node.PositionOffset.X;
                 data_template["Position Y"] = node.PositionOffset.Y;
                 data_template["go to"] = new Godot.Collections.Array();
@@ -206,23 +262,31 @@ namespace GDpsx_API.EventSystem
             foreach (var key in data.Keys)
             {
                 var nestedDictionary = data[key].AsGodotDictionary();
-                var node = LoadNodeFactory(StringToType(nestedDictionary["id"].AsStringName().ToString()), nestedDictionary);
-
+                var id = nestedDictionary["id"].AsStringName().ToString();
+                var id_parts = id.Split('_');
+                var node = LoadNodeFactory(StringToType(id_parts[0]), nestedDictionary);
                 // Add node to the Nodes array
-                Nodes.Add(node);
+                
 
                 // Use the node ID as the key for tempNodeMap
                 var nodeId = nestedDictionary["id"].AsStringName().ToString();
                 tempNodeMap[nodeId] = node;
 
-                AddChild(node);
+                if(node != null)
+                {
+                    Nodes.Add(node);
+                    AddChild(node);
+                }
             }
 
             // After all nodes are instantiated, establish connections
             EstablishConnections(data);
+            
+            await Task.Delay(100);
+            ReorderNodesByLowestX();
         }
 
-        public void EstablishConnections(Dictionary data)
+        private void EstablishConnections(Dictionary data)
         {
             foreach (var key in data.Keys)
             {
@@ -231,27 +295,37 @@ namespace GDpsx_API.EventSystem
                 {
                     var nodeName = nestedDictionary["id"].AsStringName().ToString();
                     var gotoArray = nestedDictionary["go to"].AsGodotArray<StringName>();
-                    ConnectNodes(nodeName, gotoArray);
+                    foreach (StringName targetNodeName in gotoArray)
+                    {
+                        // Assuming you have a method to find a node by its ID within the GraphEdit
+                        var fromNode = FindNodeById(nodeName);
+                        var toNode = FindNodeById(targetNodeName.ToString());
+                        
+                        if (fromNode != null && toNode != null)
+                        {
+                            // Here you need to determine the appropriate slot indexes for your nodes
+                            // For example, assuming slot 0 for simplicity
+                            int fromSlot = 0;
+                            int toSlot = 0;
+                            
+                            // Connect the nodes within the GraphEdit environment
+                            this.ConnectNode(fromNode.Name, fromSlot, toNode.Name, toSlot);
+                        }
+                    }
                 }
             }
         }
 
-        public void ConnectNodes(string nodeName, Array<StringName> gotoArray)
+        private GraphNode FindNodeById(string nodeId)
         {
-            if (!tempNodeMap.ContainsKey(nodeName)) return;
-
-            var baseNode = tempNodeMap[nodeName];
-            foreach (var gotoKey in gotoArray)
+            foreach (Node child in GetChildren())
             {
-                var targetNodeName = gotoKey.ToString();
-                if (tempNodeMap.ContainsKey(targetNodeName))
+                if (child is GraphNode && child.Name == nodeId)
                 {
-                    var targetNode = tempNodeMap[targetNodeName];
-                    ConnectNode(baseNode.Name, 0, targetNode.Name, 0);
-                    // Connect `baseNode` to `targetNode` here
-                    // Example: ConnectNode(baseNode, targetNode);
+                    return child as GraphNode;
                 }
             }
+            return null;
         }
 
         public NodeType StringToType(string input)
@@ -270,7 +344,6 @@ namespace GDpsx_API.EventSystem
             var id = nestedDictionary["id"].AsStringName().ToString();
             var id_parts = id.Split('_');
             GDpsx_ES_Node baseNode = null;
-            GD.Print(id);
             switch(type)
             {
                 case NodeType.Dialog:

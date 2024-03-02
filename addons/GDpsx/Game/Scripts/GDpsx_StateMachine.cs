@@ -55,7 +55,6 @@ namespace GDpsx_API.StateMachine
             _previousState = _currentState;
             _currentState.Exit();
             _currentState = _states[stateName];
-            GD.Print(stateName);
             _currentState.Enter();
         }
     }
