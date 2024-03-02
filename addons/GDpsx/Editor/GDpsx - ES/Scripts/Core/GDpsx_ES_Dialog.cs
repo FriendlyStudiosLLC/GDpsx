@@ -15,10 +15,19 @@ namespace GDpsx_API.EventSystem
 
         public Dictionary dialogData = new Dictionary();
 
-        public void ConstructDataFromDictionary()
+        public void ConstructDataFromDictionary(Dictionary _dialogData, string name)
         {
-            SpeakingCharacter_Label.Text = dialogData["Character"].AsString();
-            message_Text.Text = dialogData["Message"].AsString();
+            Name = name;
+            Dictionary data_dictionary = _dialogData[name].AsGodotDictionary();
+            foreach(var data_key in data_dictionary.Keys)
+            {
+                SpeakingCharacter_Label.Text = data_dictionary["Character"].AsStringName();
+                message_Text.Text = data_dictionary["Message"].ToString();
+                GD.Print("Dialogue DataKey" +data_key);
+            }
+            //dialogData = _dialogData;
+            //SpeakingCharacter_Label.Text = _dialogData["Character"].AsString();
+            //message_Text.Text = _dialogData["Message"].AsString();
         }
 
         public void ConstructDialogDictionary()

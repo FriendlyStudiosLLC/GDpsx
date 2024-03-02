@@ -9,7 +9,7 @@ namespace GDpsx_API.EventSystem
         [Export] public LineEdit title;
         public GDpsx_ES_Graph ParentGraph;
         public Vector2 NodePosition;
-        [Export] public NodeType Type;
+        [Export] public NodeType nodeType;
         public string nodeName;
         public List<ConnectionDetails> connectionDetails = new List<ConnectionDetails>();
 
@@ -19,7 +19,7 @@ namespace GDpsx_API.EventSystem
         */
         public override void _Process(double delta)
         {
-            Title = $"{Type}_{title.Text}";
+            Title = $"{nodeType}_{title.Text}";
             Name = Title;
             if(Input.IsActionJustPressed("Dialogue_Delete")) DeleteNode(false);
         }

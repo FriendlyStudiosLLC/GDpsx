@@ -10,10 +10,74 @@ namespace GDpsx_API.EventSystem
         [Export] GDpsx_Function_Node_Box functionBox;
         [Export] public Dictionary funcData = new Dictionary();
 
-        public void ConstructDataFromDictionary()
+        public void ConstructDataFromDictionary(string name)
         {
+            Name = name;
             functionBox.FunctionMenuSelected(functionBox.MenuButtonIndexByString(funcData["Function"].AsString()));
             var parameterDictionary = funcData["Parameters"].AsGodotDictionary();
+            
+            var ParamContainer = functionBox.container;
+            var index = 0;
+            foreach(var parameter in parameterDictionary)
+            {   
+                
+               
+                var key = parameter.Key;
+                var value = parameter.Value;
+                var key_parts = key.ToString().Split('_');
+                string typeName = $"{key_parts[key_parts.Length - 2]}.{key_parts[key_parts.Length - 1]}";
+                Type type = Type.GetType(typeName);
+                
+                
+                
+                    var hbox = ParamContainer.GetChild(index, true).GetChild(1, false);
+                    switch(hbox.Name)
+                    {   
+                        case "System_Int32":
+                            var _int = hbox as SpinBox;
+                            _int.Value = (int)value;
+                            break;
+                        case "System_String":
+                            var _string = hbox as TextEdit;
+                            _string.Text = value.ToString();
+                            break;
+                        case "System_Boolean":
+                            var _bool = hbox as CheckBox;
+                            _bool.ButtonPressed = value.AsBool();
+                            break;
+                        case "System_Double":
+                            var _Double = hbox as SpinBox;
+                            _Double.Value = (double)value;
+                            break;
+                 
+                    }
+                        // if(.GetType() != typeof(Label))
+                        // {
+                        //     GD.Print(paramChild.Name);
+                        //     switch(paramChild.Name)
+                        //     {   
+                        //         case "System_Int32":
+                        //             var _int = paramChild as SpinBox;
+                        //             _int.Value = (int)value;
+                        //             break;
+                        //         case "System_String":
+                        //             var _string = paramChild as TextEdit;
+                        //             _string.Text = value.ToString();
+                        //             break;
+                        //         case "System_Boolean":
+                        //             var _bool = paramChild as CheckBox;
+                        //             _bool.ButtonPressed = value.AsBool();
+                        //             break;
+                        //         case "System_Double":
+                        //             var _Double = paramChild as SpinBox;
+                        //             _Double.Value = (double)value;
+                        //             break;
+                                
+                        //     }
+                        // }
+                    
+                 index += 1;
+            }
         }
 
         public void ConstructFunctionDictionary()

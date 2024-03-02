@@ -159,7 +159,7 @@ namespace GDpsx_API.EventSystem
                     }
                 }
                 
-                    switch(node.Type)
+                    switch(node.nodeType)
                     {
                         case NodeType.Dialog:
                             var dialogNode = node as GDpsx_ES_Dialog;
@@ -186,6 +186,7 @@ namespace GDpsx_API.EventSystem
 
         public async void Load(string path)
         {
+            GD.Print("Loading");
             EmptyGraph();
             await Task.Delay(100);
             var file = FileAccess.Open(path,FileAccess.ModeFlags.Read);
@@ -194,12 +195,14 @@ namespace GDpsx_API.EventSystem
             var json_object = new Json();
             var parsedData = json_object.Parse(fileData);
             var data = json_object.Data.AsGodotDictionary();
-
+            
             foreach (var key in data.Keys)
             {
                 var nestedDictionary = data[key].AsGodotDictionary();
                 var id = nestedDictionary["id"].AsStringName().ToString();
                 var id_parts = id.Split('_');
+                
+                AddChild(LoadNodeFactory(StringToType(id_parts[0]), nestedDictionary));
                 
 
             }
@@ -219,47 +222,49 @@ namespace GDpsx_API.EventSystem
         }
         public GDpsx_ES_Node LoadNodeFactory(NodeType type, Dictionary nestedDictionary)
         {
+            var id = nestedDictionary["id"].AsStringName().ToString();
+            var id_parts = id.Split('_');
+            GDpsx_ES_Node baseNode = null;
+            
+            Array<StringName> goto_Array = nestedDictionary["go to"].AsGodotArray<StringName>();
             switch(type)
             {
                 case NodeType.Dialog:
                     var dialogueNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
                     var dialogueNode = dialogueNodeScene.Instantiate() as GDpsx_ES_Dialog;
-                    dialogueNode.Name = nestedDictionary["id"].AsStringName();
-                    dialogueNode.Title = dialogueNode.Name;
-                    Godot.Vector2 position = new Godot.Vector2((float)nestedDictionary["Position X"], (float)nestedDictionary["Position X"]);
-                    Array<StringName> goto_Array = nestedDictionary["go to"].AsGodotArray<StringName>();
-                    
-                    foreach(var goto_Key in goto_Array)
-                    {
-                        var index = goto_Array.IndexOf(goto_Key);
-                        var goto_count = 0;
-                        ConnectNode(dialogueNode.Name, goto_count, goto_Array[goto_count], 0);
-                        goto_count += 1;
-                    }
+                    dialogueNode.title.Text = id_parts[1];
+                    dialogueNode.nodeType = NodeType.Dialog;
                     dialogueNode.dialogData = nestedDictionary["Data"].AsGodotDictionary();
-                    dialogueNode.ConstructDataFromDictionary();
-
+                    
+                    Godot.Vector2 position = new Godot.Vector2((float)nestedDictionary["Position X"], (float)nestedDictionary["Position X"]);
+                    dialogueNode.PositionOffset = position;
+                    
+                    dialogueNode.ConstructDataFromDictionary(nestedDictionary["Data"].AsGodotDictionary(), nestedDictionary["id"].AsStringName());
+                    baseNode = dialogueNode;
                     break;
                 case NodeType.Function:
                     var funcNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
                     var funcNode = funcNodeScene.Instantiate() as GDpsx_ES_Function;
-                    funcNode.Name = nestedDictionary["id"].AsStringName();
-                    funcNode.Title = funcNode.Name;
+                    funcNode.title.Text = id_parts[1];
+                    funcNode.nodeType = NodeType.Function;
                     Godot.Vector2 funcposition = new Godot.Vector2((float)nestedDictionary["Position X"], (float)nestedDictionary["Position X"]);
-                    Array<StringName> funcgoto_Array = nestedDictionary["go to"].AsGodotArray<StringName>();
+                    funcNode.PositionOffset = funcposition;
                     
-                    foreach(var func_key in funcgoto_Array)
-                    {
-                        var index = funcgoto_Array.IndexOf(func_key);
-                        var goto_count = 0;
-                        ConnectNode(funcNode.Name, goto_count, funcgoto_Array[goto_count], 0);
-                        goto_count += 1;
-                    }
+                    
                     funcNode.funcData = nestedDictionary["Data"].AsGodotDictionary();
-                    funcNode.ConstructDataFromDictionary();
+                    funcNode.ConstructDataFromDictionary(nestedDictionary["id"].AsStringName());
+                    baseNode = funcNode;
                     break;
             }
-            return null;
+            foreach(var key in goto_Array)
+            {
+                var index = goto_Array.IndexOf(key);
+                var goto_count = 0;
+                GD.Print("GOTO " + baseNode.Name +" || "+ goto_count +" || "+ goto_Array[goto_count] +" || "+ 0);
+                ConnectNode(baseNode.Name, goto_count, goto_Array[goto_count], 0);
+                goto_count += 1;
+            }
+            return baseNode;
         }
     }
 }
