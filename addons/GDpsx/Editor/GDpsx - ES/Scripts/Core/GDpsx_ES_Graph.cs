@@ -19,6 +19,8 @@ namespace GDpsx_API.EventSystem
         [Export] public FileDialog Load_FileDialog;
         public Array<GDpsx_ES_Node> Nodes = new Array<GDpsx_ES_Node>();
         public Array<GDpsx_ES_Node> SelectedNodes = new Array<GDpsx_ES_Node>();
+        
+        private System.Collections.Generic.Dictionary<string, GDpsx_ES_Node> tempNodeMap = new System.Collections.Generic.Dictionary<string, GDpsx_ES_Node>();
 
         public Dictionary data;
 
@@ -184,30 +186,73 @@ namespace GDpsx_API.EventSystem
         
 
 
+
         public async void Load(string path)
         {
             GD.Print("Loading");
             EmptyGraph();
             await Task.Delay(100);
-            var file = FileAccess.Open(path,FileAccess.ModeFlags.Read);
+            var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
             var fileData = file.GetAsText(true);
             file.Close();
             var json_object = new Json();
             var parsedData = json_object.Parse(fileData);
             var data = json_object.Data.AsGodotDictionary();
             
+            // Clear previous load
+            Nodes.Clear();
+            tempNodeMap.Clear();
+
             foreach (var key in data.Keys)
             {
                 var nestedDictionary = data[key].AsGodotDictionary();
-                var id = nestedDictionary["id"].AsStringName().ToString();
-                var id_parts = id.Split('_');
-                
-                AddChild(LoadNodeFactory(StringToType(id_parts[0]), nestedDictionary));
-                
+                var node = LoadNodeFactory(StringToType(nestedDictionary["id"].AsStringName().ToString()), nestedDictionary);
 
+                // Add node to the Nodes array
+                Nodes.Add(node);
+
+                // Use the node ID as the key for tempNodeMap
+                var nodeId = nestedDictionary["id"].AsStringName().ToString();
+                tempNodeMap[nodeId] = node;
+
+                AddChild(node);
+            }
+
+            // After all nodes are instantiated, establish connections
+            EstablishConnections(data);
+        }
+
+        public void EstablishConnections(Dictionary data)
+        {
+            foreach (var key in data.Keys)
+            {
+                var nestedDictionary = data[key].AsGodotDictionary();
+                if (nestedDictionary.ContainsKey("go to"))
+                {
+                    var nodeName = nestedDictionary["id"].AsStringName().ToString();
+                    var gotoArray = nestedDictionary["go to"].AsGodotArray<StringName>();
+                    ConnectNodes(nodeName, gotoArray);
+                }
             }
         }
 
+        public void ConnectNodes(string nodeName, Array<StringName> gotoArray)
+        {
+            if (!tempNodeMap.ContainsKey(nodeName)) return;
+
+            var baseNode = tempNodeMap[nodeName];
+            foreach (var gotoKey in gotoArray)
+            {
+                var targetNodeName = gotoKey.ToString();
+                if (tempNodeMap.ContainsKey(targetNodeName))
+                {
+                    var targetNode = tempNodeMap[targetNodeName];
+                    ConnectNode(baseNode.Name, 0, targetNode.Name, 0);
+                    // Connect `baseNode` to `targetNode` here
+                    // Example: ConnectNode(baseNode, targetNode);
+                }
+            }
+        }
 
         public NodeType StringToType(string input)
         {
@@ -225,8 +270,7 @@ namespace GDpsx_API.EventSystem
             var id = nestedDictionary["id"].AsStringName().ToString();
             var id_parts = id.Split('_');
             GDpsx_ES_Node baseNode = null;
-            
-            Array<StringName> goto_Array = nestedDictionary["go to"].AsGodotArray<StringName>();
+            GD.Print(id);
             switch(type)
             {
                 case NodeType.Dialog:
@@ -255,14 +299,6 @@ namespace GDpsx_API.EventSystem
                     funcNode.ConstructDataFromDictionary(nestedDictionary["id"].AsStringName());
                     baseNode = funcNode;
                     break;
-            }
-            foreach(var key in goto_Array)
-            {
-                var index = goto_Array.IndexOf(key);
-                var goto_count = 0;
-                GD.Print("GOTO " + baseNode.Name +" || "+ goto_count +" || "+ goto_Array[goto_count] +" || "+ 0);
-                ConnectNode(baseNode.Name, goto_count, goto_Array[goto_count], 0);
-                goto_count += 1;
             }
             return baseNode;
         }
