@@ -13,6 +13,8 @@ namespace GDpsx_API.EventSystem
         [Export] public PackedScene responseScene;
         [Export] public Array<GDpsx_ES_DialogueResponse> responses = new Array<GDpsx_ES_DialogueResponse>();
 
+        public GDpsx_ES_R_Dialogue resource;
+
         public Dictionary dialogData = new Dictionary();
 
         public override void _Ready()
@@ -33,6 +35,14 @@ namespace GDpsx_API.EventSystem
             //SpeakingCharacter_Label.Text = _dialogData["Character"].AsString();
             //message_Text.Text = _dialogData["Message"].AsString();
         }
+        
+        public void ConstructDialogResource()
+        {
+            var ResourceData = new GDpsx_ES_R_Dialogue(SpeakingCharacter_Label.Text.ToString(), message_Text.Text.ToString());
+            GD.Print(message_Text.Text);
+            resource = ResourceData;
+        }
+
 
         public void ConstructDialogDictionary()
         {

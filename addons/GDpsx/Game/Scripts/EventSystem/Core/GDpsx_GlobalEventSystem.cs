@@ -3,11 +3,16 @@ using System;
 
 public partial class GDpsx_GlobalEventSystem : Node
 {
-    public string EventPath;
-
+    [Export] public GDpsx_ES_R_Data data;
 
     public void SetEventPath(string path)
     {
-        EventPath = path;
+        var dataTest = ResourceLoader.Load("res://Test_data.tres", "res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs", ResourceLoader.CacheMode.Ignore);
+        var _data = dataTest as GDpsx_ES_R_Data;
+        data = _data;
     }
+
+
+    
+    
 }

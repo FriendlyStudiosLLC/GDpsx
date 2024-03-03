@@ -192,6 +192,62 @@ namespace GDpsx_API.EventSystem
             file.Close();
         }
 
+        public async void CollectNodeData(string path)
+        {
+            Array<GDpsx_ES_R_Node> nodeData = new Array<GDpsx_ES_R_Node>();
+            ReorderNodesByLowestX();
+            await Task.Delay(100);
+            foreach (var node in Nodes)
+            {
+                
+                var nodeName = node.Title;
+                var nodeType = node.nodeType;
+                var nodePosition = node.PositionOffset;
+                Godot.Collections.Array GotoNodes = new Godot.Collections.Array();
+                Godot.Collections.Array FromPorts = new Godot.Collections.Array();
+                foreach(Dictionary connection in GetConnectionList())
+                {
+                    if(connection["from_node"].AsStringName() == node.Name)
+                    {
+                        GotoNodes.Add(connection["to_node"].AsStringName());
+                        FromPorts.Add(connection["from_port"].AsInt32());
+                    }
+                }
+                switch(node.nodeType)
+                    {
+                        case NodeType.Dialog:
+                            GD.Print(node.Name);
+                            var dialogNode = node as GDpsx_ES_Dialog;
+                            dialogNode.ConstructDialogResource();
+                            var dialogResourceData = dialogNode.resource;
+                            dialogResourceData.NodeName = nodeName;
+                            dialogResourceData.graphPosition = nodePosition;
+                            dialogResourceData.nodeType = nodeType;
+                            dialogResourceData.GotoNodes = GotoNodes;
+                            dialogResourceData.FromPorts = FromPorts;
+                            nodeData.Add(dialogResourceData);
+                            break;
+                            
+                        case NodeType.Conditional:
+                            break;
+
+                        case NodeType.Function:
+                            var functionNode = node as GDpsx_ES_Function;
+                            functionNode.ConstructFunctionData();
+                            var funcResourceData = functionNode.resource;
+                            funcResourceData.NodeName = nodeName;
+                            funcResourceData.graphPosition = nodePosition;
+                            funcResourceData.nodeType = nodeType;
+                            funcResourceData.GotoNodes = GotoNodes;
+                            funcResourceData.FromPorts = FromPorts;
+                            nodeData.Add(funcResourceData);
+                            break;
+                    }
+            }
+            var graphData = new GDpsx_ES_R_Data(nodeData);
+            ResourceSaver.Save(graphData, path+".tres", ResourceSaver.SaverFlags.None);
+        }
+
         public async void ConsolidateData(string path)
         {
             ReorderNodesByLowestX();
@@ -239,7 +295,84 @@ namespace GDpsx_API.EventSystem
                 }
         }
     
+        public async void LoadResource(string path)
+        {
+            GD.Print("Loading");
+            EmptyGraph();
+            await Task.Delay(100);
+            var dataTest = ResourceLoader.Load("res://Test_data.tres", "res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs", ResourceLoader.CacheMode.Ignore);
+            var data = dataTest as GDpsx_ES_R_Data;
+            GD.Print(data.GetType().ToString());
+            if (data == null || data.nodes == null)
+            {
+                GD.PrintErr("Failed to load resource or nodes are null: " + path);
+                return;
+            }
+
+            var baseNode = new GDpsx_ES_Node();
+            GD.Print(data.nodes.Count);
+            var _nodes = data.nodes;
+            foreach(var node in data.nodes)
+            {
+                
+                string name = node.NodeName;
+                string[] actualName = name.Split('_');
+                switch (node.nodeType)
+                {
+                    case NodeType.Dialog:
+                        var dialog_node = node as GDpsx_ES_R_Dialogue;
+                        var dialogueNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
+                        var dialogueNode = dialogueNodeScene.Instantiate() as GDpsx_ES_Dialog;
+                        dialogueNode.title.Text = actualName[1];
+                        dialogueNode.Title = actualName[1];
+                        dialogueNode.Name = actualName[1];
+                        dialogueNode.nodeType = NodeType.Dialog;
+                        dialogueNode.SpeakingCharacter_Label.Text = dialog_node.character;
+                        dialogueNode.message_Text.Text = dialog_node.message;
+                        dialogueNode.PositionOffset = node.graphPosition;
+                        baseNode = dialogueNode;
+                        Nodes.Add(baseNode);
+                        AddChild(dialogueNode);
+                        break;
+                    case NodeType.Function:
+                        var function_node = node as GDpsx_ES_R_Function;
+                        var funcNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
+                        var funcNode = funcNodeScene.Instantiate() as GDpsx_ES_Function;
+                        funcNode.title.Text = actualName[1];
+                        funcNode.Title = actualName[1];
+                        funcNode.Name = actualName[1];
+                        funcNode.ConstructDataFromResource(function_node);
+                        funcNode.PositionOffset = node.graphPosition;
+                        baseNode = funcNode;
+                        Nodes.Add(baseNode);
+                        AddChild(funcNode);
+                        break;
+
+                    
+                }
+                
+                
+            }
+            
+            MakeConnectionsFromResource(data);
+        }
         
+
+        public async void MakeConnectionsFromResource(GDpsx_ES_R_Data data)
+        {
+            
+            await Task.Delay(50);
+            foreach(var node in data.nodes)
+            {
+                foreach(var connection in node.GotoNodes)
+                {
+                    var index = node.GotoNodes.IndexOf(connection);
+                    GD.Print($"{node.NodeName} {node.FromPorts[index].AsInt32()} {connection.AsString()} === {0}");
+                    this.ConnectNode(node.NodeName, node.FromPorts[index].AsInt32(), connection.AsString(), 0);
+                }
+            }
+            
+        }
 
 
 

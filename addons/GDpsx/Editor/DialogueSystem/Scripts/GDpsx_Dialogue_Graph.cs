@@ -195,7 +195,7 @@ public void AddNode()
 
             switch (node.nodeType)
             {
-                case NodeType.Dialogue:
+                case NodeType.Dialog:
                     
                     var dialogueNode = node as GDpsx_DialogueNode;
                     dialog_template["responses"] = new Godot.Collections.Array<String>();

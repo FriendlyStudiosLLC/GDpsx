@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="GDpsx_ES_R_Data" load_steps=8 format=3 uid="uid://bbmf4jalhwoeo"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Dialogue.cs" id="1_nd2lg"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Function.cs" id="2_6vfbt"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs" id="3_e0l7c"]
+
+[sub_resource type="Resource" id="Resource_n6ob1"]
+script = ExtResource("1_nd2lg")
+character = "Dude"
+message = "Do you want some gum?"
+NodeName = ""
+nodeType = 0
+graphPosition = Vector2(0, 0)
+GotoNodes = []
+FromPorts = []
+
+[sub_resource type="Resource" id="Resource_7v22i"]
+script = ExtResource("2_6vfbt")
+methodName = "GivePlayerItem"
+parameterList = ["Gum", 1]
+NodeName = ""
+nodeType = 0
+graphPosition = Vector2(0, 0)
+GotoNodes = []
+FromPorts = []
+
+[sub_resource type="Resource" id="Resource_wa6ue"]
+script = ExtResource("1_nd2lg")
+character = "Dude"
+message = "Well go fuck yourself!"
+NodeName = ""
+nodeType = 0
+graphPosition = Vector2(0, 0)
+GotoNodes = []
+FromPorts = []
+
+[sub_resource type="Resource" id="Resource_f5pqe"]
+script = ExtResource("1_nd2lg")
+character = "Dude"
+message = "Stank ass breath!"
+NodeName = ""
+nodeType = 0
+graphPosition = Vector2(0, 0)
+GotoNodes = []
+FromPorts = []
+
+[resource]
+script = ExtResource("3_e0l7c")
+nodes = [SubResource("Resource_n6ob1"), SubResource("Resource_7v22i"), SubResource("Resource_wa6ue"), SubResource("Resource_f5pqe")]

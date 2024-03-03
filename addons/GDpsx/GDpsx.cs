@@ -41,6 +41,11 @@ public partial class GDpsx : EditorPlugin
 			GD.Load<Script>("res://addons/GDpsx/Game/Scripts/Inventory/GDpsx_Inventory.cs"),
 			GD.Load<Texture2D>("res://addons/GDpsx/Editor/Icons/InventoryComponent.png")
 		);
+
+		AddCustomType("GDpsx | Event Graph", "Resource",
+			GD.Load<Script>("res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs"),
+			GD.Load<Texture2D>("res://addons/GDpsx/Editor/Icons/InventoryComponent.png")
+		);
 	}
 
 	public override void _ExitTree()

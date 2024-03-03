@@ -92,5 +92,5 @@ file_mode = 0
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Empty_Button2" to="VBoxContainer/Graph" method="CheckNodeOrder"]
 [connection signal="connection_request" from="VBoxContainer/Graph" to="VBoxContainer/Graph" method="ConnectionRequest"]
 [connection signal="disconnection_request" from="VBoxContainer/Graph" to="VBoxContainer/Graph" method="DisconnectRequest"]
-[connection signal="file_selected" from="Save_FileDialog" to="VBoxContainer/Graph" method="ConsolidateData"]
-[connection signal="file_selected" from="Load_FileDialog" to="VBoxContainer/Graph" method="Load"]
+[connection signal="file_selected" from="Save_FileDialog" to="VBoxContainer/Graph" method="CollectNodeData"]
+[connection signal="file_selected" from="Load_FileDialog" to="VBoxContainer/Graph" method="LoadResource"]
