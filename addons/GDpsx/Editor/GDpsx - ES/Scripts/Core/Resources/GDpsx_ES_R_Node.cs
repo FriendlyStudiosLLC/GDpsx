@@ -17,4 +17,7 @@ public partial class GDpsx_ES_R_Node : Resource
     {
     }
 
+    public virtual async void EnterNode(){}
+    public virtual async void ExitNode(){}
+
 }
