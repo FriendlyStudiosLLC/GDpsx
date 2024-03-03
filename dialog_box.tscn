@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbkghuqqas03r"]
+
+[ext_resource type="Theme" uid="uid://dy7tlgoqptx6d" path="res://addons/GDpsx/Game/Objects/Themes/GDpsx_Theme_2.tres" id="1_dekon"]
+
+[node name="DialogBox" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -328.0
+offset_top = -307.0
+offset_right = 329.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(110.16, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_dekon")
+text = "Dude"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(657.241, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_dekon")
+text = "SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS SSSSSSSSSSSSSS "
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20.595)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Test"

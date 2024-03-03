@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cg834m4ho5cq0"]
+[gd_scene load_steps=29 format=3 uid="uid://cg834m4ho5cq0"]
 
 [ext_resource type="PackedScene" uid="uid://ba8ji2cnlbkvt" path="res://addons/GDpsx/Game/Objects/FPS_Hero.tscn" id="1_7cnwb"]
 [ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/GDpsx_GameObject.cs" id="2_xvxm2"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dmhhgcnxy4a2o" path="res://addons/GDpsx/Game/Objects/Enemy_Base.tscn" id="11_kiy0j"]
 [ext_resource type="PackedScene" uid="uid://b6ui2aki5yg2n" path="res://addons/GDpsx/Game/Objects/GDpsx_DoorObject.tscn" id="12_jxso2"]
 [ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Core/GDpsx_GlobalEventSystem.cs" id="13_2v7iu"]
+[ext_resource type="Resource" uid="uid://dioiggtaq6ndh" path="res://Test_data.tres" id="14_pbi5r"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_yoej8"]
 vertices = PackedVector3Array(-8.68075, 0.517979, -11.6976, -6.68075, 0.517979, -11.9476, -6.93075, 0.517979, -13.1976, -22.4307, 0.517979, -13.1976, 12.3193, 0.517979, -5.94763, 7.31925, 0.517979, -5.94763, 7.31925, 0.517979, -3.69763, 12.3193, 0.517979, 19.0524, 6.06925, 0.517979, -3.44763, 5.81925, 0.517979, -6.44763, -1.93075, 0.517979, -6.69763, 12.3193, 0.517979, 19.0524, 7.31925, 0.517979, -3.69763, 6.06925, 0.517979, -3.44763, -8.68075, 0.517979, -6.94763, -8.68075, 0.517979, -11.6976, -22.4307, 0.517979, -13.1976, -22.4307, 0.517979, 19.0524, 6.06925, 0.517979, -3.44763, -1.93075, 0.517979, -6.69763, -8.68075, 0.517979, -6.94763, -22.4307, 0.517979, 19.0524, 12.3193, 0.517979, 19.0524, 5.81925, 0.517979, -8.44763, 6.56925, 0.517979, -8.69763, 6.56925, 0.517979, -13.1976, -1.43075, 0.517979, -11.6976, -1.43075, 0.517979, -6.94763, -6.93075, 0.517979, -13.1976, -6.68075, 0.517979, -11.9476, -1.43075, 0.517979, -11.6976, 6.56925, 0.517979, -13.1976, -1.43075, 0.517979, -6.94763, -1.93075, 0.517979, -6.69763, 5.81925, 0.517979, -6.44763, 5.81925, 0.517979, -8.44763, 6.56925, 0.517979, -13.1976, 6.56925, 0.517979, -8.69763, 7.31925, 0.517979, -8.44763, 7.31925, 0.517979, -8.44763, 7.31925, 0.517979, -5.94763, 12.3193, 0.517979, -5.94763, 7.31925, 0.517979, -8.44763, 12.3193, 0.517979, -5.94763, 12.3193, 0.517979, -13.1976, 6.56925, 0.517979, -13.1976, -7.68075, 2.26798, -10.9476, -7.68075, 2.26798, -7.69763, -2.43075, 2.26798, -7.69763, -2.43075, 2.26798, -10.9476)
@@ -199,3 +200,4 @@ OpenPosition = Vector3(0, 3.93, 0)
 
 [node name="Node3D" type="Node3D" parent="."]
 script = ExtResource("13_2v7iu")
+test = ExtResource("14_pbi5r")
