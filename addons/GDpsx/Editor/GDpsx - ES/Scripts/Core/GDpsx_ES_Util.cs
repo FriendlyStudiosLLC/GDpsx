@@ -9,7 +9,10 @@ namespace GDpsx_API.EventSystem
         None,
         Dialog,
         Conditional,
-        Function
+        Function,
+        Start,
+        End,
+        Wait
     }
 
     public class ESFunctionDetails

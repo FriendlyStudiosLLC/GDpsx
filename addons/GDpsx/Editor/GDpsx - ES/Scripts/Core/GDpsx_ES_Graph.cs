@@ -89,14 +89,26 @@ namespace GDpsx_API.EventSystem
             switch(index)
             {
                 case 0:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Start_Node.tscn");
                     break;
                 case 1:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Condition_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
                     break;
                 case 2:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Condition_Node.tscn");
+                    break;
+                case 3:
                     NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
                     break;
+                case 4:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_End_Node.tscn");
+                    break;
+                case 5:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Wait_Node.tscn");
+                    break;
+                case 6:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Graph_Node.tscn");
+                    break;    
             }
             var Node = NodeScene.Instantiate() as GDpsx_ES_Node;
             Node.PositionOffset = pos;
@@ -179,9 +191,13 @@ namespace GDpsx_API.EventSystem
         }
         private void CreateNodeTypes() //Populates Menu Button with necessary options
         {
+            AddNode_MenuButton.GetPopup().AddItem("Start Node");
             AddNode_MenuButton.GetPopup().AddItem("Dialogue Node");
             AddNode_MenuButton.GetPopup().AddItem("Conditional Node");
             AddNode_MenuButton.GetPopup().AddItem("Function Node");
+            AddNode_MenuButton.GetPopup().AddItem("End Node");
+            AddNode_MenuButton.GetPopup().AddItem("Wait Node");
+            AddNode_MenuButton.GetPopup().AddItem("Graph Node");
         }
 
         public async void Save(string path)

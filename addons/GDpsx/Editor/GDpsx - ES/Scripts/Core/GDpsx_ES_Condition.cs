@@ -8,8 +8,6 @@ public partial class GDpsx_ES_Condition : GDpsx_ES_Node
     
     [Export] public MenuButton functionMenu;
     [Export] public VBoxContainer container;
-    [Export] public string SuccessMessage;
-    [Export] public string FailedMessage;
     public string functionName;
 
     public override void _Ready()

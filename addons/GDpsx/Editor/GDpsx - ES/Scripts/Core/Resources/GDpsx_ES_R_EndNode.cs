@@ -8,6 +8,6 @@ using System.Reflection;
 [GlobalClass]
 public partial class GDpsx_ES_R_EndNode : Resource
 {
-   
+   [Export] public GDpsx_ES_R_Data GotoGraph;
 
 }

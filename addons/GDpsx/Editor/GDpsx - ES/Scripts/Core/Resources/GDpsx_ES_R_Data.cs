@@ -19,4 +19,6 @@ public partial class GDpsx_ES_R_Data : Resource
         nodes = Nodes;
     }
 
+    
+
 }
