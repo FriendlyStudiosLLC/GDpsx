@@ -92,7 +92,7 @@ namespace GDpsx_API.EventSystem
                     NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
                     break;
                 case 1:
-                    GD.PrintErr("Not Yet Implemented");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Condition_Node.tscn");
                     break;
                 case 2:
                     NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");

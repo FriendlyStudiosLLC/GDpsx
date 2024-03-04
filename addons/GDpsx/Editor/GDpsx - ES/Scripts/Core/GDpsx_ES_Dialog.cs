@@ -11,7 +11,6 @@ namespace GDpsx_API.EventSystem
         [Export] public LineEdit SpeakingCharacter_Label;
         [Export] public TextEdit message_Text;
         [Export] public PackedScene responseScene;
-        [Export] public Array<GDpsx_ES_DialogueResponse> responses = new Array<GDpsx_ES_DialogueResponse>();
 
         public GDpsx_ES_R_Dialogue resource;
 
@@ -52,71 +51,13 @@ namespace GDpsx_API.EventSystem
             dialogData_Template["Character"] = SpeakingCharacter_Label.Text;
             dialogData_Template["Message"] = message_Text.Text;
             dialogData_Template["Responses"] = new Godot.Collections.Array<string>();
-            if(responses.Count != 0)
-            {
-                foreach(var response in responses)
-                {
-                    ((Godot.Collections.Array)dialogData_Template["Responses"]).Add(response.responseText.Text);
-                }
-            }
+           
             dialogData[Name] = dialogData_Template;
         }
 
         public override void DeleteNode(bool bypassSelected)
         {
             base.DeleteNode(bypassSelected);
-        }
-
-        public void AddResponse(string name = "null")
-        {
-            var newResponse = responseScene.Instantiate() as GDpsx_ES_DialogueResponse;
-            SetSlotEnabledRight(0, false);
-            newResponse.parentNode = this;
-            responses.Add(newResponse);
-            var index = responses.IndexOf(newResponse);
-            newResponse.index = index;
-            newResponse.slotIndex = index+1;
-            SetSlotEnabledRight((index+1), true);
-            
-            AddChild(newResponse);
-        }
-
-        public void RemoveResponse(int index = -1)
-        {
-            
-            if(responses.Count == 0) return;
-            if(index != -1)
-            {
-                if(responses.Count == 1) 
-                {
-                    responses[0].QueueFree();
-                    responses.RemoveAt(0);
-                }
-                else
-                {
-                    responses[index].QueueFree();
-                    responses.RemoveAt(index);
-                }
-            }
-            else
-            {
-                var responseAtIndex = responses[responses.Count-1];
-                var slotIndex = responseAtIndex.slotIndex;
-                responseAtIndex.QueueFree();
-                responses.RemoveAt(responses.Count-1);
-            }
-
-            List<ConnectionDetails> connectionDetails = ParentGraph.GetConnectedNodesDetails(Name);
-            foreach(var connection in connectionDetails)
-            {
-                ParentGraph.DisconnectNode(connection.From, connection.FromPort, connection.To, connection.ToSlot);
-                ParentGraph.DisconnectNode(connection.To, connection.ToSlot, connection.From, connection.FromPort);
-            }
-
-            if(responses.Count == 0)
-            {
-                SetSlotEnabledRight(0, true);
-            }
         }
 
 
