@@ -3,6 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 namespace GDpsx_API.EventSystem
 {
     public partial class GDpsx_ES_Function : GDpsx_ES_Node
@@ -13,14 +14,17 @@ namespace GDpsx_API.EventSystem
         [Export] Array<Variant> parameterArray;
         public override void _Ready()
         {
-            nodeType = NodeType.Function;
         }
 
-        public void ConstructDataFromResource(GDpsx_ES_R_Function node)
+        public async void ConstructDataFromResource(GDpsx_ES_R_Function node)
         {
             
             var ParamContainer = functionBox.container;
-            functionBox.FunctionMenuSelected(functionBox.MenuButtonIndexByString(node.methodName));
+
+            var _index = functionBox.MenuButtonIndexByString(node.methodName);
+            
+            functionBox.FunctionMenuSelected(_index);
+            await Task.Delay(250);
             foreach(var parameter in node.parameterList)
             {
                 var hbox = ParamContainer.GetChild(index, true).GetChild(1, false);

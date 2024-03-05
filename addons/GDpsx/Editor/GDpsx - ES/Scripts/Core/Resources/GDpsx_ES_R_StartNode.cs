@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 
 [GlobalClass]
-public partial class GDpsx_ES_R_StartNode : Resource
+public partial class GDpsx_ES_R_StartNode : GDpsx_ES_R_Node
 {
    
 }

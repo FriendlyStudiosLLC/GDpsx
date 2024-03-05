@@ -45,5 +45,6 @@ GotoNodes = []
 FromPorts = []
 
 [resource]
+resource_name = "Test Data"
 script = ExtResource("3_yjl2r")
 nodes = [SubResource("Resource_8ds4f"), SubResource("Resource_o3oee"), SubResource("Resource_la1ns"), SubResource("Resource_m7b1c")]

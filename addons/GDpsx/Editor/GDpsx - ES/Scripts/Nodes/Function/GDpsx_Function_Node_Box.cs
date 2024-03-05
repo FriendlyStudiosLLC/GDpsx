@@ -14,6 +14,12 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
     public string functionName;
     public override void _Ready()
     {
+        Init();
+        
+    }
+
+    public void Init()
+    {
         ClearFunctionMenu();
         functionMenu.GetPopup().IndexPressed += FunctionMenuSelected;
         Type type = typeof(GDpsx_ES_FunctionNodeLibrary);
@@ -22,7 +28,6 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
         {
            functionMenu.GetPopup().AddItem(method.Name);
         }
-        
     }
 
     public void ClearFunctionMenu()
@@ -65,7 +70,15 @@ public partial class GDpsx_Function_Node_Box : HBoxContainer
     {
         Type type = typeof(GDpsx_ES_FunctionNodeLibrary);
         MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        return methodInfos[methodIndex];
+        
+        if (methodIndex >= 0 && methodIndex < methodInfos.Length) // Check if index is within bounds
+        {
+            return methodInfos[methodIndex];
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException(nameof(methodIndex), "The method index is out of range.");
+        }
     }
 
 

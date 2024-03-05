@@ -12,7 +12,8 @@ namespace GDpsx_API.EventSystem
         Function,
         Start,
         End,
-        Wait
+        Wait,
+        GraphData
     }
 
     public class ESFunctionDetails

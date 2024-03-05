@@ -1,7 +1,9 @@
 using GDpsx_API.EventSystem;
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 public partial class GDpsx_ES_Condition : GDpsx_ES_Node
 {
@@ -9,10 +11,22 @@ public partial class GDpsx_ES_Condition : GDpsx_ES_Node
     [Export] public MenuButton functionMenu;
     [Export] public VBoxContainer container;
     public string functionName;
+    public GDpsx_ES_R_Conditional resource;
 
     public override void _Ready()
     {
         
+        functionMenu.GetPopup().IndexPressed += FunctionMenuSelected;
+        Type type = typeof(GDpsx_ES_ConditionalNodeLibrary);
+        MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        foreach (var method in methodInfos)
+        {
+           functionMenu.GetPopup().AddItem(method.Name);
+        }
+    }
+
+    public void Init()
+    {
         functionMenu.GetPopup().IndexPressed += FunctionMenuSelected;
         Type type = typeof(GDpsx_ES_ConditionalNodeLibrary);
         MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -60,7 +74,15 @@ public partial class GDpsx_ES_Condition : GDpsx_ES_Node
         {
             Type type = typeof(GDpsx_ES_ConditionalNodeLibrary);
             MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            return methodInfos[methodIndex];
+            
+            if (methodIndex >= 0 && methodIndex < methodInfos.Length) // Check if index is within bounds
+            {
+                return methodInfos[methodIndex];
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(methodIndex), "The method index is out of range.");
+            }
         }
 
         private void ClearContainer()
@@ -90,6 +112,113 @@ public partial class GDpsx_ES_Condition : GDpsx_ES_Node
                 }
         }
 
+        public void ConstructConditionalData()
+        {
+            var parameterList = new List<Variant>(); 
+            var ParamContainer = container;
+            var index = 0;
+            foreach (var child in ParamContainer.GetChildren())
+            {
+                index += 1;
+                foreach (var paramChild in child.GetChildren())
+                {
+                    if (paramChild.GetType() != typeof(Label))
+                    {
+                        Variant value = new Variant();
+                        switch (paramChild.Name)
+                        {
+                            case "System_Int32":
+                                var _int = paramChild as SpinBox;
+                                value = (int)_int.Value;
+                                parameterList.Add(value);
+                                break;
+                            case "System_String":
+                                var _string = paramChild as TextEdit;
+                                value = _string.Text;
+                                parameterList.Add(_string.Text); 
+                                break;
+                            case "System_Boolean":
+                                var _bool = paramChild as CheckBox;
+                                value = _bool.ButtonPressed;
+                                parameterList.Add(value); 
+                                break;
+                            case "System_Double":
+                                var _Double = paramChild as SpinBox;
+                                value = _Double.Value;
+                                parameterList.Add(value); 
+                                break;
+                        }
+                    }
+                }
+            }
+
+            Godot.Collections.Array<Variant> godotParameterArray = new Godot.Collections.Array<Variant>();
+            foreach (var item in parameterList)
+            {
+                godotParameterArray.Add(item);
+            }
+            var resourceData = new GDpsx_ES_R_Conditional(functionName, godotParameterArray);
+            resource = resourceData;
+        }
+
+        public void ConstructDataFromResource(GDpsx_ES_R_Conditional node)
+        {
+            
+            var ParamContainer = container;
+            var index = MenuButtonIndexByString(node.methodName);
+            FunctionMenuSelected(index);
+            
+            foreach(var parameter in node.parameterList)
+            {
+                var hbox = ParamContainer.GetChild(index, true).GetChild(1, false);
+                    switch(hbox.Name)
+                    {   
+                        case "System_Int32":
+                            var _int = hbox as SpinBox;
+                            _int.Value = (int)parameter;
+                            break;
+                        case "System_String":
+                            var _string = hbox as TextEdit;
+                            _string.Text = parameter.ToString();
+                            break;
+                        case "System_Boolean":
+                            var _bool = hbox as CheckBox;
+                            _bool.ButtonPressed = parameter.AsBool();
+                            break;
+                        case "System_Double":
+                            var _Double = hbox as SpinBox;
+                            _Double.Value = (double)parameter;
+                            break;
+                 
+                    }
+                        // if(.GetType() != typeof(Label))
+                        // {
+                        //     GD.Print(paramChild.Name);
+                        //     switch(paramChild.Name)
+                        //     {   
+                        //         case "System_Int32":
+                        //             var _int = paramChild as SpinBox;
+                        //             _int.Value = (int)value;
+                        //             break;
+                        //         case "System_String":
+                        //             var _string = paramChild as TextEdit;
+                        //             _string.Text = value.ToString();
+                        //             break;
+                        //         case "System_Boolean":
+                        //             var _bool = paramChild as CheckBox;
+                        //             _bool.ButtonPressed = value.AsBool();
+                        //             break;
+                        //         case "System_Double":
+                        //             var _Double = paramChild as SpinBox;
+                        //             _Double.Value = (double)value;
+                        //             break;
+                                
+                        //     }
+                        // }
+                    
+                 index += 1;
+            }
+        }
         private HBoxContainer ParameterFactory(string ParameterName, Type type)
         {
             HBoxContainer hBox = new HBoxContainer();

@@ -1,31 +1,22 @@
-/*
-Shader from Godot Shaders - the free shader library.
-godotshaders.com/shader/VHS-and-CRT-monitor-effect
-
-This shader is under CC0 license. Feel free to use, improve and 
-change this shader according to your needs and consider sharing 
-the modified result to godotshaders.com.
-*/
 
 shader_type canvas_item;
 
-//*** IMPORTANT! ***/ 
-// - If you are using this shader to affect the node it is applied to set 'overlay' to false (unchecked in the instepctor).
-// - If you are using this shader as an overlay, and want the shader to affect the nodes below in the Scene hierarchy,
-//   set 'overlay' to true (checked in the inspector).
-// On Mac there is potentially a bug causing this to not work properly. If that is the case and you want to use the shader as an overlay
-// change all "overlay ? SCREEN_TEXTURE : TEXTURE" to only "SCREEN_TEXTURE" on lines 129-140, and "vec2 uv = overlay ? warp(SCREEN_UV) : warp(UV);"
-// to "vec2 uv = warp(SCREEN_UV);" on line 98.
 uniform bool overlay = false;
 
 uniform float scanlines_opacity : hint_range(0.0, 1.0) = 0.4;
 uniform float scanlines_width : hint_range(0.0, 0.5) = 0.25;
 uniform float grille_opacity : hint_range(0.0, 1.0) = 0.3;
 
+uniform int colors : hint_range(1, 1028) = 12;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_nearest;
 uniform vec2 resolution = vec2(640.0, 480.0); // Set the number of rows and columns the texture will be divided in. Scanlines and grille will make a square based on these values
 
 uniform bool pixelate = true; // Fill each square ("pixel") with a sampled color, creating a pixel look and a more accurate representation of how a CRT monitor would work.
+
+uniform bool dither = true;
+uniform float dither_colors : hint_range(1.0, 16000.0);
+uniform float dither_amount : hint_range(0.0, 5000);
+uniform float dither_resolution = 16;
 
 uniform bool roll = true;
 uniform float roll_speed = 8.0; // Positive values are down, negative are up
@@ -95,6 +86,51 @@ float vignette(vec2 uv){
 	return pow(vignette, vignette_intensity * vignette_opacity);
 }
 
+
+float reduce_color(float raw, float _dither, int depth) {
+	float div = 1.0 / float(depth);
+	float val = 0.0;
+	int i = 0;
+
+	while (i <= 1028)
+	{
+		if (raw > div * (float(i + 1))) {
+			i = i + 1;
+			continue;
+		}
+
+		if (raw * float(depth) - float(i) <= _dither * 0.999)
+		{
+			val = div * float(i);
+		} 
+		else
+		{
+			val = div * float(i + 1);
+		}
+		return val;
+
+		i = i+1;
+	}
+
+	return val;
+}
+
+float dithering_pattern(ivec2 fragcoord) {
+	const float pattern[] = {
+		0.00, 0.50, 0.10, 0.65, 
+		0.75, 0.25, 0.90, 0.35, 
+		0.20, 0.70, 0.05, 0.50, 
+		0.95, 0.40, 0.80, 0.30
+	};
+	
+	int x = fragcoord.x % 4;
+	int y = fragcoord.y % 4;
+	
+	return pattern[y * 4 + x];
+}
+
+
+
 void fragment()
 {
 	vec2 uv = overlay ? warp(SCREEN_UV) : warp(UV); // Warp the uv. uv will be used in most cases instead of UV to keep the warping
@@ -102,7 +138,7 @@ void fragment()
 	vec2 roll_uv = vec2(0.0);
 	float time = roll ? TIME : 0.0;
 	
-
+	
 	// Pixelate the texture based on the given resolution.
 	if (pixelate)
 	{
@@ -123,6 +159,7 @@ void fragment()
 	}
 	
 	vec4 text;
+	
 	if (roll)
 	{
 		// If roll is true distort the texture with roll_uv. The texture is split up into RGB to 
@@ -179,7 +216,16 @@ void fragment()
 		scanlines = smoothstep(scanlines_width, scanlines_width + 0.5, abs(sin(uv.y * (resolution.y * 3.14159265))));
 		text.rgb = mix(text.rgb, text.rgb * vec3(scanlines), scanlines_opacity);
 	}
-	
+	ivec2 iuv = ivec2(FRAGCOORD.xy / float(dither_resolution));
+	float dithering_value = 1.0;
+	vec4 raw = texture(TEXTURE, SCREEN_UV);
+	if(dither)
+	{
+		dithering_value = dithering_pattern(iuv);
+		text.r = reduce_color(text.r, (dithering_value - 0.5) * dithering_value + 0.5, colors - 1);
+		text.g = reduce_color(text.g, (dithering_value - 0.5) * dithering_value + 0.5, colors - 1);
+		text.b = reduce_color(text.b, (dithering_value - 0.5) * dithering_value + 0.5, colors - 1);
+	}
 	// Apply the banded noise.
 	if (noise_opacity > 0.0)
 	{
@@ -202,8 +248,10 @@ void fragment()
 		text.rgb += clamp(random((ceil(uv * resolution) / resolution) + fract(TIME)).x, 0.0, 1.0) * static_noise_intensity;
 	}
 	
+	
 	// Apply a black border to hide imperfections caused by the warping.
 	// Also apply the vignette
+	
 	text.rgb *= border(uv);
 	text.rgb *= vignette(uv);
 	// Hides the black border and make that area transparent. Good if you want to add the the texture on top an image of a TV or monitor.
@@ -214,6 +262,7 @@ void fragment()
 	
 	// Apply discoloration to get a VHS look (lower saturation and higher contrast)
 	// You can play with the values below or expose them in the Inspector.
+	
 	float saturation = 0.5;
 	float contrast = 1.2;
 	if (discolor)
@@ -226,6 +275,7 @@ void fragment()
 		float midpoint = pow(0.5, 2.2);
 		text.rgb = (text.rgb - vec3(midpoint)) * contrast + midpoint;
 	}
+	
 	
 	COLOR = text;
 }

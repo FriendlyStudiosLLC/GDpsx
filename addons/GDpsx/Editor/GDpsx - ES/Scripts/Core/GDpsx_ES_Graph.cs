@@ -210,14 +210,24 @@ namespace GDpsx_API.EventSystem
 
         public async void CollectNodeData(string path)
         {
+            
             Array<GDpsx_ES_R_Node> nodeData = new Array<GDpsx_ES_R_Node>();
             ReorderNodesByLowestX();
             await Task.Delay(100);
+            
+            var lastSavedNode = new GDpsx_ES_Node();
             foreach (var node in Nodes)
             {
-                
+                lastSavedNode = node;
                 var nodeName = node.Title;
                 var nodeType = node.nodeType;
+                string nameCheck = node.nodeType.ToString()+"_";
+                GD.Print(nameCheck);
+                if(nodeName == nameCheck)
+                {
+                    GD.PrintErr("Every node must have a name");
+                    return;
+                }
                 var nodePosition = node.PositionOffset;
                 Godot.Collections.Array GotoNodes = new Godot.Collections.Array();
                 Godot.Collections.Array FromPorts = new Godot.Collections.Array();
@@ -245,6 +255,15 @@ namespace GDpsx_API.EventSystem
                             break;
                             
                         case NodeType.Conditional:
+                            var conditionalNode = node as GDpsx_ES_Condition;
+                            conditionalNode.ConstructConditionalData();
+                            var conditionaResourceData = conditionalNode.resource;
+                            conditionaResourceData.NodeName = nodeName;
+                            conditionaResourceData.graphPosition = nodePosition;
+                            conditionaResourceData.nodeType = nodeType;
+                            conditionaResourceData.GotoNodes = GotoNodes;
+                            conditionaResourceData.FromPorts = FromPorts;
+                            nodeData.Add(conditionaResourceData);
                             break;
 
                         case NodeType.Function:
@@ -258,10 +277,68 @@ namespace GDpsx_API.EventSystem
                             funcResourceData.FromPorts = FromPorts;
                             nodeData.Add(funcResourceData);
                             break;
+                        case NodeType.Start:
+                            var startNode = node as GDpsx_ES_Start;
+                            startNode.ConstructResource();
+                            var startResourceData = startNode.resource;
+                            startResourceData.NodeName = nodeName;
+                            startResourceData.graphPosition = nodePosition;
+                            startResourceData.nodeType = nodeType;
+                            startResourceData.GotoNodes = GotoNodes;
+                            startResourceData.FromPorts = FromPorts;
+                            nodeData.Add(startResourceData);
+                            break;
+                        case NodeType.End:
+                            var endNode = node as GDpsx_ES_End;
+                            endNode.ConstructResource();
+                            var endResourceData = endNode.resource;
+                            endResourceData.NodeName = nodeName;
+                            endResourceData.graphPosition = nodePosition;
+                            endResourceData.nodeType = nodeType;
+                            endResourceData.GotoNodes = GotoNodes;
+                            endResourceData.FromPorts = FromPorts;
+                            nodeData.Add(endResourceData);
+                            break;
+                        case NodeType.Wait:
+                            var waitNode = node as GDpsx_ES_Wait_Node;
+                            var value = waitNode.spinBox.Value;
+                            var waitResourceData = new GDpsx_ES_R_WaitNode();
+                            waitResourceData.waitTimeMS = (int)value;
+                            waitResourceData.NodeName = nodeName;
+                            waitResourceData.graphPosition = nodePosition;
+                            waitResourceData.nodeType = nodeType;
+                            waitResourceData.GotoNodes = GotoNodes;
+                            waitResourceData.FromPorts = FromPorts;
+                            nodeData.Add(waitResourceData);
+                            break;
                     }
             }
             var graphData = new GDpsx_ES_R_Data(nodeData);
-            ResourceSaver.Save(graphData, path+".tres", ResourceSaver.SaverFlags.None);
+            graphData.ResourceName = Name;
+            if(Nodes[0].nodeType != NodeType.Start)
+            {
+                GD.Print("Adding Start Node");
+                var startNode = new GDpsx_ES_R_StartNode();
+                startNode.GotoNodes.Add(nodeData[0]);
+                startNode.graphPosition.X = nodeData[0].graphPosition.X - 50;
+                startNode.graphPosition.Y = nodeData[0].graphPosition.Y;
+                startNode.NodeName = "Start_Start";
+                startNode.nodeType = NodeType.Start;
+                graphData.nodes.Insert(0, startNode);
+            }
+            if(Nodes.Last().nodeType != NodeType.End)
+            {
+                GD.Print("Adding End Node");
+                var endNode = new GDpsx_ES_R_EndNode();
+                endNode.NodeName = "End_PlaceHolderEnding";
+                endNode.graphPosition.X = Nodes.Last().PositionOffset.X + 50;
+                endNode.graphPosition.Y = Nodes.Last().PositionOffset.Y;
+                endNode.FromPorts.Add(0);
+                endNode.nodeType = NodeType.End;
+                
+                graphData.nodes.Add(endNode);
+            }
+            ResourceSaver.Save(graphData, path+".res", ResourceSaver.SaverFlags.None);
         }
 
         public async void ConsolidateData(string path)
@@ -313,12 +390,12 @@ namespace GDpsx_API.EventSystem
     
         public async void LoadResource(string path)
         {
-            GD.Print("Loading");
+            GD.Print("Loading " + path);
             EmptyGraph();
             await Task.Delay(100);
-            var dataTest = ResourceLoader.Load("res://Test_data.tres", "res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs", ResourceLoader.CacheMode.Ignore);
+            var dataTest = ResourceLoader.Load(path, null, ResourceLoader.CacheMode.Ignore);
             var data = dataTest as GDpsx_ES_R_Data;
-            GD.Print(data.GetType().ToString());
+            GD.Print(data.GetType());
             if (data == null || data.nodes == null)
             {
                 GD.PrintErr("Failed to load resource or nodes are null: " + path);
@@ -354,15 +431,84 @@ namespace GDpsx_API.EventSystem
                         var function_node = node as GDpsx_ES_R_Function;
                         var funcNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
                         var funcNode = funcNodeScene.Instantiate() as GDpsx_ES_Function;
+                        
                         funcNode.title.Text = actualName[1];
                         funcNode.Title = actualName[1];
                         funcNode.Name = actualName[1];
-                        funcNode.ConstructDataFromResource(function_node);
                         funcNode.PositionOffset = node.graphPosition;
+                        AddChild(funcNode);
+                        
+                        funcNode.ConstructDataFromResource(function_node);
                         baseNode = funcNode;
                         Nodes.Add(baseNode);
-                        AddChild(funcNode);
                         break;
+                    case NodeType.Start:
+                        var start_node = node as GDpsx_ES_R_StartNode;
+                        var start_nodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Start_Node.tscn");
+                        var startNode = start_nodeScene.Instantiate() as GDpsx_ES_Start;
+                        startNode.title.Text = actualName[1]; 
+                        startNode.Title = actualName[1];
+                        startNode.Name = actualName[1];
+                        startNode.PositionOffset = node.graphPosition;
+                        AddChild(startNode);
+                        baseNode = startNode;
+                        Nodes.Add(baseNode);
+                        break;
+                    case NodeType.End:
+                        var end_node = node as GDpsx_ES_R_EndNode;
+                        var end_nodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_End_Node.tscn");
+                        var endNode = end_nodeScene.Instantiate() as GDpsx_ES_End;
+                        endNode.title.Text = actualName[1]; 
+                        endNode.Title = actualName[1];
+                        endNode.Name = actualName[1];
+                        endNode.PositionOffset = node.graphPosition;
+                        AddChild(endNode);
+                        baseNode = endNode;
+                        Nodes.Add(baseNode);
+                        break;
+                    case NodeType.GraphData:
+                        var graph_node = node as GDpsx_ES_R_EndNode;
+                        var graph_nodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_GraphData_Node.tscn");
+                        var graphNode = graph_nodeScene.Instantiate() as GDpsx_ES_GraphDataNode;
+                        graphNode.title.Text = actualName[1]; 
+                        graphNode.Title = actualName[1];
+                        graphNode.Name = actualName[1];
+                        graphNode.PositionOffset = node.graphPosition;
+                        AddChild(graphNode);
+                        baseNode = graphNode;
+                        Nodes.Add(baseNode);
+                        break;
+                    case NodeType.Conditional:
+                        var conditional_node = node as GDpsx_ES_R_Conditional;
+                        var conditionalNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Condition_Node.tscn");
+                        var conditionalNode = conditionalNodeScene.Instantiate() as GDpsx_ES_Condition;
+                        conditionalNode.title.Text = actualName[1];
+                        conditionalNode.Title = actualName[1];
+                        conditionalNode.Name = actualName[1];
+                        conditionalNode.PositionOffset = node.graphPosition;
+                        
+                        AddChild(conditionalNode);
+                        
+                        conditionalNode.ConstructDataFromResource(conditional_node);
+                        baseNode = conditionalNode;
+                        Nodes.Add(baseNode);
+                        break;
+                    case NodeType.Wait:
+                        var wait_node = node as GDpsx_ES_R_WaitNode;
+                        var waitNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Wait_Node.tscn");
+                        var waitNode = waitNodeScene.Instantiate() as GDpsx_ES_Wait_Node;
+                        waitNode.title.Text = actualName[1];
+                        waitNode.Title = actualName[1];
+                        waitNode.Name = actualName[1];
+                        waitNode.PositionOffset = node.graphPosition;
+                        waitNode.spinBox.Value = wait_node.waitTimeMS;
+                        
+                        AddChild(waitNode);
+                        
+                        baseNode = waitNode;
+                        Nodes.Add(baseNode);
+                        break;
+
 
                     
                 }
@@ -383,6 +529,7 @@ namespace GDpsx_API.EventSystem
                 foreach(var connection in node.GotoNodes)
                 {
                     var index = node.GotoNodes.IndexOf(connection);
+                    GD.Print(node.NodeName +" " + node.GotoNodes.Count);
                     GD.Print($"{node.NodeName} {node.FromPorts[index].AsInt32()} {connection.AsString()} === {0}");
                     this.ConnectNode(node.NodeName, node.FromPorts[index].AsInt32(), connection.AsString(), 0);
                 }
