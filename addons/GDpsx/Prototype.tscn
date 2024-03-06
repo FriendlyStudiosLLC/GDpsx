@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dmhhgcnxy4a2o" path="res://addons/GDpsx/Game/Objects/Enemy_Base.tscn" id="11_kiy0j"]
 [ext_resource type="PackedScene" uid="uid://b6ui2aki5yg2n" path="res://addons/GDpsx/Game/Objects/GDpsx_DoorObject.tscn" id="12_jxso2"]
 [ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Core/GDpsx_GlobalEventSystem.cs" id="13_2v7iu"]
-[ext_resource type="Resource" uid="uid://4vwtc3jhw15a" path="res://ConditonalCheckBeansFixed.res" id="14_332ny"]
+[ext_resource type="Resource" uid="uid://c7ce6mfr4yys8" path="res://TestBeans.res" id="14_oq5qt"]
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_ConditionalNodeLibrary.cs" id="15_r023n"]
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_FunctionNodeLibrary.cs" id="16_ig57k"]
 
@@ -202,7 +202,7 @@ OpenPosition = Vector3(0, 3.93, 0)
 
 [node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("functionLibary", "conditionLibary")]
 script = ExtResource("13_2v7iu")
-data = ExtResource("14_332ny")
+data = ExtResource("14_oq5qt")
 functionLibary = NodePath("FunctionLibrary")
 conditionLibary = NodePath("ConditionalLibrary")
 

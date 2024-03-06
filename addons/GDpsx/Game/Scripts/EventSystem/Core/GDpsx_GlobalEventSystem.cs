@@ -37,7 +37,14 @@ public partial class GDpsx_GlobalEventSystem : Node
         {
             currentNode = data.nodes[0];
             var nextNode = currentNode.GotoNodes[0].AsGodotObject() as GDpsx_ES_R_Node;
-            GotoNode(nextNode.NodeName);
+            if((GodotObject)currentNode.GotoNodes[0] is GodotObject)
+            {
+                GotoNode(nextNode.NodeName);
+            }
+            else
+            {
+                GotoNextNode();
+            }
         } 
     }
 
