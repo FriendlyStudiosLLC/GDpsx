@@ -33,7 +33,7 @@ namespace GDpsx_API
     
     internal interface IDamage
     {
-        void TakeDamage(float damage, Node3D instigator);
+        void TakeDamage(double damage, Node3D instigator);
     }
     internal interface IInteractable
     {
