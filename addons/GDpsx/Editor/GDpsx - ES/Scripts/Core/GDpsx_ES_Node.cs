@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 namespace GDpsx_API.EventSystem
 {
+    [Tool]
     public partial class GDpsx_ES_Node : GraphNode
     {
         [Export] public LineEdit title;
@@ -22,7 +23,7 @@ namespace GDpsx_API.EventSystem
         {
             Title = $"{nodeType}_{title.Text}";
             Name = Title;
-            if(Input.IsActionJustPressed("Dialogue_Delete")) DeleteNode(false);
+            if(Input.IsActionJustPressed("ui_graph_delete")) DeleteNode(false);
         }
         public virtual void DeleteNode(bool bypassSelected) 
         {

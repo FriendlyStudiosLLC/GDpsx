@@ -13,7 +13,16 @@ namespace GDpsx_API.EventSystem
         Start,
         End,
         Wait,
-        GraphData
+        GraphData,
+        Option
+    }
+
+    public enum GraphType
+    {
+        None,
+        Event, //Can run parallel or drive quest progression
+        Dialog, //Can run parallel or drive quest progression
+        Quest //Only one quest can be done at a time.
     }
 
     public class ESFunctionDetails
@@ -42,6 +51,8 @@ namespace GDpsx_API.EventSystem
         public int FromPort { get; set; }
         public int ToSlot { get; set; }
     }
+
+    [Tool]
     public partial class GDpsx_ES_Util : Node
     {
         public void Save(string path, Dictionary data)

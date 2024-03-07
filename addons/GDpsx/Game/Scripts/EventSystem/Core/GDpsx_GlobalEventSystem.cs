@@ -1,3 +1,4 @@
+using GDpsx_API;
 using GDpsx_API.EventSystem;
 using Godot;
 using System;
@@ -12,10 +13,7 @@ public partial class GDpsx_GlobalEventSystem : Node
     [Export] public GDpsx_ES_FunctionNodeLibrary functionLibary;
     [Export] public GDpsx_ES_ConditionalNodeLibrary conditionLibary;
 
-    public override void _Ready()
-    {
-       StartEventGraph();
-    }
+    
 
     public void SetEventPath(string path)
     {
@@ -45,7 +43,28 @@ public partial class GDpsx_GlobalEventSystem : Node
             {
                 GotoNextNode();
             }
-        } 
+        }
+        else
+            {
+                GotoNextNode();
+            }
+    }
+
+    public void ProcessResponse(string option)
+    {
+        foreach(var node in data.nodes)
+        {
+            if(node.nodeType == NodeType.Option)
+            {
+                GD.Print("LOADING RESPONSE");
+                var optionnode = node as GDpsx_ES_R_Option;
+                if(optionnode.OptionText == option)
+                {
+                    GotoNode(optionnode.NodeName);
+                }
+            }
+        }
+
     }
 
     public void GotoNode(StringName nodeName)
@@ -54,6 +73,7 @@ public partial class GDpsx_GlobalEventSystem : Node
         {
             if(node.NodeName == nodeName)
             {
+                GD.Print($"Going to {node.NodeName}");
                 currentNode = node;
                 PerformNode();
                 return;
@@ -63,8 +83,20 @@ public partial class GDpsx_GlobalEventSystem : Node
 
     public void GotoNextNode()
     {
+        if(currentNode.GotoNodes[0].AsStringName() == null)
+        {
+            EndEventSystem();
+        }
         var nextNode = currentNode.GotoNodes[0].AsStringName();
         GotoNode(nextNode);
+    }
+
+    public void EndEventSystem()
+    {
+        var player = GDpsx_Utility.GetPlayer(GetTree());
+        if(player.dialogBox.Visible) player.dialogBox.HideDialogBox();
+        data = null;
+        QueueFree();
     }
 
     public void PerformNode()
@@ -88,13 +120,25 @@ public partial class GDpsx_GlobalEventSystem : Node
                 ExecuteFunctionNode();
                 break;
             case NodeType.Dialog:
-                //TODO: Still need to implement population of dialog data in the dialog_box class
+                ExecuteDialogueNode();
                 break;
             case NodeType.Start:
                 GotoNextNode();
                 break;
+            case NodeType.Option:
+                GotoNextNode();
+                break;
+            case NodeType.End:
+                EndEventSystem();
+                break;
                     
         }
+    }
+
+    public void ExecuteDialogueNode()
+    {
+        if(dialog_Box.eventSystem == null) dialog_Box.eventSystem = this;
+        dialog_Box.DisplayDialogBox();
     }
 
     public async void ExecuteWaitNode(int waitTime)
@@ -108,15 +152,13 @@ public partial class GDpsx_GlobalEventSystem : Node
         
         if(currentNode.nodeType != NodeType.Function) return;
         var functionNode = currentNode as GDpsx_ES_R_Function;
-        functionLibary.currentParameters = functionNode.parameterList;
-        GD.Print(functionLibary.currentParameters[0].ToString());
         functionLibary.Call(functionNode.methodName, ConvertToArray(functionNode.parameterList));
         
         GotoNextNode();
 
     }
 
-    public static Variant[] ConvertToArray(Godot.Collections.Array<Variant> godotArray)
+    public Variant[] ConvertToArray(Godot.Collections.Array<Variant> godotArray)
     {
         // Initialize a new Variant array with the same size as the Godot.Collections.Array
         Variant[] variantArray = new Variant[godotArray.Count];
@@ -145,6 +187,19 @@ public partial class GDpsx_GlobalEventSystem : Node
             var falseNode = currentNode.GotoNodes[1].AsStringName();
             GotoNode(falseNode);
         }
+    }
+
+
+    public GDpsx_ES_R_Node GetNodeByNodeName(StringName nodeName)
+    {
+        foreach(var node in data.nodes)
+        {
+            if(node.NodeName == nodeName)
+            {
+                return node;
+            }
+        }
+        return null;
     }
 
 

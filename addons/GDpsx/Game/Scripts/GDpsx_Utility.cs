@@ -21,11 +21,26 @@ namespace GDpsx_API
     {
 
 
-        public static Node3D GetPlayer(SceneTree tree)
+        public static GDpsx_HeroMovementBase GetPlayer(SceneTree tree)
         {
             var playerGroup = tree.GetNodesInGroup("Player");
-            var player = playerGroup[0] as Node3D;
+            var player = playerGroup[0] as GDpsx_HeroMovementBase;
             return player;
+        }
+
+        public static GDpsx_GlobalEventSystem GetEventSystem(SceneTree tree)
+        {
+            var ES_Group = tree.GetNodesInGroup("EventSystem");
+            if(ES_Group.Count != 0)
+            {   
+                var ES = ES_Group[0] as GDpsx_GlobalEventSystem;
+                return ES;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
     }

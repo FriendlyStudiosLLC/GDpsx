@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 namespace GDpsx_API.EventSystem
 {
+    [Tool]
     public partial class GDpsx_ES_Graph : GraphEdit
     {
         
@@ -95,18 +96,21 @@ namespace GDpsx_API.EventSystem
                     NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Dialog_Node.tscn");
                     break;
                 case 2:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Condition_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Option_Node.tscn");
                     break;
                 case 3:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Condition_Node.tscn");
                     break;
                 case 4:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_End_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Function_Node.tscn");
                     break;
                 case 5:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Wait_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_End_Node.tscn");
                     break;
                 case 6:
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Wait_Node.tscn");
+                    break;
+                case 7:
                     NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Graph_Node.tscn");
                     break;    
             }
@@ -193,6 +197,7 @@ namespace GDpsx_API.EventSystem
         {
             AddNode_MenuButton.GetPopup().AddItem("Start Node");
             AddNode_MenuButton.GetPopup().AddItem("Dialogue Node");
+            AddNode_MenuButton.GetPopup().AddItem("Reply Option Node");
             AddNode_MenuButton.GetPopup().AddItem("Conditional Node");
             AddNode_MenuButton.GetPopup().AddItem("Function Node");
             AddNode_MenuButton.GetPopup().AddItem("End Node");
@@ -266,6 +271,18 @@ namespace GDpsx_API.EventSystem
                             nodeData.Add(conditionaResourceData);
                             break;
 
+                        case NodeType.Option:
+                            var optionalNode = node as GDpsx_ES_Option;
+                            optionalNode.ConstructOptionData();
+                            var optionalResourceData = optionalNode.resource;
+                            optionalResourceData.NodeName = nodeName;
+                            optionalResourceData.graphPosition = nodePosition;
+                            optionalResourceData.nodeType = nodeType;
+                            optionalResourceData.GotoNodes = GotoNodes;
+                            optionalResourceData.FromPorts = FromPorts;
+                            nodeData.Add(optionalResourceData);
+                            break;
+
                         case NodeType.Function:
                             var functionNode = node as GDpsx_ES_Function;
                             functionNode.ConstructFunctionData();
@@ -317,26 +334,8 @@ namespace GDpsx_API.EventSystem
             graphData.ResourceName = Name;
             if(Nodes[0].nodeType != NodeType.Start)
             {
-                GD.Print("Adding Start Node");
-                var startNode = new GDpsx_ES_R_StartNode();
-                startNode.GotoNodes.Add(nodeData[0]);
-                startNode.graphPosition.X = nodeData[0].graphPosition.X - 50;
-                startNode.graphPosition.Y = nodeData[0].graphPosition.Y;
-                startNode.NodeName = "Start_Start";
-                startNode.nodeType = NodeType.Start;
-                graphData.nodes.Insert(0, startNode);
-            }
-            if(Nodes.Last().nodeType != NodeType.End)
-            {
-                GD.Print("Adding End Node");
-                var endNode = new GDpsx_ES_R_EndNode();
-                endNode.NodeName = "End_PlaceHolderEnding";
-                endNode.graphPosition.X = Nodes.Last().PositionOffset.X + 50;
-                endNode.graphPosition.Y = Nodes.Last().PositionOffset.Y;
-                endNode.FromPorts.Add(0);
-                endNode.nodeType = NodeType.End;
-                
-                graphData.nodes.Add(endNode);
+                GD.PrintErr("Start Node Required");
+                return;
             }
             ResourceSaver.Save(graphData, path+".res", ResourceSaver.SaverFlags.None);
         }
@@ -491,6 +490,21 @@ namespace GDpsx_API.EventSystem
                         
                         conditionalNode.ConstructDataFromResource(conditional_node);
                         baseNode = conditionalNode;
+                        Nodes.Add(baseNode);
+                        break;
+                    case NodeType.Option:
+                        var option_node = node as GDpsx_ES_R_Option;
+                        var optionNodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Option_Node.tscn");
+                        var optionNode = optionNodeScene.Instantiate() as GDpsx_ES_Option;
+                        optionNode.title.Text = actualName[1];
+                        optionNode.Title = actualName[1];
+                        optionNode.Name = actualName[1];
+                        optionNode.PositionOffset = node.graphPosition;
+                        
+                        AddChild(optionNode);
+                        
+                        optionNode.ConstructDataFromResource(option_node);
+                        baseNode = optionNode;
                         Nodes.Add(baseNode);
                         break;
                     case NodeType.Wait:

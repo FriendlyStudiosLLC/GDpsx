@@ -1,0 +1,145 @@
+[gd_scene load_steps=23 format=3 uid="uid://dydqygrbp0xbf"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Core/GDpsx_GlobalEventSystem.cs" id="1_6b24y"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Dialogue.cs" id="2_2n3cy"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Option.cs" id="3_83245"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_WaitNode.cs" id="4_ruj7y"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Function.cs" id="5_mrxkb"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_EndNode.cs" id="6_n23ae"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs" id="7_ogu02"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_ConditionalNodeLibrary.cs" id="8_4yreb"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_FunctionNodeLibrary.cs" id="9_43l35"]
+
+[sub_resource type="Resource" id="Resource_gs5k7"]
+
+[sub_resource type="Resource" id="Resource_pdl78"]
+script = ExtResource("2_2n3cy")
+character = "Dude Guy"
+message = "What is your favorite color?"
+NodeName = "Dialog_ColorQuestion"
+nodeType = 1
+graphPosition = Vector2(320, 140)
+GotoNodes = [&"Option_Two", &"Option_One", &"Option_Three", &"Option_Four"]
+FromPorts = [0, 0, 0, 0]
+
+[sub_resource type="Resource" id="Resource_u8l4e"]
+script = ExtResource("3_83245")
+OptionText = "Blue"
+hasRequirement = false
+methodName = ""
+parameterList = []
+NodeName = "Option_Two"
+nodeType = 8
+graphPosition = Vector2(760, 220)
+GotoNodes = [&"Dialog_Blue"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_n67gc"]
+script = ExtResource("3_83245")
+OptionText = "Green"
+hasRequirement = false
+methodName = ""
+parameterList = []
+NodeName = "Option_Three"
+nodeType = 8
+graphPosition = Vector2(760, 440)
+GotoNodes = [&"Dialog_Green"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_cmufq"]
+script = ExtResource("3_83245")
+OptionText = "BEANS MF"
+hasRequirement = true
+methodName = "PlayerHasItem"
+parameterList = ["Beans", 1]
+NodeName = "Option_Four"
+nodeType = 8
+graphPosition = Vector2(760, 700)
+GotoNodes = [&"Wait_Four"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_ex4mp"]
+script = ExtResource("3_83245")
+OptionText = "Red"
+hasRequirement = false
+methodName = ""
+parameterList = []
+NodeName = "Option_One"
+nodeType = 8
+graphPosition = Vector2(780, -80)
+GotoNodes = [&"Dialog_Red"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_rv0cs"]
+script = ExtResource("2_2n3cy")
+character = "Dude Guy"
+message = "You said Red!"
+NodeName = "Dialog_Red"
+nodeType = 1
+graphPosition = Vector2(1360, -140)
+GotoNodes = [&"End_End"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_i85e5"]
+script = ExtResource("4_ruj7y")
+waitTimeMS = 5000
+NodeName = "Wait_Four"
+nodeType = 6
+graphPosition = Vector2(1380, 880)
+GotoNodes = [&"Function_DamageFour"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_i5bqr"]
+script = ExtResource("2_2n3cy")
+character = "Dude Guy"
+message = "You said Blue!"
+NodeName = "Dialog_Blue"
+nodeType = 1
+graphPosition = Vector2(1400, 200)
+GotoNodes = [&"End_End"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_kwwpb"]
+script = ExtResource("2_2n3cy")
+character = "Dude Guy"
+message = "You said Green!"
+NodeName = "Dialog_Green"
+nodeType = 1
+graphPosition = Vector2(1400, 480)
+GotoNodes = [&"End_End"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_hw120"]
+script = ExtResource("5_mrxkb")
+methodName = "DamagePlayer"
+parameterList = [25]
+NodeName = "Function_DamageFour"
+nodeType = 3
+graphPosition = Vector2(2020, 820)
+GotoNodes = [&"End_End"]
+FromPorts = [0]
+
+[sub_resource type="Resource" id="Resource_1444b"]
+script = ExtResource("6_n23ae")
+NodeName = "End_End"
+nodeType = 5
+graphPosition = Vector2(3080, 140)
+GotoNodes = []
+FromPorts = []
+
+[sub_resource type="Resource" id="Resource_bfx17"]
+resource_name = "Graph"
+script = ExtResource("7_ogu02")
+nodes = [SubResource("Resource_gs5k7"), SubResource("Resource_pdl78"), SubResource("Resource_u8l4e"), SubResource("Resource_n67gc"), SubResource("Resource_cmufq"), SubResource("Resource_ex4mp"), SubResource("Resource_rv0cs"), SubResource("Resource_i85e5"), SubResource("Resource_i5bqr"), SubResource("Resource_kwwpb"), SubResource("Resource_hw120"), SubResource("Resource_1444b")]
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("functionLibary", "conditionLibary") groups=["EventSystem"]]
+script = ExtResource("1_6b24y")
+data = SubResource("Resource_bfx17")
+functionLibary = NodePath("FunctionLibrary")
+conditionLibary = NodePath("ConditionalLibrary")
+
+[node name="ConditionalLibrary" type="Node" parent="."]
+script = ExtResource("8_4yreb")
+
+[node name="FunctionLibrary" type="Node" parent="."]
+script = ExtResource("9_43l35")

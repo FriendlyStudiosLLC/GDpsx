@@ -18,7 +18,7 @@ public partial class GDpsx_GameObject : Node3D, IInteractable
     [Export] public int Uses = -1; //If -1, use infinite times
     private float cachedUses;
     
-    [Export] public Array<GDpsx_InteractionEventBase> EventChain =  new Array<GDpsx_InteractionEventBase>();
+    [Export] public GDpsx_ES_R_Data EventChain;
     
     private bool FailedEvent = false;
 
@@ -46,18 +46,13 @@ public partial class GDpsx_GameObject : Node3D, IInteractable
 
     public void EnterInteract()
     {
-        if(FailedEvent == true) 
-        {
-            SetFailedEvent(false);
-        }
-        if(!CanUse()) return;
-        foreach(var eventBase in EventChain)
-        {
-            if(eventBase.HasMethod("Enter"))
-            {
-                performEventExecution_Async(eventBase);
-            }
-        }
+        var eventSystemScene = (PackedScene)ResourceLoader.Load("res://GlobalEventSystem_Scene.tscn");
+        var EventSystem = (GDpsx_GlobalEventSystem)eventSystemScene.Instantiate();
+        GetParent().AddChild(EventSystem);
+        GDpsx_Utility.GetPlayer(GetTree()).dialogBox.eventSystem = EventSystem;
+        EventSystem.data = EventChain;
+        EventSystem.dialog_Box = GDpsx_Utility.GetPlayer(GetTree()).dialogBox;
+        EventSystem.StartEventGraph();
     }
 
     public Node GetNodeFromPath(NodePath nodePath)

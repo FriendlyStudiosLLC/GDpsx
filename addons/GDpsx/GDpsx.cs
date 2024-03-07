@@ -1,24 +1,25 @@
-#if TOOLS
+
 using Godot;
 using System;
 
 [Tool]
 public partial class GDpsx : EditorPlugin
 {
-	private Control editor;
+	private Control EventSystem;
+	private PackedScene eventSystemScene = GD.Load<PackedScene>("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_EventSystem.tscn");
 	public override void _EnterTree()
 	{
-		// var editorInterface = EditorInterface.Singleton;
-		// var editorScene = GD.Load<PackedScene>("res://addons/GDpsx/Editor/DialogueSystem/Objects/DialogueGraph.tscn");
-		// editor = (Control)editorScene.Instantiate();
+		var editorInterface = EditorInterface.Singleton;
+		
+		EventSystem = eventSystemScene.Instantiate() as Control;
 
 		
 
-		// editorInterface.GetEditorMainScreen().AddChild(editor);
-		// var editorSettings = editorInterface.GetEditorSettings();
-        // var baseColor = (Color)editorSettings.GetSetting("interface/theme/base_color");
-        // editor.Set("base_color", baseColor.V < 0.5 ? Colors.White : Colors.Black); // Adjust property name if necessary
-        // _MakeVisible(false);
+		editorInterface.GetEditorMainScreen().AddChild(EventSystem);
+		 //var editorSettings = editorInterface.GetEditorSettings();
+         //var baseColor = (Color)editorSettings.GetSetting("interface/theme/base_color");
+         //EventSystem.Set("base_color", baseColor.V < 0.5 ? Colors.White : Colors.Black); // Adjust property name if necessary
+         _MakeVisible(false);
 
 		//AddCustomType("GDpsx | DialogueBox", "Panel",
 		//	GD.Load<Script>("res://addons/GDpsx/Editor/DialogueSystem/Scripts/GDpsx_Dialogue_Graph.cs"),
@@ -51,11 +52,11 @@ public partial class GDpsx : EditorPlugin
 	public override void _ExitTree()
 	{
 		// Clean-up of the plugin goes here.
-		if(editor != null)
+		if(EventSystem != null)
 		{
-			editor.QueueFree();
+			EventSystem.QueueFree();
 		}
-
+		GD.Print("Plugin Disabled");
 		//RemoveCustomType("GDpsx | DialogueBox");
 	}
 
@@ -64,12 +65,12 @@ public partial class GDpsx : EditorPlugin
         return true;
     }
 
-	private void MakeVisible(bool visible)
+    public override void _MakeVisible(bool visible)
     {
-        if (editor != null)
-        {
-            editor.Visible = visible;
-        }
+        if(EventSystem != null)
+		{
+			EventSystem.Visible = visible;
+		}
     }
 
     public override string _GetPluginName()
@@ -84,7 +85,7 @@ public partial class GDpsx : EditorPlugin
 
     public override void _SaveExternalData()
     {
-        if (editor != null)
+        if (EventSystem != null)
         {
             // Assuming `files` is a property of your editor and `SaveAll` is a method you've defined
             // You'll need to properly reference and invoke your method based on your editor's implementation
@@ -93,4 +94,3 @@ public partial class GDpsx : EditorPlugin
         }
     }
 }
-#endif

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ba8ji2cnlbkvt"]
+[gd_scene load_steps=22 format=3 uid="uid://ba8ji2cnlbkvt"]
 
 [ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/FPS_HeroMovement.cs" id="1_hgw1i"]
 [ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/GDpsx_StateMachine.cs" id="2_qrsyl"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dst5ojwqwnxmu" path="res://addons/GDpsx/Game/Objects/UI/Inventory/GDpsx_UI_InventoryUI.tscn" id="11_7obnm"]
 [ext_resource type="Resource" uid="uid://swltck8mpj28" path="res://addons/GDpsx/Game/Scripts/Inventory/GDpsx Item Database Example.tres" id="11_pjqid"]
 [ext_resource type="PackedScene" uid="uid://yy0isgosuao4" path="res://addons/GDpsx/Game/Objects/RetroPostProcess.tscn" id="13_822ng"]
+[ext_resource type="PackedScene" uid="uid://cbkghuqqas03r" path="res://addons/GDpsx/Game/Objects/UI/dialog_box.tscn" id="14_0jbiw"]
 [ext_resource type="PackedScene" uid="uid://bivpyh2en7as2" path="res://addons/GDpsx/Game/Objects/UI/Inventory/GDpsx_MessageBox.tscn" id="14_3fydf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r2s18"]
@@ -182,7 +183,7 @@ _data = {
 "RESET": SubResource("Animation_n66hf")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Head", "Eyes", "LookAtCast", "CeilingCheckCast", "StateMachine", "AnimPlayer", "UI", "Inventory", "messageBox") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Head", "Eyes", "LookAtCast", "CeilingCheckCast", "StateMachine", "AnimPlayer", "UI", "Inventory", "messageBox", "dialogBox") groups=["Player"]]
 script = ExtResource("1_hgw1i")
 Head = NodePath("Head")
 Eyes = NodePath("Head/Eyes")
@@ -194,6 +195,7 @@ AnimPlayer = NodePath("AnimationPlayer")
 UI = NodePath("GDpsx FPS UI Template")
 Inventory = NodePath("GDpsx | Inventory Component")
 messageBox = NodePath("MessageBox")
+dialogBox = NodePath("DialogBox")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_r2s18")
@@ -243,16 +245,19 @@ script = ExtResource("10_wbknb")
 GlobalItemList = ExtResource("11_pjqid")
 InventoryUI = NodePath("../Inventory")
 
+[node name="GDpsx_Post" parent="." instance=ExtResource("13_822ng")]
+mouse_filter = 2
+
 [node name="Inventory" parent="." node_paths=PackedStringArray("Inventory") instance=ExtResource("11_7obnm")]
 visible = false
 Inventory = NodePath("../GDpsx | Inventory Component")
 
-[node name="GDpsx_Post" parent="." instance=ExtResource("13_822ng")]
-mouse_filter = 2
-
-[node name="GDpsx FPS UI Template" parent="." instance=ExtResource("9_ouuuv")]
-mouse_filter = 2
-
 [node name="MessageBox" parent="." instance=ExtResource("14_3fydf")]
 offset_top = 145.365
 offset_bottom = 175.365
+
+[node name="DialogBox" parent="." instance=ExtResource("14_0jbiw")]
+visible = false
+
+[node name="GDpsx FPS UI Template" parent="." instance=ExtResource("9_ouuuv")]
+mouse_filter = 2

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-[GlobalClass]
+[Tool]
 public partial class GDpsx_ES_R_Node : Resource
 {
     [Export] public string NodeName;

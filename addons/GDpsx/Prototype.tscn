@@ -1,21 +1,12 @@
-[gd_scene load_steps=31 format=3 uid="uid://cg834m4ho5cq0"]
+[gd_scene load_steps=14 format=3 uid="uid://cg834m4ho5cq0"]
 
 [ext_resource type="PackedScene" uid="uid://ba8ji2cnlbkvt" path="res://addons/GDpsx/Game/Objects/FPS_Hero.tscn" id="1_7cnwb"]
 [ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/First Person/GDpsx_GameObject.cs" id="2_xvxm2"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_DamagePlayer.cs" id="3_nrj10"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_MakePlayerJump.cs" id="4_1kimd"]
+[ext_resource type="Resource" uid="uid://crq10bm3035ob" path="res://Beans2.res" id="3_33e4a"]
+[ext_resource type="Resource" uid="uid://d2vd6ksh8l3q5" path="res://OptionTest.tres" id="5_o3me3"]
 [ext_resource type="Material" uid="uid://cpca4dolapmdx" path="res://addons/GDpsx/Game/Materials/Tile_001/GDpsx_M_Tile_001.tres" id="5_uyfn7"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_GiveItem.cs" id="6_hlp16"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_HasItem.cs" id="6_m2jp7"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_ToggleLight.cs" id="8_jxxxj"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_DisplayMessage.cs" id="9_4baw6"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Event_LightSwitch.cs" id="9_mjw41"]
 [ext_resource type="PackedScene" uid="uid://dmhhgcnxy4a2o" path="res://addons/GDpsx/Game/Objects/Enemy_Base.tscn" id="11_kiy0j"]
 [ext_resource type="PackedScene" uid="uid://b6ui2aki5yg2n" path="res://addons/GDpsx/Game/Objects/GDpsx_DoorObject.tscn" id="12_jxso2"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/EventSystem/Core/GDpsx_GlobalEventSystem.cs" id="13_2v7iu"]
-[ext_resource type="Resource" uid="uid://c7ce6mfr4yys8" path="res://TestBeans.res" id="14_oq5qt"]
-[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_ConditionalNodeLibrary.cs" id="15_r023n"]
-[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_FunctionNodeLibrary.cs" id="16_ig57k"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_yoej8"]
 vertices = PackedVector3Array(-8.68075, 0.517979, -11.6976, -6.68075, 0.517979, -11.9476, -6.93075, 0.517979, -13.1976, -22.4307, 0.517979, -13.1976, 12.3193, 0.517979, -5.94763, 7.31925, 0.517979, -5.94763, 7.31925, 0.517979, -3.69763, 12.3193, 0.517979, 19.0524, 6.06925, 0.517979, -3.44763, 5.81925, 0.517979, -6.44763, -1.93075, 0.517979, -6.69763, 12.3193, 0.517979, 19.0524, 7.31925, 0.517979, -3.69763, 6.06925, 0.517979, -3.44763, -8.68075, 0.517979, -6.94763, -8.68075, 0.517979, -11.6976, -22.4307, 0.517979, -13.1976, -22.4307, 0.517979, 19.0524, 6.06925, 0.517979, -3.44763, -1.93075, 0.517979, -6.69763, -8.68075, 0.517979, -6.94763, -22.4307, 0.517979, 19.0524, 12.3193, 0.517979, 19.0524, 5.81925, 0.517979, -8.44763, 6.56925, 0.517979, -8.69763, 6.56925, 0.517979, -13.1976, -1.43075, 0.517979, -11.6976, -1.43075, 0.517979, -6.94763, -6.93075, 0.517979, -13.1976, -6.68075, 0.517979, -11.9476, -1.43075, 0.517979, -11.6976, 6.56925, 0.517979, -13.1976, -1.43075, 0.517979, -6.94763, -1.93075, 0.517979, -6.69763, 5.81925, 0.517979, -6.44763, 5.81925, 0.517979, -8.44763, 6.56925, 0.517979, -13.1976, 6.56925, 0.517979, -8.69763, 7.31925, 0.517979, -8.44763, 7.31925, 0.517979, -8.44763, 7.31925, 0.517979, -5.94763, 12.3193, 0.517979, -5.94763, 7.31925, 0.517979, -8.44763, 12.3193, 0.517979, -5.94763, 12.3193, 0.517979, -13.1976, 6.56925, 0.517979, -13.1976, -7.68075, 2.26798, -10.9476, -7.68075, 2.26798, -7.69763, -2.43075, 2.26798, -7.69763, -2.43075, 2.26798, -10.9476)
@@ -30,59 +21,9 @@ sky_material = SubResource("ProceduralSkyMaterial_0uxj3")
 background_mode = 2
 sky = SubResource("Sky_56r3i")
 
-[sub_resource type="Resource" id="Resource_cyeby"]
-script = ExtResource("6_hlp16")
-ItemName = "Beans"
-Amount = 1
-Target_Entity_Path = NodePath("")
-WaitTime = 0.0
-
-[sub_resource type="Resource" id="Resource_ldvsx"]
-script = ExtResource("4_1kimd")
-Target_Entity_Path = NodePath("")
-WaitTime = 2.0
-
 [sub_resource type="BoxMesh" id="BoxMesh_oi5qe"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rdfjv"]
-
-[sub_resource type="Resource" id="Resource_28x8o"]
-script = ExtResource("3_nrj10")
-ItemName = ""
-Damage_To_Apply = 10
-Target_Entity_Path = NodePath("")
-WaitTime = 0.0
-
-[sub_resource type="Resource" id="Resource_me0dj"]
-script = ExtResource("6_m2jp7")
-ItemName = "Beans"
-Amount = 0
-Target_Entity_Path = NodePath("")
-WaitTime = 0.0
-
-[sub_resource type="Resource" id="Resource_btllw"]
-script = ExtResource("4_1kimd")
-Target_Entity_Path = NodePath("")
-WaitTime = 3.0
-
-[sub_resource type="Resource" id="Resource_38onf"]
-script = ExtResource("8_jxxxj")
-On = false
-Target_Entity_Path = NodePath("../OmniLight3D")
-WaitTime = 3.0
-
-[sub_resource type="Resource" id="Resource_2uth7"]
-script = ExtResource("9_4baw6")
-Message = "Pee pee poo poo. I eat doo doo"
-TypeSpeedMS = 25
-MessageHoldTimeMS = 100
-Target_Entity_Path = NodePath("")
-WaitTime = 0.0
-
-[sub_resource type="Resource" id="Resource_aq8wh"]
-script = ExtResource("9_mjw41")
-Target_Entity_Path = NodePath("../OmniLight3D")
-WaitTime = 0.0
 
 [node name="Prototype" type="Node3D"]
 
@@ -118,7 +59,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300667, -1.80365)
 script = ExtResource("2_xvxm2")
 Uses = 4
-EventChain = [SubResource("Resource_cyeby"), SubResource("Resource_ldvsx")]
+EventChain = ExtResource("3_33e4a")
 
 [node name="ShadowInstance" type="MeshInstance3D" parent="MagicBox"]
 transparency = 1.0
@@ -138,7 +79,6 @@ transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447
 script = ExtResource("2_xvxm2")
 LookAtMessage = "I want beans"
 Uses = 1
-EventChain = [SubResource("Resource_28x8o"), SubResource("Resource_me0dj"), SubResource("Resource_btllw"), SubResource("Resource_38onf")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CubeOfWonder"]
 shape = SubResource("BoxShape3D_rdfjv")
@@ -154,7 +94,6 @@ script = ExtResource("2_xvxm2")
 LookAtMessage = "I want beans"
 InfiniteUses = true
 Uses = 1
-EventChain = [SubResource("Resource_2uth7")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CubeOfWonder2"]
 shape = SubResource("BoxShape3D_rdfjv")
@@ -171,7 +110,7 @@ HasLookAtMessage = false
 LookAtMessage = ""
 InfiniteUses = true
 Uses = 1
-EventChain = [SubResource("Resource_aq8wh")]
+EventChain = ExtResource("5_o3me3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Lightswitch"]
 shape = SubResource("BoxShape3D_rdfjv")
@@ -199,15 +138,3 @@ OpenPosition = Vector3(0, 3.93, 0)
 transform = Transform3D(1.96, 0, 0, 0, 1.96, 0, 0, 0, 1.96, 7.13447, -1.5, -5.11627)
 doorType = 1
 OpenPosition = Vector3(0, 3.93, 0)
-
-[node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("functionLibary", "conditionLibary")]
-script = ExtResource("13_2v7iu")
-data = ExtResource("14_oq5qt")
-functionLibary = NodePath("FunctionLibrary")
-conditionLibary = NodePath("ConditionalLibrary")
-
-[node name="ConditionalLibrary" type="Node" parent="Node3D"]
-script = ExtResource("15_r023n")
-
-[node name="FunctionLibrary" type="Node" parent="Node3D"]
-script = ExtResource("16_ig57k")

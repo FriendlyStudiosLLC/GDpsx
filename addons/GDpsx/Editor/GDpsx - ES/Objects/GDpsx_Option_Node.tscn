@@ -1,11 +1,13 @@
 [gd_scene load_steps=2 format=3 uid="uid://b0siwd2tvwl7t"]
 
-[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Dialog.cs" id="1_sxjk6"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Option.cs" id="1_14k6p"]
 
-[node name="OptionNode" type="GraphNode"]
-offset_right = 383.0
-offset_bottom = 226.0
+[node name="Option_" type="GraphNode" node_paths=PackedStringArray("replyText", "functionMenu", "container", "AddRequirementButton", "RemoveRequirementButton", "title")]
+offset_right = 580.0
+offset_bottom = 262.0
 resizable = true
+title = Object(LineEdit,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":2,"mouse_filter":0,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":1,"shortcut_context":null,"theme":null,"theme_type_variation":&"","text":"","placeholder_text":"Node Title","alignment":0,"max_length":0,"editable":true,"expand_to_text_length":false,"context_menu_enabled":true,"virtual_keyboard_enabled":true,"virtual_keyboard_type":0,"clear_button_enabled":false,"shortcut_keys_enabled":true,"middle_mouse_paste_enabled":true,"selecting_enabled":true,"deselect_on_focus_loss_enabled":true,"drag_and_drop_selection_enabled":true,"right_icon":null,"flat":false,"draw_control_chars":false,"select_all_on_focus":false,"caret_blink":false,"caret_blink_interval":0.65,"caret_column":0,"caret_force_displayed":false,"caret_mid_grapheme":false,"secret":false,"secret_character":"•","text_direction":0,"language":"","structured_text_bidi_override":0,"structured_text_bidi_override_options":[],"script":null)
+
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -24,7 +26,41 @@ slot/1/right_type = 0
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
-script = ExtResource("1_sxjk6")
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color(1, 1, 1, 1)
+slot/2/left_icon = null
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color(1, 1, 1, 1)
+slot/2/right_icon = null
+slot/2/draw_stylebox = true
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color(1, 1, 1, 1)
+slot/3/left_icon = null
+slot/3/right_enabled = false
+slot/3/right_type = 0
+slot/3/right_color = Color(1, 1, 1, 1)
+slot/3/right_icon = null
+slot/3/draw_stylebox = true
+slot/4/left_enabled = false
+slot/4/left_type = 0
+slot/4/left_color = Color(1, 1, 1, 1)
+slot/4/left_icon = null
+slot/4/right_enabled = false
+slot/4/right_type = 0
+slot/4/right_color = Color(1, 1, 1, 1)
+slot/4/right_icon = null
+slot/4/draw_stylebox = true
+script = ExtResource("1_14k6p")
+replyText = NodePath("VBoxContainer/OptionText")
+functionMenu = NodePath("MenuButton")
+container = NodePath("VBoxContainer2")
+AddRequirementButton = NodePath("AddRequirementButton")
+RemoveRequirementButton = NodePath("RemoveRequiorementButton")
+title = NodePath("VBoxContainer/NodeTitle")
+nodeType = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -37,11 +73,80 @@ placeholder_text = "Node Title"
 layout_mode = 2
 placeholder_text = "Option Text"
 
-[node name="Button" type="Button" parent="."]
+[node name="AddRequirementButton" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Add Requirement"
 
+[node name="RemoveRequiorementButton" type="Button" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Remove Requirement"
+
+[node name="MenuButton" type="MenuButton" parent="."]
+visible = false
+layout_mode = 2
+text = "Set Conditional"
+flat = false
+item_count = 25
+popup/item_0/text = "PlayerHasItem"
+popup/item_0/id = 0
+popup/item_1/text = "PlayerStatEquals"
+popup/item_1/id = 1
+popup/item_2/text = "PlayerStatGreaterThan"
+popup/item_2/id = 2
+popup/item_3/text = "PlayerStatLessThan"
+popup/item_3/id = 3
+popup/item_4/text = "ObjectSolved"
+popup/item_4/id = 4
+popup/item_5/text = "PlayerHasItem"
+popup/item_5/id = 5
+popup/item_6/text = "PlayerStatEquals"
+popup/item_6/id = 6
+popup/item_7/text = "PlayerStatGreaterThan"
+popup/item_7/id = 7
+popup/item_8/text = "PlayerStatLessThan"
+popup/item_8/id = 8
+popup/item_9/text = "ObjectSolved"
+popup/item_9/id = 9
+popup/item_10/text = "PlayerHasItem"
+popup/item_10/id = 10
+popup/item_11/text = "PlayerStatEquals"
+popup/item_11/id = 11
+popup/item_12/text = "PlayerStatGreaterThan"
+popup/item_12/id = 12
+popup/item_13/text = "PlayerStatLessThan"
+popup/item_13/id = 13
+popup/item_14/text = "ObjectSolved"
+popup/item_14/id = 14
+popup/item_15/text = "PlayerHasItem"
+popup/item_15/id = 15
+popup/item_16/text = "PlayerStatEquals"
+popup/item_16/id = 16
+popup/item_17/text = "PlayerStatGreaterThan"
+popup/item_17/id = 17
+popup/item_18/text = "PlayerStatLessThan"
+popup/item_18/id = 18
+popup/item_19/text = "ObjectSolved"
+popup/item_19/id = 19
+popup/item_20/text = "PlayerHasItem"
+popup/item_20/id = 20
+popup/item_21/text = "PlayerStatEquals"
+popup/item_21/id = 21
+popup/item_22/text = "PlayerStatGreaterThan"
+popup/item_22/id = 22
+popup/item_23/text = "PlayerStatLessThan"
+popup/item_23/id = 23
+popup/item_24/text = "ObjectSolved"
+popup/item_24/id = 24
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
 [connection signal="node_deselected" from="." to="." method="DeSelect"]
 [connection signal="node_selected" from="." to="." method="Select"]
 [connection signal="resize_request" from="." to="." method="ResizeNode"]
+[connection signal="pressed" from="AddRequirementButton" to="." method="ShowRequirements"]
+[connection signal="pressed" from="RemoveRequiorementButton" to="." method="HideRequirements"]

@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
-[GlobalClass]
+[Tool]
 public partial class GDpsx_ES_R_Dialogue : GDpsx_ES_R_Node
 {
     [Export] public string character;

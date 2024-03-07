@@ -120,6 +120,11 @@ public partial class FPS_HeroMovement : GDpsx_HeroMovementBase, IDamage, IIntera
                 Inventory.InventoryUI.ToggleInventory();
                 return;
             }
+            if(GDpsx_Utility.GetEventSystem(GetTree()) != null && GDpsx_Utility.GetEventSystem(GetTree()).dialog_Box.Visible)
+            {
+                GDpsx_Utility.GetEventSystem(GetTree()).dialog_Box.HideDialogBox();
+                return;
+            }
             GetTree().Quit();
         }
 

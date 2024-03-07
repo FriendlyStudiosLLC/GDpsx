@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 namespace GDpsx_API.EventSystem
 {
+    [Tool]
     public partial class GDpsx_ES_End : GDpsx_ES_Node
     {
         public GDpsx_ES_R_EndNode resource;

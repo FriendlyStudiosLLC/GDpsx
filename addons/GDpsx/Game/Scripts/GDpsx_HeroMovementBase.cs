@@ -44,6 +44,7 @@ public partial class GDpsx_HeroMovementBase : CharacterBody3D, IInteractable, ID
     [Export] public GDpsx_UI_Template UI;
     [Export] public GDpsx_Inventory Inventory;
     [Export] public GDpsx_MessageBox messageBox;
+    [Export] public GDpsx_dialog_box dialogBox;
     
 
     //Calculation Variables

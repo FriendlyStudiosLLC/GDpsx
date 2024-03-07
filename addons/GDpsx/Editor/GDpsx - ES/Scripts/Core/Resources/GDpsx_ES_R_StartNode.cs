@@ -5,8 +5,14 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-[GlobalClass]
+[Tool]
 public partial class GDpsx_ES_R_StartNode : GDpsx_ES_R_Node
 {
+    [Export] public GraphType _graphType;
+    public GDpsx_ES_R_StartNode(GraphType graphType)
+    {
+        _graphType = graphType;
+    }
+    public GDpsx_ES_R_StartNode(){}
    
 }

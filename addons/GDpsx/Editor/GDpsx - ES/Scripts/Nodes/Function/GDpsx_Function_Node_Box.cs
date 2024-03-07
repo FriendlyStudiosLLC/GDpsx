@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
+[Tool]
 public partial class GDpsx_Function_Node_Box : HBoxContainer
 {
     [Export] Array<Control> parameterOptions = new Array<Control>();

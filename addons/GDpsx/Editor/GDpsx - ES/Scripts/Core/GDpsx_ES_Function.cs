@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace GDpsx_API.EventSystem
 {
+    [Tool]
     public partial class GDpsx_ES_Function : GDpsx_ES_Node
     {
         [Export] GDpsx_Function_Node_Box functionBox;

@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="GDpsx_ES_R_Data" load_steps=2 format=3 uid="uid://c8en6674rchrq"]
-
-[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/Resources/GDpsx_ES_R_Data.cs" id="1_s8eer"]
-
-[resource]
-script = ExtResource("1_s8eer")
-nodes = null

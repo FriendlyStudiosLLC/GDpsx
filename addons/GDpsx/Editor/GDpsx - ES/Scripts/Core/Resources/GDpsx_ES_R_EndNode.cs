@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-[GlobalClass]
+[Tool]
 public partial class GDpsx_ES_R_EndNode : GDpsx_ES_R_Node
 {
    [Export] public GDpsx_ES_R_Data GotoGraph;

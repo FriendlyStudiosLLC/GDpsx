@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 namespace GDpsx_API.EventSystem
 {
+    [Tool]
     public partial class GDpsx_ES_GraphDataNode : GDpsx_ES_Node
     {
         [Export] public GDpsx_ES_R_Data graph;
