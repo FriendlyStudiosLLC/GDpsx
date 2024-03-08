@@ -1,13 +1,12 @@
 using Godot;
 using System;
 using System.Drawing;
-using System;
 using Godot.Collections;
 
 [Tool][GlobalClass]
 public partial class GDpsx_GameBrain : Resource
 {
-    [Export] public Array<string> Characters = new Array<string>();
+    [Export] public Array<GDpsx_Character> Characters = new Array<GDpsx_Character>();
     [Export] public Array<GDpsx_Item> Items;
     [Export] public Dictionary<string, Vector3> Locations = new Dictionary<string, Vector3>();
 

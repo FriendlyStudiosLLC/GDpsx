@@ -17,6 +17,10 @@ boot_splash/bg_color=Color(0.886275, 0.886275, 0.886275, 1)
 boot_splash/image="res://Godot Splash.png"
 config/icon="res://icon.svg"
 
+[autoload]
+
+GDpsxEditorSettings="*res://addons/GDpsx/Editor/GDpsx_EditorSettings.cs"
+
 [dotnet]
 
 project/assembly_name="GDpsx_Project"
@@ -128,3 +132,5 @@ Dialogue_Delete={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/decals/filter=0
+textures/light_projectors/filter=0

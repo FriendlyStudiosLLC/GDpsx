@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqvyr6ebq5fii"]
+
+[ext_resource type="Theme" uid="uid://byiyae4jn6k4w" path="res://addons/GDpsx/Editor/Themes/Windows95/Windows95.tres" id="1_gwkh7"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/Objects/GDpsx_ItemButton.cs" id="2_qku5l"]
+
+[node name="GDpsxItemButton" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gwkh7")
+text = "Test"
+script = ExtResource("2_qku5l")

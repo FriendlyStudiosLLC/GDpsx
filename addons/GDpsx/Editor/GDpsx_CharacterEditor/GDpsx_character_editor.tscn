@@ -1,0 +1,307 @@
+[gd_scene load_steps=10 format=3 uid="uid://bed3euj66rid8"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx_CharacterEditor/GDpsx_CharacterEditor.cs" id="1_edqiw"]
+[ext_resource type="Texture2D" uid="uid://canduy6vhps1s" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Add.png" id="2_67c44"]
+[ext_resource type="FontFile" uid="uid://ba1b6phl5lsyi" path="res://addons/GDpsx/Game/Fonts/zrnic rg.otf" id="3_wh3bl"]
+[ext_resource type="Texture2D" uid="uid://dqpnfjoes1hxr" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Open.png" id="4_grfa5"]
+[ext_resource type="Shader" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/EditorRectEffect.gdshader" id="5_6fbbj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hfdbo"]
+shader = ExtResource("5_6fbbj")
+shader_parameter/background_color = Color(0.258824, 0.258824, 0.258824, 1)
+shader_parameter/foreground_color = Color(0.941176, 0.827451, 0, 1)
+shader_parameter/grid_size = 50.0
+shader_parameter/dot_size = 0.1
+
+[sub_resource type="Animation" id="Animation_o7i86"]
+resource_name = "RotateCharacter"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSceneRoot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mfu0g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSceneRoot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_onm8x"]
+_data = {
+"RESET": SubResource("Animation_mfu0g"),
+"RotateCharacter": SubResource("Animation_o7i86")
+}
+
+[node name="GDpsx_CharacterEditor" type="Control" node_paths=PackedStringArray("saveCharButton", "clearCharButton", "charSpinner", "charSceneRoot", "AddCharButton", "characterScene", "characterTypeMenuButton", "characterSceneDialog", "characterNameBox", "MaxHealth", "DamagePerAttack", "AttackRate", "characterList")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_edqiw")
+saveCharButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/SaveChar")
+clearCharButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/ClearChar")
+charSpinner = NodePath("HBoxContainer/ColorRect2/ColorRect/IconImage/SubViewport/AnimationPlayer")
+charSceneRoot = NodePath("HBoxContainer/ColorRect2/ColorRect/IconImage/SubViewport/CharacterSceneRoot")
+AddCharButton = NodePath("HBoxContainer/ColorRect/VBoxContainer/HBoxContainer2/Add Char")
+characterScene = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7/LoadCharScene")
+characterTypeMenuButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5/CharacterTypeMenu")
+characterSceneDialog = NodePath("CharacterSceneDialog")
+characterNameBox = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer2/CharName")
+MaxHealth = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer3/MaxHealthBox")
+DamagePerAttack = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4/DamageBox")
+AttackRate = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer8/AttackBox")
+characterList = NodePath("HBoxContainer/ColorRect/VBoxContainer/CharContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(139.03, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+color = Color(0.180392, 0.427451, 0.705882, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Add Char" type="Button" parent="HBoxContainer/ColorRect/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/icon_max_width = 15
+text = "Add Character"
+icon = ExtResource("2_67c44")
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="ColorRect2" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 41.0
+offset_top = 40.0
+offset_right = -411.0
+offset_bottom = -136.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Char Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Character Name"
+
+[node name="CharName" type="LineEdit" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(219.275, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_wh3bl")
+placeholder_text = "Type here!"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Max Health" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Max Health"
+
+[node name="MaxHealthBox" type="SpinBox" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 4
+rounded = true
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Damage Per Attack" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Damage Per Attack"
+
+[node name="DamageBox" type="SpinBox" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_vertical = 4
+rounded = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Attack Rate" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer8"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Attack Rate"
+
+[node name="AttackBox" type="SpinBox" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer8"]
+layout_mode = 2
+size_flags_vertical = 4
+rounded = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Char Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Chararacter Scene"
+
+[node name="LoadCharScene" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 32
+theme_override_fonts/font = ExtResource("3_wh3bl")
+icon = ExtResource("4_grfa5")
+icon_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Char Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Character Type"
+
+[node name="CharacterTypeMenu" type="MenuButton" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_wh3bl")
+text = "Select Type"
+icon = ExtResource("2_67c44")
+flat = false
+expand_icon = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Delete Item"
+
+[node name="ClearChar" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Clear Item"
+
+[node name="SaveChar" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Save Item"
+
+[node name="ColorRect" type="Panel" parent="HBoxContainer/ColorRect2"]
+material = SubResource("ShaderMaterial_hfdbo")
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -389.0
+offset_top = 128.0
+offset_right = -25.0
+offset_bottom = 492.0
+grow_horizontal = 0
+
+[node name="IconImage" type="SubViewportContainer" parent="HBoxContainer/ColorRect2/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/ColorRect2/ColorRect/IconImage"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer/ColorRect2/ColorRect/IconImage/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 1, 1)
+
+[node name="CharacterSceneRoot" type="Node3D" parent="HBoxContainer/ColorRect2/ColorRect/IconImage/SubViewport"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.262932, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HBoxContainer/ColorRect2/ColorRect/IconImage/SubViewport"]
+libraries = {
+"": SubResource("AnimationLibrary_onm8x")
+}
+
+[node name="CharacterSceneDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(501, 329)
+ok_button_text = "Open"
+file_mode = 0
+
+[connection signal="pressed" from="HBoxContainer/ColorRect/VBoxContainer/HBoxContainer2/Add Char" to="." method="AddChar"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7/LoadCharScene" to="." method="OpenCharacterDialog"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5/CharacterTypeMenu" to="." method="ResetMenuButton"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/DeleteButton" to="." method="DeleteChar"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/ClearChar" to="." method="ClearCharData"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/SaveChar" to="." method="SaveChar"]
+[connection signal="file_selected" from="CharacterSceneDialog" to="." method="GetCharacterSceneData"]

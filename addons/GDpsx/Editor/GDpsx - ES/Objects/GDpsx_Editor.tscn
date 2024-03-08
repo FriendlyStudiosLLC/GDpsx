@@ -1,0 +1,168 @@
+[gd_scene load_steps=6 format=3 uid="uid://dw8luirv27hm2"]
+
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_Editor.cs" id="1_heb7s"]
+[ext_resource type="Theme" uid="uid://byiyae4jn6k4w" path="res://addons/GDpsx/Editor/Themes/Windows95/Windows95.tres" id="2_kbacc"]
+[ext_resource type="PackedScene" uid="uid://vgip1ftb5arv" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_EventSystem.tscn" id="2_yir3k"]
+[ext_resource type="PackedScene" uid="uid://d1me43w2wvb0t" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/GDpsx_ItemEditor.tscn" id="3_k58jp"]
+[ext_resource type="PackedScene" uid="uid://bed3euj66rid8" path="res://addons/GDpsx/Editor/GDpsx_CharacterEditor/GDpsx_character_editor.tscn" id="4_wjjqu"]
+
+[node name="GDpsxEditor" type="Control" node_paths=PackedStringArray("needBrain", "NewBrain", "LoadBrain", "newBrainDialog", "loadBrainDialog", "label", "itemEditor", "charEditor", "eventSystem")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_heb7s")
+needBrain = NodePath("Popup")
+NewBrain = NodePath("TabContainer/Brain Settings/VBoxContainer/HBoxContainer/New Brain")
+LoadBrain = NodePath("TabContainer/Brain Settings/VBoxContainer/HBoxContainer/Load Brain")
+newBrainDialog = NodePath("NewBrain")
+loadBrainDialog = NodePath("TabContainer/Brain Settings/LoadBrain")
+label = NodePath("TabContainer/Brain Settings/VBoxContainer/Label2")
+itemEditor = NodePath("TabContainer/Item Editor")
+charEditor = NodePath("TabContainer/Character Editor")
+eventSystem = NodePath("TabContainer/Event System")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 3
+
+[node name="Event System" parent="TabContainer" instance=ExtResource("2_yir3k")]
+visible = false
+layout_mode = 2
+
+[node name="Item Editor" parent="TabContainer" node_paths=PackedStringArray("editor") instance=ExtResource("3_k58jp")]
+visible = false
+layout_mode = 2
+editor = NodePath("../..")
+
+[node name="Character Editor" parent="TabContainer" node_paths=PackedStringArray("editor") instance=ExtResource("4_wjjqu")]
+visible = false
+layout_mode = 2
+editor = NodePath("../..")
+
+[node name="Brain Settings" type="Panel" parent="TabContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Brain Settings"]
+visible = false
+layout_mode = 0
+offset_right = 9.0
+offset_bottom = 24.0
+theme_override_font_sizes/font_size = 25
+text = "Game Brain Path "
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Brain Settings"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Brain Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="New Brain" type="Button" parent="TabContainer/Brain Settings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "New Game Brain"
+
+[node name="Load Brain" type="Button" parent="TabContainer/Brain Settings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Load Brain"
+
+[node name="Label" type="Label" parent="TabContainer/Brain Settings/VBoxContainer"]
+layout_mode = 2
+text = "Brain saves automatically! "
+
+[node name="Label2" type="Label" parent="TabContainer/Brain Settings/VBoxContainer"]
+layout_mode = 2
+text = "Brain Path: res://TestTickles.res"
+
+[node name="Label2" type="Label" parent="TabContainer/Brain Settings"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -178.0
+offset_top = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Thank you for using GDpsx
+~ IonTheDev"
+horizontal_alignment = 2
+
+[node name="LoadBrain" type="FileDialog" parent="TabContainer/Brain Settings"]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(501, 329)
+ok_button_text = "Open"
+file_mode = 0
+
+[node name="Popup" type="Window" parent="."]
+title = "WARNING"
+initial_position = 2
+size = Vector2i(410, 100)
+visible = false
+theme = ExtResource("2_kbacc")
+
+[node name="Panel" type="Panel" parent="Popup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -113.0
+offset_top = -17.5
+offset_right = 113.0
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Popup/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Your game is missing a brain!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Popup/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Create new brain!"
+
+[node name="Button2" type="Button" parent="Popup/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Load Brain"
+
+[node name="NewBrain" type="FileDialog" parent="."]
+initial_position = 2
+size = Vector2i(501, 329)
+
+[connection signal="tab_changed" from="TabContainer" to="." method="TabChanged"]
+[connection signal="pressed" from="TabContainer/Brain Settings/VBoxContainer/HBoxContainer/New Brain" to="." method="OpenNewBrain"]
+[connection signal="pressed" from="TabContainer/Brain Settings/VBoxContainer/HBoxContainer/Load Brain" to="." method="OpenLoadBrain"]
+[connection signal="file_selected" from="TabContainer/Brain Settings/LoadBrain" to="." method="PerformLoadBrain"]
+[connection signal="pressed" from="Popup/Panel/VBoxContainer/HBoxContainer/Button" to="." method="OpenNewBrain"]
+[connection signal="pressed" from="Popup/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="OpenLoadBrain"]
+[connection signal="file_selected" from="NewBrain" to="." method="MakeNewBrain"]

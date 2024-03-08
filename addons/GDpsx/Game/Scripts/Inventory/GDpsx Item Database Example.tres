@@ -11,6 +11,7 @@ itemName = "Beans"
 itemDescription = "This shit will make you fart crazy yo"
 maxStackSize = 10
 itemIcon = ExtResource("1_5lbba")
+itemType = 0
 
 [sub_resource type="Resource" id="Resource_purf0"]
 script = ExtResource("2_6xhil")
@@ -20,6 +21,7 @@ ghlkjasdhfkjlsdh
 sdfsdsfdsfdsf"
 maxStackSize = 3
 itemIcon = ExtResource("3_86vtr")
+itemType = 0
 
 [resource]
 script = ExtResource("1_erjtn")

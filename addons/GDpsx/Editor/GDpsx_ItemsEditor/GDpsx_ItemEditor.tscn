@@ -1,0 +1,308 @@
+[gd_scene load_steps=11 format=3 uid="uid://d1me43w2wvb0t"]
+
+[ext_resource type="FontFile" uid="uid://ba1b6phl5lsyi" path="res://addons/GDpsx/Game/Fonts/zrnic rg.otf" id="1_gomss"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/GDpsx_ItemEditor.cs" id="1_w88ye"]
+[ext_resource type="Texture2D" uid="uid://canduy6vhps1s" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Add.png" id="2_jyjjo"]
+[ext_resource type="Shader" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/EditorRectEffect.gdshader" id="5_nllix"]
+[ext_resource type="Texture2D" uid="uid://dqpnfjoes1hxr" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Open.png" id="5_wdgol"]
+[ext_resource type="Texture2D" uid="uid://b6j7fh4okjy6v" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Quest.png" id="7_mupnn"]
+[ext_resource type="Texture2D" uid="uid://p4cm7wrqeyux" path="res://addons/GDpsx/Game/Textures/Items/Icon_Bean.png" id="8_hfofd"]
+
+[sub_resource type="Gradient" id="Gradient_072q3"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_co7ib"]
+gradient = SubResource("Gradient_072q3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhqi6"]
+shader = ExtResource("5_nllix")
+shader_parameter/iTime = 1.0
+shader_parameter/iChannel0 = SubResource("GradientTexture1D_co7ib")
+shader_parameter/iChannel1 = ExtResource("7_mupnn")
+
+[node name="GDpsxItemEditor" type="Control" node_paths=PackedStringArray("saveItemButton", "clearItemButton", "AddItemButton", "itemIconButton", "loadItemScene", "loadItemEquippedScene", "itemIcon", "itemTypeMenuButton", "itemIconDialog", "itemSceneDialog", "itemEquippedSceneDialog", "descriptionBox", "itemNameBox", "maxStackSizeBox", "itemList")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w88ye")
+saveItemButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/SaveItem_Btn")
+clearItemButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/ClearItem_Btn2")
+AddItemButton = NodePath("HBoxContainer/ColorRect/VBoxContainer/HBoxContainer2/Add Item")
+itemIconButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer/ItemIcon")
+loadItemScene = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7/LoadItemScene")
+loadItemEquippedScene = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4/LoadEquippableScene")
+itemIcon = NodePath("HBoxContainer/ColorRect2/ColorRect/IconImage")
+itemTypeMenuButton = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5/ItemTypeMenu")
+itemIconDialog = NodePath("ItemIconDialog")
+itemSceneDialog = NodePath("ItemSceneDialog")
+itemEquippedSceneDialog = NodePath("EquippedSceneDialog")
+descriptionBox = NodePath("HBoxContainer/ColorRect2/VBoxContainer/VBoxContainer/Description")
+itemNameBox = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer2/ItemName")
+maxStackSizeBox = NodePath("HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer3/MaxStackBox")
+itemList = NodePath("HBoxContainer/ColorRect/VBoxContainer/ItemContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(139.03, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+color = Color(0.180392, 0.427451, 0.705882, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Add Item" type="Button" parent="HBoxContainer/ColorRect/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/icon_max_width = 15
+text = "Add Item"
+icon = ExtResource("2_jyjjo")
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="ColorRect2" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 41.0
+offset_top = 40.0
+offset_right = -411.0
+offset_bottom = -136.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Item Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Item Icon - "
+
+[node name="ItemIcon" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 32
+theme_override_fonts/font = ExtResource("1_gomss")
+icon = ExtResource("5_wdgol")
+icon_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Item Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Item Name -"
+
+[node name="ItemName" type="LineEdit" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(219.275, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_gomss")
+placeholder_text = "Type here!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label_Item Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 25
+text = "Item Description"
+
+[node name="Description" type="TextEdit" parent="HBoxContainer/ColorRect2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+placeholder_text = "Type here!"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Max Stack Size" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Item Max Stack Size"
+
+[node name="MaxStackBox" type="SpinBox" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 4
+rounded = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Item Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Item Scene"
+
+[node name="LoadItemScene" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 32
+theme_override_fonts/font = ExtResource("1_gomss")
+icon = ExtResource("5_wdgol")
+icon_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Item Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Equipped Scene"
+
+[node name="LoadEquippableScene" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 32
+theme_override_fonts/font = ExtResource("1_gomss")
+icon = ExtResource("5_wdgol")
+icon_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label_Item Image" type="Label" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Item Type"
+
+[node name="ItemTypeMenu" type="MenuButton" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_gomss")
+text = "Select Type"
+icon = ExtResource("2_jyjjo")
+flat = false
+expand_icon = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Delete Item"
+
+[node name="ClearItem_Btn2" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Clear Item"
+
+[node name="SaveItem_Btn" type="Button" parent="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Save Item"
+
+[node name="ColorRect" type="Panel" parent="HBoxContainer/ColorRect2"]
+material = SubResource("ShaderMaterial_jhqi6")
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -389.0
+offset_top = 128.0
+offset_right = -25.0
+offset_bottom = 492.0
+grow_horizontal = 0
+
+[node name="IconImage" type="TextureRect" parent="HBoxContainer/ColorRect2/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("8_hfofd")
+expand_mode = 3
+
+[node name="ItemSceneDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(501, 329)
+ok_button_text = "Open"
+file_mode = 0
+
+[node name="EquippedSceneDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(501, 329)
+ok_button_text = "Open"
+file_mode = 0
+
+[node name="ItemIconDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(501, 329)
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray(".png", ".jpg", ".svg", ".bmp")
+
+[connection signal="pressed" from="HBoxContainer/ColorRect/VBoxContainer/HBoxContainer2/Add Item" to="." method="AddItem"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer/ItemIcon" to="." method="OpenIconDialog"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer7/LoadItemScene" to="." method="OpenSceneDialog"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer4/LoadEquippableScene" to="." method="OpenEquippedSceneDialog"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer5/ItemTypeMenu" to="." method="ResetMenuButton"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/DeleteButton" to="." method="DeleteItem"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/ClearItem_Btn2" to="." method="ClearItemData"]
+[connection signal="pressed" from="HBoxContainer/ColorRect2/VBoxContainer/HBoxContainer6/HBoxContainer/SaveItem_Btn" to="." method="SaveItem"]
+[connection signal="file_selected" from="ItemSceneDialog" to="." method="GetItemSceneData"]
+[connection signal="file_selected" from="EquippedSceneDialog" to="." method="GetItemEquippedSceneData"]
+[connection signal="file_selected" from="ItemIconDialog" to="." method="GetItemIconData"]

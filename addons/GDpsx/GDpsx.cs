@@ -6,7 +6,7 @@ using System;
 public partial class GDpsx : EditorPlugin
 {
 	private Control EventSystem;
-	private PackedScene eventSystemScene = GD.Load<PackedScene>("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_EventSystem.tscn");
+	private PackedScene eventSystemScene = GD.Load<PackedScene>("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Editor.tscn");
 	public override void _EnterTree()
 	{
 		var editorInterface = EditorInterface.Singleton;

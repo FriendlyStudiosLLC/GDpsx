@@ -69,10 +69,17 @@ namespace GDpsx_API.EventSystem
 
         private void PopulateSpeakingCharacterMenu()
         {
-            var characters = ParentGraph.GameBrain.Characters;
+            while( SpeakingCharacter_Menu.GetPopup().ItemCount != 0)
+            {
+                for(int i = 0; i<SpeakingCharacter_Menu.ItemCount; i++)
+                {
+                    SpeakingCharacter_Menu.GetPopup().RemoveItem(i);
+                }
+            }
+            var characters = ParentGraph.gameBrain.Characters;
             foreach(var character in characters)
             {
-                SpeakingCharacter_Menu.GetPopup().AddItem(character);
+                SpeakingCharacter_Menu.GetPopup().AddItem(character.characterName);
             }
         }
     }

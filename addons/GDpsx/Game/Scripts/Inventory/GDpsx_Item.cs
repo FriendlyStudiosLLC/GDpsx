@@ -4,6 +4,17 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
+public enum ItemType
+{
+    None,
+    Weapon,
+    Tool,
+    Consumable,
+    Key,
+    Quest,
+    Armor
+}
+
 [GlobalClass][Tool]
 public partial class GDpsx_Item : Resource
 {
@@ -12,4 +23,6 @@ public partial class GDpsx_Item : Resource
     [Export] public int maxStackSize;
     [Export] public Texture2D itemIcon;
     [Export] public PackedScene pickupScene;
+    [Export] public PackedScene equippedScene;
+    [Export] public ItemType itemType;
 }

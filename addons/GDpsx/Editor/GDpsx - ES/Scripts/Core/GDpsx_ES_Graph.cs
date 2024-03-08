@@ -13,7 +13,8 @@ namespace GDpsx_API.EventSystem
     {
         
         [Export] public MenuButton AddNode_MenuButton;
-        [Export] public GDpsx_GameBrain GameBrain;
+        [Export] public GDpsx_EventGraphSystem GraphSystem;
+        public GDpsx_GameBrain gameBrain;
         [Export] public Button Save_Button;
         [Export] public Button Load_Button;
         [Export] public FileDialog Save_FileDialog;
@@ -82,9 +83,29 @@ namespace GDpsx_API.EventSystem
             }
         }
 
+        public void RefreshMenuButton()
+        {
+            if(Engine.IsEditorHint())
+            {
+                while(AddNode_MenuButton.ItemCount != 0)
+                {
+                    for(int i = 0; i<AddNode_MenuButton.ItemCount; i++)
+                    {
+                        AddNode_MenuButton.GetPopup().RemoveItem(i);
+                    }
+                }
+                
+                if(AddNode_MenuButton.ItemCount == 0) CreateNodeTypes();
+                
+            }
+        }
+
 
         private void AddNodeOfType(long index)
         {
+            GD.Print("Adding To Menu Button");
+            
+            
             var pos = GetLocalMousePosition();
             PackedScene NodeScene = new PackedScene();
             switch(index)
@@ -193,6 +214,7 @@ namespace GDpsx_API.EventSystem
 
             return connectionDetailsList;
         }
+        
         private void CreateNodeTypes() //Populates Menu Button with necessary options
         {
             AddNode_MenuButton.GetPopup().AddItem("Start Node");

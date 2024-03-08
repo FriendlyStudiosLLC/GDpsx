@@ -1,20 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://vgip1ftb5arv"]
+[gd_scene load_steps=8 format=3 uid="uid://vgip1ftb5arv"]
 
 [ext_resource type="Texture2D" uid="uid://canduy6vhps1s" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Add.png" id="1_56o6i"]
+[ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_EventGraphSystem.cs" id="2_0wcbp"]
 [ext_resource type="Texture2D" uid="uid://dqpnfjoes1hxr" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Open.png" id="2_4yhqf"]
 [ext_resource type="Texture2D" uid="uid://ngi12e4echtd" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Save.png" id="3_3abn1"]
 [ext_resource type="Texture2D" uid="uid://bhra8n2lpnvg2" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Empty.png" id="4_xnsc3"]
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx - ES/Scripts/Core/GDpsx_ES_Graph.cs" id="5_41rwe"]
 [ext_resource type="Texture2D" uid="uid://dla76qr5vqp1r" path="res://addons/GDpsx/Editor/Icons/Character.svg" id="5_otvpj"]
-[ext_resource type="Script" path="res://addons/GDpsx/Game/Scripts/GDpsx_GameBrain.cs" id="7_qg7p4"]
 
-[sub_resource type="Resource" id="Resource_dc5eq"]
-script = ExtResource("7_qg7p4")
-Characters = []
-Items = []
-Locations = {}
-
-[node name="GDpsxEventSystem" type="Control"]
+[node name="GDpsxEventSystem" type="Control" node_paths=PackedStringArray("graph")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +17,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("2_0wcbp")
+graph = NodePath("VBoxContainer/Graph")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -55,7 +51,7 @@ grow_vertical = 2
 layout_mode = 2
 icon = ExtResource("1_56o6i")
 icon_alignment = 1
-item_count = 32
+item_count = 16
 popup/item_0/text = "Start Node"
 popup/item_0/id = 0
 popup/item_1/text = "Dialogue Node"
@@ -88,38 +84,6 @@ popup/item_14/text = "Wait Node"
 popup/item_14/id = 14
 popup/item_15/text = "Graph Node"
 popup/item_15/id = 15
-popup/item_16/text = "Start Node"
-popup/item_16/id = 16
-popup/item_17/text = "Dialogue Node"
-popup/item_17/id = 17
-popup/item_18/text = "Reply Option Node"
-popup/item_18/id = 18
-popup/item_19/text = "Conditional Node"
-popup/item_19/id = 19
-popup/item_20/text = "Function Node"
-popup/item_20/id = 20
-popup/item_21/text = "End Node"
-popup/item_21/id = 21
-popup/item_22/text = "Wait Node"
-popup/item_22/id = 22
-popup/item_23/text = "Graph Node"
-popup/item_23/id = 23
-popup/item_24/text = "Start Node"
-popup/item_24/id = 24
-popup/item_25/text = "Dialogue Node"
-popup/item_25/id = 25
-popup/item_26/text = "Reply Option Node"
-popup/item_26/id = 26
-popup/item_27/text = "Conditional Node"
-popup/item_27/id = 27
-popup/item_28/text = "Function Node"
-popup/item_28/id = 28
-popup/item_29/text = "End Node"
-popup/item_29/id = 29
-popup/item_30/text = "Wait Node"
-popup/item_30/id = 30
-popup/item_31/text = "Graph Node"
-popup/item_31/id = 31
 
 [node name="Load_Button" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
 layout_mode = 2
@@ -134,16 +98,17 @@ layout_mode = 2
 icon = ExtResource("4_xnsc3")
 
 [node name="Empty_Button2" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+visible = false
 layout_mode = 2
 icon = ExtResource("5_otvpj")
 
-[node name="Graph" type="GraphEdit" parent="VBoxContainer" node_paths=PackedStringArray("AddNode_MenuButton", "Save_Button", "Load_Button", "Save_FileDialog", "Load_FileDialog")]
+[node name="Graph" type="GraphEdit" parent="VBoxContainer" node_paths=PackedStringArray("AddNode_MenuButton", "GraphSystem", "Save_Button", "Load_Button", "Save_FileDialog", "Load_FileDialog")]
 layout_mode = 2
 size_flags_vertical = 3
 right_disconnects = true
 script = ExtResource("5_41rwe")
 AddNode_MenuButton = NodePath("../Panel/HBoxContainer/Menu_Button")
-GameBrain = SubResource("Resource_dc5eq")
+GraphSystem = NodePath("../..")
 Save_Button = NodePath("../Panel/HBoxContainer/Save_Button")
 Load_Button = NodePath("../Panel/HBoxContainer/Load_Button")
 Save_FileDialog = NodePath("../../Save_FileDialog")
@@ -160,6 +125,7 @@ size = Vector2i(722, 374)
 ok_button_text = "Open"
 file_mode = 0
 
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Menu_Button" to="VBoxContainer/Graph" method="RefreshMenuButton"]
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Load_Button" to="VBoxContainer/Graph" method="OpenLoadFileDialogue"]
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Save_Button" to="VBoxContainer/Graph" method="OpenSaveFileDialogue"]
 [connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/Empty_Button" to="VBoxContainer/Graph" method="EmptyGraph"]
