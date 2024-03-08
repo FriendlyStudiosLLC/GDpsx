@@ -1,23 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://d1me43w2wvb0t"]
+[gd_scene load_steps=7 format=3 uid="uid://d1me43w2wvb0t"]
 
 [ext_resource type="FontFile" uid="uid://ba1b6phl5lsyi" path="res://addons/GDpsx/Game/Fonts/zrnic rg.otf" id="1_gomss"]
 [ext_resource type="Script" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/GDpsx_ItemEditor.cs" id="1_w88ye"]
 [ext_resource type="Texture2D" uid="uid://canduy6vhps1s" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Add.png" id="2_jyjjo"]
-[ext_resource type="Shader" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/EditorRectEffect.gdshader" id="5_nllix"]
+[ext_resource type="Material" uid="uid://dfieq6ojo80w2" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/PS2_Menu.tres" id="5_pk60c"]
 [ext_resource type="Texture2D" uid="uid://dqpnfjoes1hxr" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Open.png" id="5_wdgol"]
-[ext_resource type="Texture2D" uid="uid://b6j7fh4okjy6v" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/Quest.png" id="7_mupnn"]
 [ext_resource type="Texture2D" uid="uid://p4cm7wrqeyux" path="res://addons/GDpsx/Game/Textures/Items/Icon_Bean.png" id="8_hfofd"]
-
-[sub_resource type="Gradient" id="Gradient_072q3"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_co7ib"]
-gradient = SubResource("Gradient_072q3")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhqi6"]
-shader = ExtResource("5_nllix")
-shader_parameter/iTime = 1.0
-shader_parameter/iChannel0 = SubResource("GradientTexture1D_co7ib")
-shader_parameter/iChannel1 = ExtResource("7_mupnn")
 
 [node name="GDpsxItemEditor" type="Control" node_paths=PackedStringArray("saveItemButton", "clearItemButton", "AddItemButton", "itemIconButton", "loadItemScene", "loadItemEquippedScene", "itemIcon", "itemTypeMenuButton", "itemIconDialog", "itemSceneDialog", "itemEquippedSceneDialog", "descriptionBox", "itemNameBox", "maxStackSizeBox", "itemList")]
 layout_mode = 3
@@ -251,7 +239,7 @@ theme_override_font_sizes/font_size = 25
 text = "Save Item"
 
 [node name="ColorRect" type="Panel" parent="HBoxContainer/ColorRect2"]
-material = SubResource("ShaderMaterial_jhqi6")
+material = ExtResource("5_pk60c")
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -263,6 +251,7 @@ offset_bottom = 492.0
 grow_horizontal = 0
 
 [node name="IconImage" type="TextureRect" parent="HBoxContainer/ColorRect2/ColorRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

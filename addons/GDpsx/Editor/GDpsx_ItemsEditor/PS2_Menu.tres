@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dfieq6ojo80w2"]
+
+[ext_resource type="Shader" path="res://addons/GDpsx/Editor/GDpsx_ItemsEditor/EditorRectEffect.gdshader" id="1_0b5w7"]
+[ext_resource type="Texture2D" uid="uid://ctuo3wt1qiwqp" path="res://addons/GDpsx/Editor/GDpsx - ES/Icons/CircleBlur_bg.png" id="2_t7lbn"]
+
+[resource]
+shader = ExtResource("1_0b5w7")
+shader_parameter/iTime = 4.95
+shader_parameter/scale_modifier = 0.185
+shader_parameter/iChannel1 = ExtResource("2_t7lbn")
