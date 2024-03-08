@@ -103,7 +103,6 @@ namespace GDpsx_API.EventSystem
 
         private void AddNodeOfType(long index)
         {
-            GD.Print("Adding To Menu Button");
             
             
             var pos = GetLocalMousePosition();
@@ -249,7 +248,6 @@ namespace GDpsx_API.EventSystem
                 var nodeName = node.Title;
                 var nodeType = node.nodeType;
                 string nameCheck = node.nodeType.ToString()+"_";
-                GD.Print(nameCheck);
                 if(nodeName == nameCheck)
                 {
                     GD.PrintErr("Every node must have a name");
@@ -269,7 +267,6 @@ namespace GDpsx_API.EventSystem
                 switch(node.nodeType)
                     {
                         case NodeType.Dialog:
-                            GD.Print(node.Name);
                             var dialogNode = node as GDpsx_ES_Dialog;
                             dialogNode.ConstructDialogResource();
                             var dialogResourceData = dialogNode.resource;
@@ -411,12 +408,10 @@ namespace GDpsx_API.EventSystem
     
         public async void LoadResource(string path)
         {
-            GD.Print("Loading " + path);
             EmptyGraph();
             await Task.Delay(100);
             var dataTest = ResourceLoader.Load(path, null, ResourceLoader.CacheMode.Ignore);
             var data = dataTest as GDpsx_ES_R_Data;
-            GD.Print(data.GetType());
             if (data == null || data.nodes == null)
             {
                 GD.PrintErr("Failed to load resource or nodes are null: " + path);
@@ -424,7 +419,6 @@ namespace GDpsx_API.EventSystem
             }
 
             var baseNode = new GDpsx_ES_Node();
-            GD.Print(data.nodes.Count);
             var _nodes = data.nodes;
             foreach(var node in data.nodes)
             {
@@ -565,8 +559,6 @@ namespace GDpsx_API.EventSystem
                 foreach(var connection in node.GotoNodes)
                 {
                     var index = node.GotoNodes.IndexOf(connection);
-                    GD.Print(node.NodeName +" " + node.GotoNodes.Count);
-                    GD.Print($"{node.NodeName} {node.FromPorts[index].AsInt32()} {connection.AsString()} === {0}");
                     this.ConnectNode(node.NodeName, node.FromPorts[index].AsInt32(), connection.AsString(), 0);
                 }
             }
@@ -577,7 +569,6 @@ namespace GDpsx_API.EventSystem
 
         public async void Load(string path)
         {
-            GD.Print("Loading");
             EmptyGraph();
             await Task.Delay(100);
             var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);

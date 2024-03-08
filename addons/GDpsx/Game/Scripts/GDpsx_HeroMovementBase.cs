@@ -65,7 +65,6 @@ public partial class GDpsx_HeroMovementBase : CharacterBody3D, IInteractable, ID
 
     public void TakeDamage(double damage, Node3D instigator)
     {
-        GD.Print($"taking {damage} damage");
         CurrentHealth = CurrentHealth - (float)damage;
         UI.UpdateHealthBar(CurrentHealth);
     }

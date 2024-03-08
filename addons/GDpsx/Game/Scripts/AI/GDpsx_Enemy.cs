@@ -51,12 +51,10 @@ public partial class GDpsx_Enemy : CharacterBody3D
                         PlayerSeen = colliderGroups.Contains("Player");
                         if(colliderGroups.Contains("Player"))
                         {
-                            GD.Print("Player Seen");
                             UpdateTargetLocation(playerPosition);
                         }
                         else
                         {
-                            GD.Print("Looking for Player");
                         }
                         
                     }

@@ -102,7 +102,6 @@ public partial class GDpsx_CharacterEditor : Control
                 editor.gameBrain.Characters.RemoveAt(charIndex);
                 editor.gameBrain.Characters.Insert(charIndex, _tempChar);
                 UpdateBrain();
-                GD.Print(editor.gameBrainPath);
                 SaveBrain(editor.gameBrainPath);
                 return;
             }
@@ -172,7 +171,6 @@ public partial class GDpsx_CharacterEditor : Control
         foreach(var character in editor.gameBrain.Characters)
         {
             if(character == null) return;
-            GD.Print($"Character name: {character.characterName}");
             var button = charButton.Instantiate() as GDpsx_CharacterButton;
             button.characterEditor = this;
             button.character = character;

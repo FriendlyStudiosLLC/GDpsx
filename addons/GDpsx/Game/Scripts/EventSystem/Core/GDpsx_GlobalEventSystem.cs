@@ -30,7 +30,6 @@ public partial class GDpsx_GlobalEventSystem : Node
     public void StartEventGraph()
     {
         if(data == null) return;
-        GD.Print($"Starting Graph");
         if(data.nodes[0].nodeType == GDpsx_API.EventSystem.NodeType.Start)
         {
             currentNode = data.nodes[0];
@@ -56,7 +55,6 @@ public partial class GDpsx_GlobalEventSystem : Node
         {
             if(node.nodeType == NodeType.Option)
             {
-                GD.Print("LOADING RESPONSE");
                 var optionnode = node as GDpsx_ES_R_Option;
                 if(optionnode.OptionText == option)
                 {
@@ -73,7 +71,6 @@ public partial class GDpsx_GlobalEventSystem : Node
         {
             if(node.NodeName == nodeName)
             {
-                GD.Print($"Going to {node.NodeName}");
                 currentNode = node;
                 PerformNode();
                 return;

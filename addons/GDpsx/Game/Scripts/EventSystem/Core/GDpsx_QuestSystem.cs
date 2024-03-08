@@ -56,7 +56,6 @@ public partial class GDpsx_QuestSystem : Node
         {
             if(node.nodeType == NodeType.Option)
             {
-                GD.Print("LOADING RESPONSE");
                 var optionnode = node as GDpsx_ES_R_Option;
                 if(optionnode.OptionText == option)
                 {
@@ -73,7 +72,6 @@ public partial class GDpsx_QuestSystem : Node
         {
             if(node.NodeName == nodeName)
             {
-                GD.Print($"Going to {node.NodeName}");
                 currentNode = node;
                 PerformNode();
                 return;

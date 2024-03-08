@@ -111,7 +111,6 @@ public partial class GDpsx_ItemEditor : Control
                 editor.gameBrain.Items.RemoveAt(itemIndex);
                 editor.gameBrain.Items.Insert(itemIndex, _tempItem);
                 UpdateBrain();
-                GD.Print(editor.gameBrainPath);
                 SaveBrain(editor.gameBrainPath);
                 return;
             }
@@ -185,7 +184,6 @@ public partial class GDpsx_ItemEditor : Control
         foreach(var item in editor.gameBrain.Items)
         {
             if(item == null) return;
-            GD.Print($"Item name: {item.itemName}");
             var button = itemButton.Instantiate() as GDpsx_ItemButton;
             button.itemEditor = this;
             button.itemData = item;

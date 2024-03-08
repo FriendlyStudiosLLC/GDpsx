@@ -61,12 +61,10 @@ public partial class GDpsx_Editor : Control
         if(Engine.IsEditorHint())
         {
             var _gameBrain = ResourceLoader.Load(path, null, ResourceLoader.CacheMode.Ignore);
-            GD.Print(path);
             gameBrainPath = path;
             gameBrain = _gameBrain as GDpsx_GameBrain;
             eventSystem.graph.gameBrain = gameBrain;
             label.Text = "Brain Path: "+ gameBrainPath;
-            GD.Print(gameBrain.Items.Count);
             CreateEditorData();
         }
     }
@@ -75,7 +73,6 @@ public partial class GDpsx_Editor : Control
     {
         if(Engine.IsEditorHint())
         {
-        GD.Print(gameBrainPath + "CUM");
         EditorData["GameBrain"] = gameBrainPath.ToString();
         var file = Godot.FileAccess.Open("res://addons/GDpsx/GDpsx_Editor.cfg",Godot.FileAccess.ModeFlags.WriteRead);
             file.StoreLine(Json.Stringify(EditorData));
