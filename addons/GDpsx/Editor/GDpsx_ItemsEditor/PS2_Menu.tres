@@ -6,5 +6,5 @@
 [resource]
 shader = ExtResource("1_0b5w7")
 shader_parameter/iTime = 4.95
-shader_parameter/scale_modifier = 0.185
+shader_parameter/scale_modifier = 0.765
 shader_parameter/iChannel1 = ExtResource("2_t7lbn")

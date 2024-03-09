@@ -68,13 +68,13 @@ public partial class GDpsx_Door : GDpsx_GameObject, IInteractable
             case DoorType.Regular:
                 var doorTween = CreateTween();
                 doorTween.TweenProperty(this, "rotation", new Vector3(0, Mathf.DegToRad(openRotationAmount), 0), door_speed);
-                GD.Print("Opening Door");
+                
                 doorTween.Play();
                 break;
             case DoorType.Sliding:
                 var SlideTween = CreateTween();
                 SlideTween.TweenProperty(this, "position", openPosition, door_speed);
-                GD.Print("Opening Door");
+                
                 SlideTween.Play();
                 
                 break;
@@ -98,14 +98,14 @@ public partial class GDpsx_Door : GDpsx_GameObject, IInteractable
             case DoorType.Regular:
                 var doorTween = CreateTween();
                 doorTween.TweenProperty(this, "rotation", Vector3.Zero, door_speed);
-                GD.Print("Closing Door");
+                
                 doorTween.Play();
                 //doorTween.Finished += playClosed;
                 break;
             case DoorType.Sliding:
                 var SlideTween = CreateTween();
                 SlideTween.TweenProperty(this, "position", closedPosition, door_speed);
-                GD.Print("Closing Door");
+                
                 SlideTween.Play();
                 //SlideTween.Finished += playClosed;
                 break;

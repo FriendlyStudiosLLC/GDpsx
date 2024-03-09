@@ -251,7 +251,6 @@ offset_bottom = 492.0
 grow_horizontal = 0
 
 [node name="IconImage" type="TextureRect" parent="HBoxContainer/ColorRect2/ColorRect"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

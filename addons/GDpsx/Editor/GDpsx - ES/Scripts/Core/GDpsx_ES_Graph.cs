@@ -131,7 +131,7 @@ namespace GDpsx_API.EventSystem
                     NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Wait_Node.tscn");
                     break;
                 case 7:
-                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_Graph_Node.tscn");
+                    NodeScene = (PackedScene)ResourceLoader.Load("res://addons/GDpsx/Editor/GDpsx - ES/Objects/GDpsx_GraphData_Node.tscn");
                     break;    
             }
             var Node = NodeScene.Instantiate() as GDpsx_ES_Node;
