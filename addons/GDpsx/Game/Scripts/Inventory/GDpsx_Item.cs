@@ -1,28 +1,18 @@
-using GDpsx_API;
 using Godot;
-using Godot.Collections;
-using System;
-using System.Collections.Generic;
 
-public enum ItemType
+namespace GDpsx_Project.addons.GDpsx.Game.Scripts.Inventory
 {
-    None,
-    Weapon,
-    Tool,
-    Consumable,
-    Key,
-    Quest,
-    Armor
-}
 
-[GlobalClass][Tool]
-public partial class GDpsx_Item : Resource
-{
-    [Export] public string itemName;
-    [Export(PropertyHint.MultilineText)] public string itemDescription;
-    [Export] public int maxStackSize;
-    [Export] public Texture2D itemIcon;
-    [Export] public PackedScene pickupScene;
-    [Export] public PackedScene equippedScene;
-    [Export] public ItemType itemType;
+	[GlobalClass]
+	[Tool]
+	public partial class GDpsx_Item : Resource
+	{
+		[Export] public string itemName;
+		[Export(PropertyHint.MultilineText)] public string itemDescription;
+		[Export] public int maxStackSize;
+		[Export] public Texture2D itemIcon;
+		[Export] public PackedScene pickupScene;
+		[Export] public PackedScene equippedScene;
+		[Export] public ItemType itemType;
+	}
 }

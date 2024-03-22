@@ -1,107 +1,107 @@
-using Godot;
 using System;
-using GDpsx_API;
-using Godot.Collections;
 using System.Threading.Tasks;
+using GDpsx_Project.addons.GDpsx.Game.Scripts.EventSystem.Core;
+using Godot;
 
-
-
-public partial class GDpsx_GameObject : Node3D, IInteractable
+namespace GDpsx_Project.addons.GDpsx.Game.Scripts.First_Person
 {
-    
-    [Export] private string _objectID;
+	public partial class GDpsx_GameObject : Node3D, IInteractable
+	{
 
-    [Export] public bool HasLookAtMessage = true;
+		[Export] private string _objectID;
 
-    [Export] public string LookAtMessage = "Change Me";
-    [Export] public bool InfiniteUses = false;
-    [Export] public int Uses = -1; //If -1, use infinite times
-    private float cachedUses;
-    
-    [Export] public GDpsx_ES_R_Data EventChain;
-    
-    private bool FailedEvent = false;
+		[Export] public bool HasLookAtMessage = true;
 
-    public override void _Ready()
-    {
-       cachedUses = Uses;
-    }
+		[Export] public string LookAtMessage = "Change Me";
+		[Export] public bool InfiniteUses = false;
+		[Export] public int Uses = -1; //If -1, use infinite times
+		private float cachedUses;
 
-    private async void performEventExecution_Async(GDpsx_InteractionEventBase eventBase)
-    {
-        if(FailedEvent) 
-        {
-            if(Uses < cachedUses) Uses++;
-            return;
-        }
-        if(eventBase.WaitTime == 0)
-        {
-            eventBase.Call("Enter", GetTree(), (GDpsx_GameObject)this);
-            return;
-        }
-        await Task.Delay((int)eventBase.WaitTime * 1000);
-        
-        eventBase.Call("Enter", GetTree(), (GDpsx_GameObject)this);
-    }
+		[Export] public GDpsx_ES_R_Data EventChain;
 
-    public void EnterInteract()
-    {
-        var eventSystemScene = (PackedScene)ResourceLoader.Load("res://GlobalEventSystem_Scene.tscn");
-        var EventSystem = (GDpsx_GlobalEventSystem)eventSystemScene.Instantiate();
-        GetParent().AddChild(EventSystem);
-        GDpsx_Utility.GetPlayer(GetTree()).dialogBox.eventSystem = EventSystem;
-        EventSystem.data = EventChain;
-        EventSystem.dialog_Box = GDpsx_Utility.GetPlayer(GetTree()).dialogBox;
-        EventSystem.StartEventGraph();
-    }
+		private bool FailedEvent = false;
 
-    public Node GetNodeFromPath(NodePath nodePath)
-    {
-        return GetNode(nodePath);
-    }
+		public override void _Ready()
+		{
+			cachedUses = Uses;
+		}
 
-    public void SetFailedEvent(bool value)
-    {
-        FailedEvent = value;
-    }
+		private async void performEventExecution_Async(EventSystem.Core.GDpsx_InteractionEventBase eventBase)
+		{
+			if (FailedEvent)
+			{
+				if (Uses < cachedUses) Uses++;
+				return;
+			}
+			if (eventBase.WaitTime == 0)
+			{
+				eventBase.Call("Enter", GetTree(), (GDpsx_GameObject)this);
+				return;
+			}
+			await Task.Delay((int)eventBase.WaitTime * 1000);
 
-    public bool CanUse()
-    {
-        if(InfiniteUses)
-        {
-            return true;
-        }
-        if(Uses > 0)
-        {
-            Uses--;
-            return true;
-        }
-        return false;
+			eventBase.Call("Enter", GetTree(), (GDpsx_GameObject)this);
+		}
 
-    }
+		public void EnterInteract()
+		{
+			PackedScene eventSystemScene = (PackedScene)ResourceLoader.Load("res://GlobalEventSystem_Scene.tscn");
+			GDpsx_GlobalEventSystem EventSystem = (EventSystem.Core.GDpsx_GlobalEventSystem)eventSystemScene.Instantiate();
+			GetParent().AddChild(EventSystem);
+			GDpsx_Utility.GetPlayer(GetTree()).dialogBox.eventSystem = EventSystem;
+			EventSystem.data = EventChain;
+			EventSystem.dialog_Box = GDpsx_Utility.GetPlayer(GetTree()).dialogBox;
+			EventSystem.StartEventGraph();
+		}
 
-    public void ExitInteract()
-    {
-        throw new NotImplementedException();
-    }
+		public Node GetNodeFromPath(NodePath nodePath)
+		{
+			return GetNode(nodePath);
+		}
 
-    public string GetLookatMessage()
-    {
-        if(HasLookAtMessage)
-        {
-            return LookAtMessage;
-        }
-        return "";
-        
-    }
+		public void SetFailedEvent(bool value)
+		{
+			FailedEvent = value;
+		}
 
-    public Node3D PerformLookAt()
-    {
-        throw new NotImplementedException();
-    }
+		public bool CanUse()
+		{
+			if (InfiniteUses)
+			{
+				return true;
+			}
+			if (Uses > 0)
+			{
+				Uses--;
+				return true;
+			}
+			return false;
 
-    string IInteractable.LookAtMessage()
-    {
-        throw new NotImplementedException();
-    }
+		}
+
+		public void ExitInteract()
+		{
+			throw new NotImplementedException();
+		}
+
+		public string GetLookatMessage()
+		{
+			if (HasLookAtMessage)
+			{
+				return LookAtMessage;
+			}
+			return "";
+
+		}
+
+		public Node3D PerformLookAt()
+		{
+			throw new NotImplementedException();
+		}
+
+		string IInteractable.LookAtMessage()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

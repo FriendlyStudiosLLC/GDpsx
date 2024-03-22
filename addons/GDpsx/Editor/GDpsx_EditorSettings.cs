@@ -3,5 +3,5 @@ using System;
 
 public partial class GDpsx_EditorSettings : Node
 {
-    public string GameBrainpath;
+	public string GameBrainpath;
 }

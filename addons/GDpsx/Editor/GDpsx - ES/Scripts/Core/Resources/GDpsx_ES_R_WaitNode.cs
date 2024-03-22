@@ -8,5 +8,5 @@ using System.Reflection;
 [Tool]
 public partial class GDpsx_ES_R_WaitNode : GDpsx_ES_R_Node
 {
-   [Export] public int waitTimeMS;
+	[Export] public int waitTimeMS;
 }
